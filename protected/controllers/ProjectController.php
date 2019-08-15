@@ -1,0 +1,1226 @@
+<?php
+
+class ProjectController extends Controller
+{
+	/**
+	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+	 */
+	public $layout='//layouts/main';
+
+	/**
+	 * @return array action filters
+	 */
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+		);
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('view'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','index','update','createBOQ','exportBOQ','createByAjax','createVendorContract','updateVendorContract','importBOQ'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete','deleteVendorContract'),
+				'users'=>array('@'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id)
+	{
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+
+	public function actionCreateByAjax()
+	{
+		$model=new Project;
+
+		if(isset($_POST['proj_name']) && !empty($_POST['proj_name']))
+		{
+			$model->name = $_POST['proj_name'];
+			$model->is_special = isset($_POST['special']) ? $_POST['special'] : 0;
+			$model->fiscal_year = $_POST['fiscal_year'];
+			$model->updated_by = Yii::app()->user->ID;
+
+			if($model->save())
+	           echo CJSON::encode(array(
+	                'status'=>'success','proj_id'=>$model->id
+	                ));
+	        else
+	            echo CJSON::encode(array(
+	                'status'=>'failure'));
+
+	        //header('Content-type: text/plain');
+	        //print_r($model);
+	                
+		}
+		else{
+			 echo CJSON::encode(array(
+	                'status'=>'failure'));
+		}
+
+
+	}
+
+	public function actionCreateVendorContract($id)
+	{	
+		$modelMember = array();
+		$model=new VendorContract;
+		$model->proj_id = $id;
+
+		if(isset($_POST['VendorContract']))
+		{
+			$model->attributes=$_POST['VendorContract'];
+			$model->updated_by = Yii::app()->user->ID;
+			$model->approve_date = $_POST['VendorContract']['approve_date'];
+
+			$vendor =  Vendor::model()->findAll(array('join'=>'','condition'=>'v_name="'.$_POST['vendor_id'].'" AND type="Supplier"'));
+			//save new vendor
+			if(empty($vendor))
+			{
+				$vendor = new Vendor;
+				$vendor->v_name = $_POST['vendor_id'];
+				$vendor->type = 'Supplier';
+				if($vendor->save())
+					$model->vendor_id = $vendor->v_id;
+
+			}
+			else
+			{
+				 $model->vendor_id = $vendor[0]->v_id;
+			}
+
+			//header('Content-type: text/plain');
+			if($model->save())
+			{
+				$vc_id =  $model->getPrimaryKey();
+
+				                           	
+				if(isset($_POST['chairman']) && $_POST['chairman']!="")
+				{     
+					$member = new ContractMember;
+					$member->vc_id = $vc_id;
+					$member->name = $_POST['chairman'];
+					$member->position = empty($_POST['chairman_position']) ? '':$_POST['chairman_position'] ;
+					$member->type = 0;
+					$member->save();
+
+					//print_r($member);                    
+                    $modelMember[] = $member;  
+
+				}
+
+				if(isset($_POST['commitee'])) 
+				{     
+					$index= 0;
+					foreach ($_POST['commitee'] as $key => $value) {
+						if($value !="")
+						{
+							$member = new ContractMember;
+							$member->vc_id = $vc_id;
+							$member->name = $value;
+							$member->position = empty($_POST['commitee_position'][$index]) ? '':$_POST['commitee_position'][$index] ;
+							$member->type = 1;
+							$member->save();
+							$modelMember[] = $member;
+
+							//print_r($member);  
+						}
+
+						$index++;
+					}
+					
+
+				}
+
+				if(isset($_POST['taskmaster']) && $_POST['taskmaster']!="")
+				{     
+					$member = new ContractMember;
+					$member->vc_id = $vc_id;
+					$member->name = $_POST['taskmaster'];
+					$member->position = empty($_POST['taskmaster_position']) ? '':$_POST['taskmaster_position'] ;
+					$member->type = 2;
+					$member->save();
+					$modelMember[] = $member;
+
+					//print_r($member);  
+
+				}
+
+				if(isset($_POST['vendor']) && $_POST['vendor']!="")
+				{     
+					$member = new ContractMember;
+					$member->vc_id = $vc_id;
+					$member->name = $_POST['vendor'];
+					$member->position = empty($_POST['vendor_position']) ? '':$_POST['vendor_position'] ;
+					$member->type = 3;
+					$member->save();
+					$modelMember[] = $member;
+					//print_r($member);  
+
+				}
+
+				
+				$this->redirect(array('updateVendorContract', 'id' => $model->id));
+			}
+			//print_r($model);
+			//exit;		
+				//$this->redirect(array('index'));
+		}
+
+		$this->render('createVendorContract',array(
+			'model'=>$model,
+		));
+
+	}
+
+	public function actionCreate()
+	{
+		$model=new Project;
+		
+		//header('Content-type: text/plain');
+		if(isset($_POST['Project']))
+		{
+			$model->attributes = $_POST['Project'];
+			$model->updated_by = Yii::app()->user->ID;
+			$model->owner_name = $_POST['owner_name'];
+			 
+			$owner =  Vendor::model()->findAll(array('join'=>'','condition'=>'v_name="'.$_POST['owner_name'].'" AND type="Owner"'));
+			//save new owner
+			if(empty($owner))
+			{
+				$owner = new Vendor;
+				$owner->type = 'Owner';
+				$owner->v_name = $_POST['owner_name'];
+				if($owner->save())
+					$model->owner_id = $owner->v_id;
+
+			}
+			else{
+				$model->owner_id = $owner[0]->v_id;				
+			}
+
+			//print_r($owner);
+			//exit;
+			if($model->save())
+			{
+				$this->redirect(array('createVendorContract', 'id' => $model->id));
+			}
+			
+			
+			
+		}
+
+		$this->render('create',array(
+			'model'=>$model
+		));
+	}
+
+
+	public function actionCreateBOQ($id)
+	{	
+		$model=$this->loadModel($id);
+		
+		
+		$this->render('create',array(
+			'model'=>$model
+		));
+
+	}
+
+	
+	public function actionUpdate($id)
+	{	
+		$model=$this->loadModel($id);
+		
+		if(isset($_POST['Project']))
+		{
+			$model->attributes = $_POST['Project'];
+			$model->updated_by = Yii::app()->user->ID;
+			$model->owner_name = $_POST['owner_name'];
+			 
+			$owner =  Vendor::model()->findAll(array('join'=>'','condition'=>'v_name="'.$_POST['owner_name'].'" AND type="Owner"'));
+			//save new owner
+			if(empty($owner))
+			{
+				$owner = new Vendor;
+				$owner->type = 'Owner';
+				$owner->v_name = $_POST['owner_name'];
+				if($owner->save())
+					$model->owner_id = $owner->v_id;
+
+			}
+			else{
+				$model->owner_id = $owner[0]->v_id;				
+			}
+
+			//print_r($owner);
+			//exit;
+			if($model->save())
+			{
+				$this->redirect(array('index'));
+			}
+		}
+		
+		$this->render('update',array(
+			'model'=>$model
+		));
+
+	}
+
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionUpdateVendorContract($id)
+	{
+		$model= VendorContract::model()->findByPk($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['VendorContract']))
+		{
+			$model->attributes=$_POST['VendorContract'];
+			$model->updated_by = Yii::app()->user->ID;
+			$model->approve_date = $_POST['VendorContract']['approve_date'];
+
+			$vendor =  Vendor::model()->findAll(array('join'=>'','condition'=>'v_name="'.$_POST['vendor_id'].'" AND type="Supplier"'));
+			//save new vendor
+			if(empty($vendor))
+			{
+				$vendor = new Vendor;
+				$vendor->v_name = $_POST['vendor_id'];
+				$vendor->type = 'Supplier';
+				if($vendor->save())
+					$model->vendor_id = $vendor->v_id;
+
+			}
+			else
+			{
+				 $model->vendor_id = $vendor[0]->v_id;
+			}
+
+
+			if($model->save())
+			{	
+
+				$vc_id = $id;
+				Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
+				//header('Content-type: text/plain');
+                           	 
+
+				if(isset($_POST['chairman']) && $_POST['chairman']!="")
+				{     
+					$member = new ContractMember;
+					$member->vc_id = $vc_id;
+					$member->name = $_POST['chairman'];
+					$member->position = empty($_POST['chairman_position']) ? '':$_POST['chairman_position'] ;
+					$member->type = 0;
+					$member->save();
+
+					//print_r($member);                    
+                    $modelMember[] = $member;  
+
+				}
+
+				if(isset($_POST['commitee'])) 
+				{     
+					$index= 0;
+					foreach ($_POST['commitee'] as $key => $value) {
+						if($value !="")
+						{
+							$member = new ContractMember;
+							$member->vc_id = $vc_id;
+							$member->name = $value;
+							$member->position = empty($_POST['commitee_position'][$index]) ? '':$_POST['commitee_position'][$index] ;
+							$member->type = 1;
+							$member->save();
+							$modelMember[] = $member;
+
+							//print_r($member);  
+						}
+
+						$index++;
+					}
+					
+
+				}
+
+				if(isset($_POST['taskmaster']) && $_POST['taskmaster']!="")
+				{     
+					$member = new ContractMember;
+					$member->vc_id = $vc_id;
+					$member->name = $_POST['taskmaster'];
+					$member->position = empty($_POST['taskmaster_position']) ? '':$_POST['taskmaster_position'] ;
+					$member->type = 2;
+					$member->save();
+					$modelMember[] = $member;
+
+					//print_r($member);  
+
+				}
+
+				if(isset($_POST['vendor']) && $_POST['vendor']!="")
+				{     
+					$member = new ContractMember;
+					$member->vc_id = $vc_id;
+					$member->name = $_POST['vendor'];
+					$member->position = empty($_POST['vendor_position']) ? '':$_POST['vendor_position'] ;
+					$member->type = 3;
+					$member->save();
+					$modelMember[] = $member;
+					//print_r($member);  
+
+				}
+
+				$this->redirect(array('index'));
+			}
+		}
+
+
+		$this->render('updateVC',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id)
+	{
+		if(Yii::app()->request->isPostRequest)
+		{
+			// we only allow deletion via POST request
+			if($this->loadModel($id)->delete()){
+				$m_vc =  VendorContract::model()->findAll(array('join'=>'','condition'=>'proj_id='.$id));
+				foreach ($m_vc as $key => $value) {
+
+					if($value->delete())
+					{//delete relation table
+						Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
+						Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
+					}
+				}
+			}
+
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
+
+	public function actionDeleteVendorContract($id)
+	{
+		if(Yii::app()->request->isPostRequest)
+		{
+			// we only allow deletion via POST request
+			
+
+			if(VendorContract::model()->findByPk($id)->delete()){
+				//delete relation table
+				Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
+				Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
+
+
+			}
+			
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
+
+	/**
+	 * Lists all models.
+	 */
+	public function actionIndex()
+	{
+		// $model=new Project('search');
+		// $model->unsetAttributes();  // clear any default values
+		// if(isset($_GET['Project']))
+		// 	$model->attributes=$_GET['Project'];
+
+		$model = new VendorContract('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['VendorContract']))
+			$model->attributes=$_GET['VendorContract'];
+
+		$this->render('index',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionAdmin()
+	{
+		$model=new Project('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Project']))
+			$model->attributes=$_GET['Project'];
+
+		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModel($id)
+	{
+		$model=Project::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	/**
+	 * Performs the AJAX validation.
+	 * @param CModel the model to be validated
+	 */
+	protected function performAjaxValidation($model)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='project-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+	}
+
+	public function actionImportBOQ()
+	{
+		
+		if(isset($_FILES['fileupload2'])){
+		
+			
+					$upload = true; // prevent manual input
+					$name = $_FILES['fileupload2']['name'];
+					$type = $_FILES['fileupload2']['type'];
+					$tmp_name = $_FILES['fileupload2']['tmp_name'];
+
+					//move_uploaded_file($tmp_name,Yii::app()->basePath."/" . $name);
+					$this->renderPartial('_formValidate',array(
+						'filename'=>$tmp_name,
+					));
+					
+		}
+	}
+
+	public function actionExportBOQ()
+    {
+
+    	    $pay_no = $_GET['pay_no'];
+		    $vc_id = $_GET['vc_id'];
+		    $model=VendorContract::model()->findByPk($vc_id);
+		    if($model->lock_boq!=1)
+		    {
+		    	$model->lock_boq = 1;
+		    	$model->save();
+
+		    }
+		    	
+		    Yii::import('ext.phpexcel.XPHPExcel');    
+		    $objPHPExcel= XPHPExcel::createPHPExcel();
+		    $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+
+		$date = new DateTime(null, new DateTimeZone('America/Los_Angeles'));
+        $current_date = $date->getTimestamp();    
+		$password_lock = $current_date;   
+
+
+		//-----------STYLE-----------------------//
+		$borderAll = new PHPExcel_Style();
+	    	$borderAll->applyFromArray(
+			        array(
+			       'font'  => array(
+			            'name'  => 'TH SarabunPSK', 
+			            'size'  => 16,			                          
+			            'color' => array(
+			            	'rgb'   => '000000'
+			            )
+			        ),
+			        'fill' => array(
+			        	'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            			'color' => array('rgb' => 'e0e0d1')
+			        ),
+			        'borders' => array(
+				            'left'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+				           	'right'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+				           	'bottom'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+			        	)
+			));
+
+			$borderIndent = new PHPExcel_Style();
+	    	$borderIndent->applyFromArray(
+			        array(
+			       'font'  => array(
+			            'name'  => 'TH SarabunPSK', 
+			            'size'  => 16,			                          
+			            'color' => array(
+			            	'rgb'   => '000000'
+			            )
+			        ),
+			        'fill' => array(
+			        	'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            			'color' => array('rgb' => 'e0e0d1')
+			        ),
+			        'borders' => array(
+				           
+				           	'right'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+				           	'bottom'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+			        	)
+			));
+
+			$borderPart = new PHPExcel_Style();
+	    	$borderPart->applyFromArray(
+			        array(
+			       'font'  => array(
+			            'name'  => 'TH SarabunPSK', 
+			            'size'  => 16,			                          
+			            'color' => array(
+			            	'rgb'   => '000000'
+			            )
+			        ),
+			        'fill' => array(
+			        	'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            			'color' => array('rgb' => 'e0e0d1')
+			        ),
+			        'borders' => array(
+				           
+				           	'top'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+				           	'bottom'    => array(
+				            	'style'   => PHPExcel_Style_Border::BORDER_THIN ,
+				            	'color'   => array(
+				            		'rgb'     => '000000'
+				              	)
+				           	),
+			        	)
+			));
+
+			$headerStyle = array(
+			    'font'  => array(
+			            'name'  => 'TH SarabunPSK', 
+			            'size'  => 16,	
+			            'bold'  => true,		                          
+			            'color' => array(
+			            	'rgb'   => '000000'
+			            )
+			        ));
+ 
+
+		    //----------------------FORM 1----------------------------//
+		if($_GET['form']==1)
+		{	
+            //$objPHPExcel = new PHPExcel();
+            $objPHPExcel = $objReader->load("templates/template_boq_1.xlsx");
+
+            //--------------- ค่าของ ------------------------//
+            $vendor = Vendor::model()->findByPk($model->vendor_id)->v_name ;
+            $objPHPExcel->setActiveSheetIndex(0);
+            $objPHPExcel->getActiveSheet()->setCellValue('B2', $model->name);
+            $detail = "สัญญาเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor;
+            $objPHPExcel->getActiveSheet()->setCellValue('B3', $detail);
+            $objPHPExcel->getActiveSheet()->setCellValue('M3', $pay_no);
+
+            $row_start = 6;
+            $row = 6;
+            $header_row = array();
+            $input_row = array();
+
+            //load BOQ
+            $Criteria = new CDbCriteria();
+            $Criteria->condition = "vc_id='$vc_id'";
+            $boq = Boq::model()->findAll($Criteria);
+
+            foreach ($boq as $key => $value) {
+            	
+            	$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->id);
+            	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->no);
+
+            	if($value->type==2) // PART
+            	{
+            		//merge C & D
+            		$objPHPExcel->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+            		$header_row[] = $row;
+             	}
+             	else if($value->type==1) //item
+             	{
+             		//merge C & D
+            		$objPHPExcel->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+            		$header_row[] = $row;
+             	}
+             	else if($value->type==-1) //indent
+             	{
+             		
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, "-");	
+            		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
+             	}
+             	else{
+             		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
+             	}
+
+             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->amount);
+            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->unit);
+            	$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $value->price_item);
+            	$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $value->price_trans);
+
+            	
+            	if(!(is_numeric($value->price_item) && is_numeric($value->price_trans)))
+            		$objPHPExcel->getActiveSheet()->mergeCells('G'.$row.':H'.$row);
+
+            	
+            	
+            	if(!empty($value->amount) )
+            	{	
+            		
+            	  	if(is_numeric($value->price_item) &&  is_numeric($value->price_trans))
+            	  	{	
+            			$price_item_all = ($value->price_item + $value->price_trans) * $value->amount;
+            			$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $price_item_all);
+                    }
+            		//previous pay
+            		$payment = Yii::app()->db->createCommand()
+		                        ->select('SUM(amount) as sum')
+		                        ->from('payment')
+		                        //->join('user','user_create=u_id')
+		                        ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <".$pay_no)
+		                        ->queryAll();
+		        	$amount_prev = $payment[0]["sum"];
+		        	if($amount_prev > 0)
+		        	{
+		        		$objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $amount_prev);
+		        		if(is_numeric($value->price_item) &&  is_numeric($value->price_trans))
+            	  		{
+		        			$prev_price_item_all = ($value->price_item + $value->price_trans) * $amount_prev;
+            				$objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $prev_price_item_all);
+            			}
+            		}	
+
+            		
+            		// Set input validation
+					$amount_max = $value->amount;
+					if($amount_max-$amount_prev >0)
+					{	
+						$objValidation = $objPHPExcel->getActiveSheet()->getCell('L'.$row)->getDataValidation();
+						$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
+						$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_STOP );
+						$objValidation->setAllowBlank(true);
+						$objValidation->setShowInputMessage(true);
+						$objValidation->setShowErrorMessage(true);
+						$objValidation->setErrorTitle('Input error');
+						
+						$recommen_val = 'กรอกจำนวนค่าอุปกรณ์เกินจำนวนตามสัญญา ไม่เกิน '.($amount_max-$amount_prev);
+						$objValidation->setError($recommen_val);
+						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าอุปกรณ์ 	:');
+						$objValidation->setPrompt($recommen_val);
+						$objValidation->setFormula1(1);
+						$objValidation->setFormula2($amount_max-$amount_prev);
+
+						//add formula
+						$objPHPExcel->getActiveSheet()->setCellValue('L'.$row,0);
+						$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,'=PRODUCT(SUM(G'.$row.':H'.$row.'),L'.$row.')');
+
+						$input_row[] = $row;
+					}
+
+            	}
+            		
+            	
+            	
+            	$row++;
+            }
+
+
+            
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderAll, 'B'.$row_start.":B".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderAll, 'E'.$row_start.":M".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderIndent, 'D'.$row_start.":D".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderPart, 'C'.$row_start.":C".($row-1));
+
+			foreach ($header_row as $key => $r) {
+				$objPHPExcel->getActiveSheet()->getStyle('B'.$r.":C".$r)->applyFromArray($headerStyle);
+			}
+
+			$objPHPExcel->getActiveSheet()->getStyle('G'.$row_start.":H".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+			//set number format
+			$objPHPExcel->getActiveSheet()->getStyle('G'.$row_start.":I".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+			$objPHPExcel->getActiveSheet()->getStyle('K'.$row_start.":K".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+			$objPHPExcel->getActiveSheet()->getStyle('M'.$row_start.":M".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+            	
+            //set center
+			$objPHPExcel->getActiveSheet()->getStyle('B'.$row_start.":B".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('E'.$row_start.":F".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('J'.$row_start.":J".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('L'.$row_start.":L".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            	
+            //Hide id column
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setVisible(false);
+
+            //lock cell
+            
+			$objPHPExcel->getActiveSheet()->protectCells('A1:M'.($row-1), $password_lock);
+			$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
+
+			//unlock input cell
+			foreach ($input_row as $key => $r) {
+				$objPHPExcel->getActiveSheet()->getStyle('L'.$r)->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
+				$objPHPExcel->getActiveSheet()->getStyle('L'.$r)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+						->getStartColor()->setRGB('ffffff');
+			}
+			//--------------------------end------------------------------//
+
+			//---------------------ค่าติดตั้งทดสอบ---------------------------//
+			$objPHPExcel->setActiveSheetIndex(1);
+            $objPHPExcel->getActiveSheet()->setCellValue('B2', $model->name);
+            $detail = "สัญญาเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor ;
+            $objPHPExcel->getActiveSheet()->setCellValue('B3', $detail);
+            $objPHPExcel->getActiveSheet()->setCellValue('L3', $pay_no);
+
+            $row_start = 6;
+            $row = 6;
+            $header_row = array();
+            $input_row = array();
+
+            
+            foreach ($boq as $key => $value) {
+            	
+            	$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->id);
+            	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->no);
+
+            	if($value->type==2) // PART
+            	{
+            		//merge C & D
+            		$objPHPExcel->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+            		$header_row[] = $row;
+             	}
+             	else if($value->type==1) //item
+             	{
+             		//merge C & D
+            		$objPHPExcel->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+            		$header_row[] = $row;
+             	}
+             	else if($value->type==-1) //indent
+             	{
+             		
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, "-");	
+            		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
+             	}
+             	else{
+             		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
+             	}
+
+             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->amount);
+            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->unit);
+            	$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $value->price_install);
+
+            	
+         	
+            	//ค่าติดตั้งห้ามเบิกเกินค่าของ  (ค่าติดตั้งเก่า+ค่าติดตั้งปัจจุบัน <= ของเก่า+ของปัจจุบัน)
+            	if(!empty($value->amount))
+            	{	
+            		
+            		if(is_numeric($value->price_install))
+            		{
+            			$price_item_all = ($value->price_install) * $value->amount;
+            			$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $price_item_all);
+	
+            		}
+            		
+					//ดึงจำนวนของที่ส่งมอบงวดนี้
+					$payment = Yii::app()->db->createCommand()
+		                        ->select('SUM(amount) as sum')
+		                        ->from('payment')
+		                        //->join('user','user_create=u_id')
+		                        ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <".$pay_no)
+		                        ->queryAll();
+		        	
+		        	//ค่าของรวมก่อนหน้า
+		        	$previous_item_amount = $payment[0]["sum"];
+            		//$previous_item_amount = $objPHPExcel->getSheet(0)->getCell('L'.$row)->getValue();
+
+            		//previous pay
+            		$payment = Yii::app()->db->createCommand()
+		                        ->select('SUM(amount) as sum')
+		                        ->from('payment')
+		                        //->join('user','user_create=u_id')
+		                        ->where("pay_type=2 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <".$pay_no)
+		                        ->queryAll();
+		        	//ค่าติดตั้งรวมก่อนหน้า
+		        	$amount_prev = $payment[0]["sum"];
+		        	
+
+
+		        	if($amount_prev > 0)
+		        	{
+		        		$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $amount_prev);
+		        		if(is_numeric($value->price_install))
+            			{
+		        			$prev_price_item_all = ($value->price_install) * $amount_prev;
+            				$objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $prev_price_item_all);
+            			}
+            		}	
+
+            		
+            		// Set input validation
+            		//ค่าติดตั้งปัจจุบัน <= (ค่าของรวมก่อนหน้า + ค่าของปัจจุบัน) - ค่าติดตั้งรวมก่อนหน้า
+					$amount_max = $value->amount;
+					if($amount_max-$amount_prev >0)
+					{	
+						$objValidation = $objPHPExcel->getActiveSheet()->getCell('K'.$row)->getDataValidation();
+						$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
+						$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_STOP );
+						$objValidation->setAllowBlank(true);
+						$objValidation->setShowInputMessage(true);
+						$objValidation->setShowErrorMessage(true);
+						$objValidation->setErrorTitle('Input error');
+						
+						$recommen_val = 'กรอกเกินจำนวนค่าอุปกรณ์รวมครั้งนี้';
+						$objValidation->setError($recommen_val);
+						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าติดตั้งทดสอบ 	:');
+						$objValidation->setPrompt($recommen_val);
+						$objValidation->setFormula1(1);
+						$objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')');
+
+						//add formula
+						$objPHPExcel->getActiveSheet()->setCellValue('K'.$row,0);
+						$objPHPExcel->getActiveSheet()->setCellValue('L'.$row,'=PRODUCT(G'.$row.',K'.$row.')');
+
+						$input_row[] = $row;
+					}
+
+            	}
+            		
+            	
+            	
+            	$row++;
+            }
+
+
+
+            $objPHPExcel->getActiveSheet()->setSharedStyle($borderAll, 'B'.$row_start.":B".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderAll, 'E'.$row_start.":L".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderIndent, 'D'.$row_start.":D".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderPart, 'C'.$row_start.":C".($row-1));
+
+			foreach ($header_row as $key => $r) {
+				$objPHPExcel->getActiveSheet()->getStyle('B'.$r.":C".$r)->applyFromArray($headerStyle);
+			}
+
+			//set number format
+			$objPHPExcel->getActiveSheet()->getStyle('G'.$row_start.":G".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+			$objPHPExcel->getActiveSheet()->getStyle('J'.$row_start.":H".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+			$objPHPExcel->getActiveSheet()->getStyle('L'.$row_start.":L".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+            	
+            //set center
+            $objPHPExcel->getActiveSheet()->getStyle('G'.$row_start.":G".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+			$objPHPExcel->getActiveSheet()->getStyle('B'.$row_start.":B".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('E'.$row_start.":F".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('I'.$row_start.":I".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('K'.$row_start.":K".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            	
+            //Hide id column
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setVisible(false);
+
+            //lock cell
+            $password_lock = "12345";
+			$objPHPExcel->getActiveSheet()->protectCells('A1:L'.($row-1), $password_lock);
+			$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
+
+			//unlock input cell
+			foreach ($input_row as $key => $r) {
+				$objPHPExcel->getActiveSheet()->getStyle('K'.$r)->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
+				$objPHPExcel->getActiveSheet()->getStyle('K'.$r)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+						->getStartColor()->setRGB('ffffff');
+			}
+
+			//------------------end ค่าติดตั้งทดสอบ--------------------------//
+			
+
+		}
+		else if($_GET['form']==2)
+		{
+		   //----------------------------FORM 2-----------------------//
+			$objPHPExcel = $objReader->load("templates/template_boq_2.xlsx");
+
+			//--------------- ค่าของ ------------------------//
+            $vendor = Vendor::model()->findByPk($model->vendor_id)->v_name ;
+            $objPHPExcel->setActiveSheetIndex(0);
+            $objPHPExcel->getActiveSheet()->setCellValue('B2', $model->name);
+            $detail = "สัญญาเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor;
+            $objPHPExcel->getActiveSheet()->setCellValue('B3', $detail);
+            $objPHPExcel->getActiveSheet()->setCellValue('N3', $pay_no);
+
+            $row_start = 6;
+            $row = 6;
+            $header_row = array();
+            $input_row = array();
+
+            //load BOQ
+            $Criteria = new CDbCriteria();
+            $Criteria->condition = "vc_id='$vc_id'";
+            $boq = Boq::model()->findAll($Criteria);
+
+            foreach ($boq as $key => $value) {
+            	
+            	$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->id);
+            	$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->no);
+
+            	if($value->type==2) // PART
+            	{
+            		//merge C & D
+            		$objPHPExcel->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+            		$header_row[] = $row;
+             	}
+             	else if($value->type==1) //item
+             	{
+             		//merge C & D
+            		$objPHPExcel->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+            		$header_row[] = $row;
+             	}
+             	else if($value->type==-1) //indent
+             	{
+             		
+            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, "-");	
+            		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
+             	}
+             	else{
+             		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
+             	}
+
+             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->amount);
+            	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->unit);
+            	$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $value->price_item);
+            	$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $value->price_trans);
+            	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $value->price_install);
+
+            	if(!(is_numeric($value->price_item) && is_numeric($value->price_trans) && is_numeric($value->price_install)))
+            		$objPHPExcel->getActiveSheet()->mergeCells('G'.$row.':I'.$row);
+            	else if(!(is_numeric($value->price_item) && is_numeric($value->price_trans)))
+            		$objPHPExcel->getActiveSheet()->mergeCells('G'.$row.':H'.$row);
+
+            	
+            
+            	//--------check เงื่อนไข/////// ------------//
+            	if(!empty($value->amount) )
+            	{	
+            		$price_item = is_numeric($value->price_item) ? $value->price_item : 0;
+	            	$price_trans = is_numeric($value->price_trans) ? $value->price_trans : 0;
+	            	$price_install = is_numeric($value->price_install) ? $value->price_install : 0;
+
+	            	
+	            	$price_item_all = ($price_item + $price_trans + $price_install) * $value->amount;
+
+	            	if(is_numeric($value->price_item) || is_numeric($value->price_trans) || is_numeric($value->price_install))
+	            		$objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
+                
+            	  	
+            		//previous pay
+            		$payment = Yii::app()->db->createCommand()
+		                        ->select('SUM(amount) as sum')
+		                        ->from('payment')
+		                        //->join('user','user_create=u_id')
+		                        ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <".$pay_no)
+		                        ->queryAll();
+		        	$amount_prev = $payment[0]["sum"];
+		        	if($amount_prev > 0)
+		        	{
+		        		$objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $amount_prev);
+		        		if(is_numeric($value->price_item) &&  is_numeric($value->price_trans))
+            	  		{
+		        			$prev_price_item_all = ($price_item + $price_trans + $price_install) * $amount_prev;
+            				$objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $prev_price_item_all);
+            			}
+            		}	
+
+            		
+            		// Set input validation
+					$amount_max = $value->amount;
+					if($amount_max-$amount_prev >0)
+					{	
+						$objValidation = $objPHPExcel->getActiveSheet()->getCell('M'.$row)->getDataValidation();
+						$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
+						$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_STOP );
+						$objValidation->setAllowBlank(true);
+						$objValidation->setShowInputMessage(true);
+						$objValidation->setShowErrorMessage(true);
+						$objValidation->setErrorTitle('Input error');
+						
+						$recommen_val = 'กรอกจำนวนค่าอุปกรณ์เกินจำนวนตามสัญญา ไม่เกิน '.($amount_max-$amount_prev);
+						$objValidation->setError($recommen_val);
+						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าอุปกรณ์ 	:');
+						$objValidation->setPrompt($recommen_val);
+						$objValidation->setFormula1(1);
+						$objValidation->setFormula2($amount_max-$amount_prev);
+
+						//add formula
+						$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,0);
+						$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'=PRODUCT(SUM(G'.$row.':I'.$row.'),M'.$row.')');
+
+						$input_row[] = $row;
+					}
+
+            	}
+            		
+            	
+            	
+            	
+            	$row++;
+            }
+
+            $objPHPExcel->getActiveSheet()->setSharedStyle($borderAll, 'B'.$row_start.":B".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderAll, 'E'.$row_start.":N".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderIndent, 'D'.$row_start.":D".($row-1));
+			$objPHPExcel->getActiveSheet()->setSharedStyle($borderPart, 'C'.$row_start.":C".($row-1));
+
+			foreach ($header_row as $key => $r) {
+				$objPHPExcel->getActiveSheet()->getStyle('B'.$r.":C".$r)->applyFromArray($headerStyle);
+			}
+
+			$objPHPExcel->getActiveSheet()->getStyle('G'.$row_start.":I".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+			//set number format
+			$objPHPExcel->getActiveSheet()->getStyle('G'.$row_start.":J".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+			$objPHPExcel->getActiveSheet()->getStyle('L'.$row_start.":L".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+			$objPHPExcel->getActiveSheet()->getStyle('N'.$row_start.":N".($row-1))->getNumberFormat()->setFormatCode('#,##0.00');
+            	
+            //set center
+			$objPHPExcel->getActiveSheet()->getStyle('B'.$row_start.":B".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('E'.$row_start.":F".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('K'.$row_start.":K".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle('M'.$row_start.":M".($row-1))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            	
+            //Hide id column
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setVisible(false);
+
+            //lock cell
+            
+			$objPHPExcel->getActiveSheet()->protectCells('A1:N'.($row-1), $password_lock);
+			$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
+
+			//unlock input cell
+			foreach ($input_row as $key => $r) {
+				$objPHPExcel->getActiveSheet()->getStyle('M'.$r)->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
+				$objPHPExcel->getActiveSheet()->getStyle('M'.$r)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)
+						->getStartColor()->setRGB('ffffff');
+			}
+
+
+		}	
+			$objPHPExcel->getProperties()
+						    ->setCreator("boybe")
+						    ->setLastModifiedBy("boybe")
+						    ->setTitle("PHPExcel Test Document")
+						    ->setSubject("PHPExcel Test Document")
+						    ->setDescription("Test document for PHPExcel, generated using PHP classes.")
+						    ->setKeywords("office PHPExcel php")
+						    ->setCategory("Test result file");
+
+			ob_end_clean();
+			ob_start();
+
+
+			$filename = "ใบ จค. ".Vendor::model()->findByPk($model->vendor_id)->v_name." งวด ".$pay_no.".xlsx";
+
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="'.$filename.'"');
+			header('Cache-Control: max-age=0');
+			// If you're serving to IE 9, then the following may be needed
+			header('Cache-Control: max-age=1');
+
+			// If you're serving to IE over SSL, then the following may be needed
+			header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+			header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+			header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+			header ('Pragma: public'); // HTTP/1.0
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel,  'Excel2007');
+			$objWriter->save('php://output');  //
+			// Yii::app()->end(); 
+
+			$xlsData = ob_get_contents();
+			//ob_end_clean();
+			$response =  array(
+		        'op' => 'ok',
+		        'file' => "data:application/vnd.ms-excel;base64,".base64_encode($xlsData)
+		    );
+
+
+    }
+}

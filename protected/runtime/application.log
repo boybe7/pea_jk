@@ -1,0 +1,559 @@
+2019/08/06 22:45:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:493
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(263): ProjectController->loadModel('11')
+#1 [internal function]: ProjectController->actionUpdate('11')
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#11 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('update')
+#13 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/update')
+#14 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/pea_jk/project/update/11
+HTTP_REFERER=http://localhost/pea_jk/project/index
+---
+2019/08/06 23:53:24 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "VendorContract.vendor" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\db\ar\CActiveRecord.php(145): CComponent->__get('vendor')
+#1 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(799): CActiveRecord->__get('vendor')
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportBOQ()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportBOQ')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportB...')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/exportBOQ?proj_id=3&form=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/08 00:21:08 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "PaymentDetail.proj_id" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\db\ar\CActiveRecord.php(145): CComponent->__get('proj_id')
+#1 C:\xampp\htdocs\pea_jk\protected\models\PaymentDetail.php(83): CActiveRecord->__get('proj_id')
+#2 C:\xampp\htdocs\pea_jk\protected\views\paymentDetail\index.php(53): PaymentDetail->search()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#7 C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php(138): CController->render('index', Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): PaymentDetailController->actionIndex()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#16 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('')
+#18 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('paymentDetail')
+#19 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#20 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/pea_jk/paymentDetail
+---
+2019/08/08 00:25:01 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "PaymentDetail.proj_id" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\db\ar\CActiveRecord.php(145): CComponent->__get('proj_id')
+#1 C:\xampp\htdocs\pea_jk\protected\models\PaymentDetail.php(83): CActiveRecord->__get('proj_id')
+#2 C:\xampp\htdocs\pea_jk\protected\views\paymentDetail\index.php(53): PaymentDetail->search()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#7 C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php(138): CController->render('index', Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): PaymentDetailController->actionIndex()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#16 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('')
+#18 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('paymentDetail')
+#19 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#20 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/pea_jk/paymentDetail
+---
+2019/08/08 00:25:02 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "PaymentDetail.proj_id" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\db\ar\CActiveRecord.php(145): CComponent->__get('proj_id')
+#1 C:\xampp\htdocs\pea_jk\protected\models\PaymentDetail.php(83): CActiveRecord->__get('proj_id')
+#2 C:\xampp\htdocs\pea_jk\protected\views\paymentDetail\index.php(53): PaymentDetail->search()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#7 C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php(138): CController->render('index', Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): PaymentDetailController->actionIndex()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#16 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('')
+#18 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('paymentDetail')
+#19 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#20 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/pea_jk/paymentDetail
+---
+2019/08/08 00:25:03 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "PaymentDetail.proj_id" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\db\ar\CActiveRecord.php(145): CComponent->__get('proj_id')
+#1 C:\xampp\htdocs\pea_jk\protected\models\PaymentDetail.php(83): CActiveRecord->__get('proj_id')
+#2 C:\xampp\htdocs\pea_jk\protected\views\paymentDetail\index.php(53): PaymentDetail->search()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#7 C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php(138): CController->render('index', Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): PaymentDetailController->actionIndex()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#14 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#16 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('')
+#18 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('paymentDetail')
+#19 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#20 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#21 {main}
+REQUEST_URI=/pea_jk/paymentDetail
+---
+2019/08/08 00:27:20 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "PaymentDetail.proj_id" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\db\ar\CActiveRecord.php(145): CComponent->__get('proj_id')
+#1 C:\xampp\htdocs\pea_jk\framework\web\helpers\CHtml.php(2529): CActiveRecord->__get('proj_id')
+#2 C:\xampp\htdocs\pea_jk\framework\web\helpers\CHtml.php(2252): CHtml::resolveValue(Object(PaymentDetail), 'proj_id')
+#3 C:\xampp\htdocs\pea_jk\framework\web\helpers\CHtml.php(1434): CHtml::activeInputField('text', Object(PaymentDetail), 'proj_id', Array)
+#4 C:\xampp\htdocs\pea_jk\protected\views\paymentDetail\index.php(65): CHtml::activeTextField(Object(PaymentDetail), 'proj_id', Array)
+#5 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#9 C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php(138): CController->render('index', Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): PaymentDetailController->actionIndex()
+#11 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#12 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#13 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#15 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#16 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#17 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#18 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#19 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('')
+#20 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('paymentDetail')
+#21 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#22 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#23 {main}
+REQUEST_URI=/pea_jk/paymentDetail
+---
+2019/08/08 00:28:40 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "payment".' in C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('payment')
+#1 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/pea_jk/payment
+---
+2019/08/08 00:28:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "payment".' in C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('payment')
+#1 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/pea_jk/payment/
+---
+2019/08/10 00:09:03 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('create')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('PaymentDetail/c...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/PaymentDetail/create
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 21:36:34 [error] [php] Undefined variable: i (C:\xampp\htdocs\pea_jk\protected\views\project\_formPayment.php:1)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#1 C:\xampp\htdocs\pea_jk\protected\views\project\_formUpdateVC.php(671): ProjectController->renderPartial()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#5 C:\xampp\htdocs\pea_jk\protected\views\project\updateVC.php(9): ProjectController->renderPartial()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): ProjectController->renderPartial()
+#10 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(414): ProjectController->render()
+#11 unknown(0): ProjectController->actionUpdateVendorContract()
+#12 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs()
+#13 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#15 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#16 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#17 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#18 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#19 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#20 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#21 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#22 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#23 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#24 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#25 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/updateVendorContract/16
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formPayment.php (1)
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formUpdateVC.php (671)
+in C:\xampp\htdocs\pea_jk\protected\views\project\updateVC.php (9)
+2019/08/12 22:32:42 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/1.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:37:42 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/1.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:41:26 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/1.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:45:13 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/1.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:45:20 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/1.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:46:38 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:47:18 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:47:18 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:49:12 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:49:12 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:53:34 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 22:53:34 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/process.php
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 23:16:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "ajax/SaveNewDownload".' in C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('ajax/SaveNewDow...')
+#1 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/pea_jk/ajax/SaveNewDownload
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/12 23:23:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "testImport" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('testImport')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('testImport')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/testImp...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/testImport
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/13 00:44:35 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/upload
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/13 00:56:27 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/importBOQ
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/14 22:50:41 [error] [exception.CException] exception 'CException' with message 'ProjectController ไม่สามารถค้นหา "import_boq" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('import_boq', Array, true)
+#1 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(543): CController->render('import_boq', Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionImportBOQ()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('importBOQ')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/importB...')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/importBOQ
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/16
+---
+2019/08/14 22:52:10 [error] [php] ZipArchive::getFromName(): Invalid or uninitialized Zip object (C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php:327)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php(40): PHPExcel_Reader_Excel2007->load()
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): ProjectController->renderPartial()
+#5 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(543): ProjectController->render()
+#6 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionImportBOQ()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#9 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#12 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#16 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#17 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#18 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/importBOQ
+in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php (327)
+in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php (364)
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php (40)
