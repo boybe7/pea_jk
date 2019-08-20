@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "payment_temp".
+ * This is the model class for table "payment".
  *
- * The followings are the available columns in table 'payment_temp':
+ * The followings are the available columns in table 'payment':
  * @property integer $id
  * @property integer $item_id
  * @property integer $vc_id
  * @property integer $pay_no
  * @property integer $pay_type
  * @property integer $amount
- * @property integer $user_id
+ * @property string $pay_date
  */
-class PaymentTemp extends CActiveRecord
+class Payment extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'payment_temp';
+		return 'payment';
 	}
 
 	/**
@@ -30,11 +30,11 @@ class PaymentTemp extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('item_id, vc_id, pay_no, pay_type, amount, user_id', 'required'),
-			array('item_id, vc_id, pay_no, pay_type, amount, user_id', 'numerical', 'integerOnly'=>true),
+			array('item_id, vc_id, pay_no, pay_type, amount, pay_date', 'required'),
+			array('item_id, vc_id, pay_no, pay_type, amount', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, item_id, vc_id, pay_no, pay_type, amount, user_id', 'safe', 'on'=>'search'),
+			array('id, item_id, vc_id, pay_no, pay_type, amount, pay_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,12 +56,12 @@ class PaymentTemp extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'item_id' => 'Item',
+			'item_id' => 'รายละเอียด',
 			'vc_id' => 'Vc',
 			'pay_no' => 'Pay No',
-			'pay_type' => '0=ค่าของ 1=ค่าขนส่ง 2 = ค่าติดตั้งทดสอบ',
+			'pay_type' => '0=ค่าของ 1=ค่าขนส่ง 2 = ค่าติดตั้งทดสอบ 3 =รวม',
 			'amount' => 'Amount',
-			'user_id' => 'User',
+			'pay_date' => 'Pay Date',
 		);
 	}
 
@@ -89,7 +89,26 @@ class PaymentTemp extends CActiveRecord
 		$criteria->compare('pay_no',$this->pay_no);
 		$criteria->compare('pay_type',$this->pay_type);
 		$criteria->compare('amount',$this->amount);
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('pay_date',$this->pay_date,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
+	public function searchPayment($vc_id,$pay_no)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('item_id',$this->item_id);
+		$criteria->compare('vc_id',$vc_id);
+		$criteria->compare('pay_no',$pay_no);
+		$criteria->compare('pay_type',$this->pay_type);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('pay_date',$this->pay_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,7 +119,7 @@ class PaymentTemp extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PaymentTemp the static model class
+	 * @return Payment the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -140,6 +140,34 @@ class Boq extends CActiveRecord
 		));
 	}
 
+	public function searchByPayment($vc_id,$pay_no)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('vc_id',$vc_id);
+		$criteria->compare('detail',$this->detail,true);
+		$criteria->compare('no',$this->no,true);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('unit',$this->unit,true);
+		//$criteria->compare('type',$this->type);
+		$criteria->compare('price_trans',$this->price_trans,true);
+		$criteria->compare('price_item',$this->price_item,true);
+		$criteria->compare('price_install',$this->price_install,true);
+		$criteria->compare('last_update',$this->last_update,true);
+		$criteria->order = 'id ASC'; 
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+
+                        'pageSize'=>2000,
+
+                ),
+		));
+	}
+
 
 
 	/**

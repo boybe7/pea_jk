@@ -28,7 +28,7 @@
 
           element.change(function(e) {
               filename = e.target.files[0].name;
-              console.log(element)
+              
           });
           
           $(this).find('input').css("cursor","pointer");
@@ -95,6 +95,8 @@
                                     success: function (pay_no) {
                                            
                                            window.location.href = "../exportBOQ?vc_id='.$model->id.'&form="+result+"&pay_no="+pay_no; 
+
+                                          // window.location.reload();
                                     }
                                 })
                                
@@ -455,7 +457,7 @@
 
           element.change(function(e) {
               filename = e.target.files[0].name;
-              console.log(element)
+              
           });
           
           $(this).find('input').css("cursor","pointer");
@@ -707,6 +709,8 @@
         formName = '#form-import-boq-'+index;
         content = '#boq-content-'+index;
         var fd = new FormData($(formName)[0]);
+        fd.append('vc_id', ".$model->id.");
+        fd.append('pay_no', index);
         $.ajax({
             url: '../importBOQ',
             type: 'POST',
@@ -716,6 +720,32 @@
             contentType: false,
             success: function (response) { 
                $(content).html(response)
+            },
+            error: function () {
+               
+            }
+        });
+        
+    }", CClientScript::POS_END);
+
+  Yii::app()->clientScript->registerScript('submitBOQ', "
+    function submitBOQ(elm, index)
+    {
+        formName = '#form-import-boq-'+index;
+        content = '#boq-content-'+index;
+        var fd = new FormData($(formName)[0]);
+        fd.append('vc_id', ".$model->id.");
+        fd.append('pay_no', index);
+        $.ajax({
+            url: '../submitBOQ',
+            type: 'POST',
+            cache: false,
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function (response) { 
+               $(content).html('')
+               window.location.reload();
             },
             error: function () {
                
@@ -744,9 +774,13 @@
             //           'index' => $i,
             //           'display' => 'block'
             //       ));  
+        $payment_detail = Yii::app()->db->createCommand()
+                            ->select('form_type')
+                            ->from('payment_detail')
+                            ->where("vc_id='".$model->id."' AND pay_no =".$i)
+                            ->queryAll();
 
-
-
+        $form_type = $payment_detail[0]['form_type'];                     
      ?>   
      <h4>รายละเอียดค่าใช้จ่าย งวดที่ <?php echo $i;?></h4>
     <hr style="margin-top:5px; ">
@@ -782,17 +816,372 @@
             'type'=>'info',
             'label'=>'Submit',
             'icon'=>'ok white',
-            'url'=>array('submitBOQ'),
-            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px'),
+            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px','onclick'=>'submitBOQ(this,'.$i.');'),
           )); 
       ?>
    
     </div>  
   </form>
 
-     <?php  echo '<div id="boq-content-'.$i.'" style=""> </div>'; ?>  
+     <?php  echo '<div id="boq-content-'.$i.'" > </div>'; ?>  
 
-	       </div> <!-- end tab-payment --> 
+     <!--Gridview -->
+     <ul class="nav nav-tabs" style="margin-bottom: 0px;margin-top: 20px;">
+  
+       <?php
+       if($form_type==1)
+       {
+            echo '<li class="active"><a href="#item-tab-'.$i.'" data-toggle="tab">ค่าอุปกรณ์ และขนส่ง</a></li>';
+            echo '<li ><a href="#install-tab-'.$i.'" data-toggle="tab">ค่าติดตั้ง และทดสอบ</a></li>';
+       }
+       else
+       {
+            echo '<li class="active"><a href="#item-tab-'.$i.'" data-toggle="tab">ค่าอุปกรณ์ ขนส่ง และค่าติดตั้งทดสอบ</a></li>';
+       }
+       ?>
+    </ul>
+    <div class="tab-content">
+        
+     <?php
+       
+        
+      $Criteria = new CDbCriteria();
+      $Criteria->condition = "vc_id='$model->id'";
+      $boq = Boq::model()->findAll($Criteria);   
+
+       if($form_type==1)
+       {                  
+    echo '<div class="tab-pane active" id="item-tab-'.$i.'">';
+      echo '<div style="overflow-x:auto;width: 100%;"> <table class="table  table-bordered table-condensed" style="width: 150%;max-width: 150%;">
+       <thead>
+        <tr>
+          <th style="text-align:center;width:3%" rowspan=2>ลำดับ</th>
+          <th style="text-align:center;width:27%" rowspan=2>รายละเอียด</th>
+          <th style="text-align:center;width:40%" colspan=5>งานตามสัญญา</th>
+          <th style="text-align:center;width:15%" colspan=2>ส่งมอบงานครั้งนี้</th>
+          <th style="text-align:center;width:15%" colspan=2>รวมงานที่ส่งแล้ว (รวมครั้งนี้)</th>
+
+        </tr>
+        <tr>
+          <th style="text-align:center;width:5%">จำนวน</th>
+          <th style="text-align:center;width:5%">หน่วย</th>
+          <th style="text-align:center;width:10%">ค่าอุปกรณ์/หน่วย</th>
+          <th style="text-align:center;width:10%">ค่าขนส่ง/หน่วย</th>
+          <th style="text-align:center;width:10%">เป็นเงิน</th>
+
+          <th style="text-align:center;width:5%">จำนวน</th>
+          <th style="text-align:center;width:10%">เป็นเงิน</th>
+
+          <th style="text-align:center;width:5%">จำนวน</th>
+          <th style="text-align:center;width:10%">เป็นเงิน</th>
+         
+        </tr>
+      </thead>
+      <tbody>';                       
+
+        foreach ($boq as $key => $value) {
+          echo '<tr>';
+            echo '<td style="text-align:center">'.$value->no.'</td>';
+            if($value->type==1 || $value->type==2)
+                $detail = '<b>'.$value->detail.'</b>';
+            else if($value->type==-1)
+                $detail = '-&nbsp;&nbsp;'.$value->detail;  
+            else 
+                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+            echo '<td>'.$detail.'</td>';
+            echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
+            echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
+            $price_item = is_numeric($value->price_item) ? number_format($value->price_item,0) : $value->price_item;
+            $price_trans = is_numeric($value->price_trans) ? number_format($value->price_trans,0) : $value->price_trans;
+            $price_install = is_numeric($value->price_install) ? number_format($value->price_install,0) : $value->price_install;
+            echo '<td style="text-align:center;width:10%">'.$price_item.'</td>';
+            echo '<td style="text-align:center;width:10%">'.$price_trans.'</td>';
+            $price_item_all = '';
+            if(!empty($value->amount) )
+            { 
+                $price_item = is_numeric($value->price_item) ? $value->price_item : 0;
+                $price_trans = is_numeric($value->price_trans) ? $value->price_trans : 0;
+                
+                $price_item_all = ($price_item + $price_trans) * $value->amount;
+                if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+            }
+            else
+                echo '<td style="text-align:center">'.$price_item_all.'</td>';
+
+            //amount current payment
+            $curr_payment = Yii::app()->db->createCommand()
+                            ->select('*')
+                            ->from('payment')
+                            ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no =".$i)
+                            ->queryAll();
+            if(!empty($curr_payment))
+            {
+              echo '<td style="text-align:center">'.$curr_payment[0]['amount'].'</td>';
+              $price_item_all = ($price_item + $price_trans) * $curr_payment[0]['amount'];
+             if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+
+            } 
+            else{
+              echo '<td style="text-align:center"></td>';
+              echo '<td style="text-align:center"></td>';  
+            }               
+
+            //amount previous with current payment  
+            $prev_payment = Yii::app()->db->createCommand()
+                            ->select('SUM(amount) as amount')
+                            ->from('payment')
+                            ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no <=".$i)
+                            ->queryAll();     
+
+            if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+            {
+              echo '<td style="text-align:center">'.$prev_payment[0]['amount'].'</td>';
+              $price_item_all = ($price_item + $price_trans) * $prev_payment[0]['amount'];
+              if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+
+            } 
+            else{
+              echo '<td style="text-align:center"></td>';
+              echo '<td style="text-align:center"></td>';  
+            }                                
+          echo '</tr>';
+                            
+        }                    
+        echo '</tbody></table></div>';
+
+      echo '</div>'; //end item-tab  
+
+      echo '<div class="tab-pane" id="install-tab-'.$i.'">';
+        echo '<div style="overflow-x:auto;width: 100%;"> <table class="table  table-bordered table-condensed" style="width: 150%;max-width: 150%;">
+       <thead>
+        <tr>
+          <th style="text-align:center;width:3%" rowspan=2>ลำดับ</th>
+          <th style="text-align:center;width:27%" rowspan=2>รายละเอียด</th>
+          <th style="text-align:center;width:40%" colspan=4>งานตามสัญญา</th>
+          <th style="text-align:center;width:15%" colspan=2>ส่งมอบงานครั้งนี้</th>
+          <th style="text-align:center;width:15%" colspan=2>รวมงานที่ส่งแล้ว (รวมครั้งนี้)</th>
+
+        </tr>
+        <tr>
+          <th style="text-align:center;width:5%">จำนวน</th>
+          <th style="text-align:center;width:5%">หน่วย</th>
+          <th style="text-align:center;width:10%">ค่าติดตั้งทดสอบ/หน่วย</th>
+          <th style="text-align:center;width:10%">เป็นเงิน</th>
+
+          <th style="text-align:center;width:5%">จำนวน</th>
+          <th style="text-align:center;width:10%">เป็นเงิน</th>
+
+          <th style="text-align:center;width:5%">จำนวน</th>
+          <th style="text-align:center;width:10%">เป็นเงิน</th>
+         
+        </tr>
+      </thead>
+      <tbody>';                       
+
+        foreach ($boq as $key => $value) {
+          echo '<tr>';
+            echo '<td style="text-align:center">'.$value->no.'</td>';
+            if($value->type==1 || $value->type==2)
+                $detail = '<b>'.$value->detail.'</b>';
+            else if($value->type==-1)
+                $detail = '-&nbsp;&nbsp;'.$value->detail;  
+            else 
+                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+            echo '<td>'.$detail.'</td>';
+            echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
+            echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
+            
+            $price_install = is_numeric($value->price_install) ? number_format($value->price_install,0) : $value->price_install;
+            echo '<td style="text-align:center;width:10%">'.$price_install.'</td>';
+            $price_item_all = '';
+            if(!empty($value->amount) )
+            { 
+                $price_install = is_numeric($value->price_install) ? $value->price_install : 0;
+               
+                $price_item_all = $price_install * $value->amount;
+                if(!is_numeric($value->price_install))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+            }
+            else
+                echo '<td style="text-align:center">'.$price_item_all.'</td>';
+
+            //amount current payment
+            $curr_payment = Yii::app()->db->createCommand()
+                            ->select('*')
+                            ->from('payment')
+                            ->where("pay_type=2 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no =".$i)
+                            ->queryAll();
+            if(!empty($curr_payment))
+            {
+              echo '<td style="text-align:center">'.$curr_payment[0]['amount'].'</td>';
+              $price_item_all = $price_install* $curr_payment[0]['amount'];
+              if(!is_numeric($value->price_install))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+
+            } 
+            else{
+              echo '<td style="text-align:center"></td>';
+              echo '<td style="text-align:center"></td>';  
+            }               
+
+            //amount previous with current payment  
+            $prev_payment = Yii::app()->db->createCommand()
+                            ->select('SUM(amount) as amount')
+                            ->from('payment')
+                            ->where("pay_type=2 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no <=".$i)
+                            ->queryAll();     
+
+            if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+            {
+              echo '<td style="text-align:center">'.$prev_payment[0]['amount'].'</td>';
+              $price_item_all = $price_install * $prev_payment[0]['amount'];
+              if(!is_numeric($value->price_install))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+
+            } 
+            else{
+              echo '<td style="text-align:center"></td>';
+              echo '<td style="text-align:center"></td>';  
+            }                                
+          echo '</tr>';
+                            
+        }                    
+        echo '</tbody></table></div>';
+
+      echo '</div>'; //end install-tab  
+   
+      }
+      else if($form_type==2){
+        echo '<div class="tab-pane active" id="item-tab-'.$i.'">';
+      echo '<div style="overflow-x:auto;width: 100%;"> <table class="table  table-bordered table-condensed" style="width: 150%;max-width: 150%;">
+       <thead>
+        <tr>
+          <th style="text-align:center;width:3%" rowspan=2>ลำดับ</th>
+          <th style="text-align:center;width:27%" rowspan=2>รายละเอียด</th>
+          <th style="text-align:center;width:35%" colspan=6>งานตามสัญญา</th>
+          <th style="text-align:center;width:15%" colspan=2>ส่งมอบงานครั้งนี้</th>
+          <th style="text-align:center;width:15%" colspan=2>รวมงานที่ส่งแล้ว (รวมครั้งนี้)</th>
+
+        </tr>
+        <tr>
+          <th style="text-align:center;width:1%">จำนวน</th>
+          <th style="text-align:center;width:1%">หน่วย</th>
+          <th style="text-align:center;width:6%">ค่าอุปกรณ์/หน่วย</th>
+          <th style="text-align:center;width:6%">ค่าขนส่ง/หน่วย</th>
+          <th style="text-align:center;width:6%">ค่าติดตั้งทดสอบ/หน่วย</th>
+          <th style="text-align:center;width:6%">เป็นเงิน</th>
+
+          <th style="text-align:center;width:3%">จำนวน</th>
+          <th style="text-align:center;width:7%">เป็นเงิน</th>
+
+          <th style="text-align:center;width:3%">จำนวน</th>
+          <th style="text-align:center;width:7%">เป็นเงิน</th>
+         
+        </tr>
+      </thead>
+      <tbody>';                       
+
+        foreach ($boq as $key => $value) {
+          echo '<tr>';
+            echo '<td style="text-align:center">'.$value->no.'</td>';
+            if($value->type==1 || $value->type==2)
+                $detail = '<b>'.$value->detail.'</b>';
+            else if($value->type==-1)
+                $detail = '-&nbsp;&nbsp;'.$value->detail;  
+            else 
+                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+            echo '<td>'.$detail.'</td>';
+            echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
+            echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
+            $price_item = is_numeric($value->price_item) ? number_format($value->price_item,0) : $value->price_item;
+            $price_trans = is_numeric($value->price_trans) ? number_format($value->price_trans,0) : $value->price_trans;
+            $price_install = is_numeric($value->price_install) ? number_format($value->price_install,0) : $value->price_install;
+            echo '<td style="text-align:center;width:10%">'.$price_item.'</td>';
+            echo '<td style="text-align:center;width:10%">'.$price_trans.'</td>';
+            echo '<td style="text-align:center;width:10%">'.$price_install.'</td>';
+            $price_item_all = '';
+            if(!empty($value->amount) )
+            { 
+                $price_item = is_numeric($value->price_item) ? $value->price_item : 0;
+                $price_trans = is_numeric($value->price_trans) ? $value->price_trans : 0;
+                $price_install = is_numeric($value->price_install) ? $value->price_install : 0;
+                
+                $price_item_all = ($price_item + $price_trans + $price_install) * $value->amount;
+                if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install))
+                  echo '<td style="text-align:center">-</td>';
+                else  
+                   echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+            }
+            else
+                echo '<td style="text-align:center">'.$price_item_all.'</td>';
+
+            //amount current payment
+            $curr_payment = Yii::app()->db->createCommand()
+                            ->select('*')
+                            ->from('payment')
+                            ->where("pay_type=3 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no =".$i)
+                            ->queryAll();
+            if(!empty($curr_payment))
+            {
+              echo '<td style="text-align:center">'.$curr_payment[0]['amount'].'</td>';
+              $price_item_all = ($price_item + $price_trans+$price_install) * $curr_payment[0]['amount'];
+               if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install))
+                  echo '<td style="text-align:center">-</td>';
+                else 
+                  echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+
+            } 
+            else{
+              echo '<td style="text-align:center"></td>';
+              echo '<td style="text-align:center"></td>';  
+            }               
+
+            //amount previous with current payment  
+            $prev_payment = Yii::app()->db->createCommand()
+                            ->select('SUM(amount) as amount')
+                            ->from('payment')
+                            ->where("pay_type=3 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no <=".$i)
+                            ->queryAll();     
+
+            if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+            {
+              echo '<td style="text-align:center">'.$prev_payment[0]['amount'].'</td>';
+              $price_item_all = ($price_item + $price_trans+$price_install) * $prev_payment[0]['amount'];
+              if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install))
+                  echo '<td style="text-align:center">-</td>';
+              else 
+                 echo '<td style="text-align:center">'.number_format($price_item_all,0).'</td>';
+
+            } 
+            else{
+              echo '<td style="text-align:center"></td>';
+              echo '<td style="text-align:center"></td>';  
+            }                                
+          echo '</tr>';
+                            
+        }                    
+        echo '</tbody></table></div>';
+
+      echo '</div>'; //end item-tab  
+      }
+      ?>
+      </div> <!-- tab-end content-payment-->
+	 </div> <!-- end tab-payment --> 
      
     <?php
 

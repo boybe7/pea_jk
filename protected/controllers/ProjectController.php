@@ -31,7 +31,7 @@ class ProjectController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','index','update','createBOQ','exportBOQ','createByAjax','createVendorContract','updateVendorContract','importBOQ'),
+				'actions'=>array('create','index','update','createBOQ','exportBOQ','createByAjax','createVendorContract','updateVendorContract','importBOQ','submitBOQ'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -88,6 +88,29 @@ class ProjectController extends Controller
 	                'status'=>'failure'));
 		}
 
+
+	}
+
+	public function actionSubmitBOQ()
+	{
+		
+		try{
+			//delete old submit on payment
+			Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+
+			//insert new data from temp table
+			$current_date = date('Y-m-d');
+			Yii::app()->db->createCommand('INSERT INTO payment(item_id,vc_id,pay_no,pay_type,amount,pay_date) SELECT item_id,vc_id,pay_no,pay_type,amount,"'.$current_date.'" FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+
+			//delete temp
+			//Yii::app()->db->createCommand('DELETE FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+
+		}catch (Exception $e) {
+
+		    var_dump($e->getMessage());
+		    die();
+
+		}
 
 	}
 
@@ -537,9 +560,11 @@ class ProjectController extends Controller
 					$type = $_FILES['fileupload2']['type'];
 					$tmp_name = $_FILES['fileupload2']['tmp_name'];
 
+					$model = VendorContract::model()->findByPk($_POST['vc_id']);
+
 					//move_uploaded_file($tmp_name,Yii::app()->basePath."/" . $name);
 					$this->renderPartial('_formValidate',array(
-						'filename'=>$tmp_name,
+						'filename'=>$tmp_name,'pay_no_current'=>$_POST['pay_no'],'model'=>$model
 					));
 					
 		}
@@ -1096,7 +1121,7 @@ class ProjectController extends Controller
 		                        ->select('SUM(amount) as sum')
 		                        ->from('payment')
 		                        //->join('user','user_create=u_id')
-		                        ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <".$pay_no)
+		                        ->where("pay_type=3 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <".$pay_no)
 		                        ->queryAll();
 		        	$amount_prev = $payment[0]["sum"];
 		        	if($amount_prev > 0)
@@ -1221,6 +1246,6 @@ class ProjectController extends Controller
 		        'file' => "data:application/vnd.ms-excel;base64,".base64_encode($xlsData)
 		    );
 
-
+			return $this->goBack(Yii::$app->request->referrer);
     }
 }
