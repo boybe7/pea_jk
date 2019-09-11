@@ -845,7 +845,8 @@
                $(content).html('')
                if(response=='error')
                   bootbox.alert('<font color=red><h4>การนำเข้าข้อมูลไม่ถูกต้อง</h4></font>');
-               //window.location.reload();
+               else  
+                  window.location.reload();
             },
             error: function () {
                

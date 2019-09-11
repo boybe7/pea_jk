@@ -127,14 +127,24 @@ class ProjectController extends Controller
 	{
 		
 		try{
-			//delete old submit on payment
-			//Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
 
-			//insert new data from temp table
-			// $current_date = date('Y-m-d');
-			// Yii::app()->db->createCommand('INSERT INTO payment(item_id,vc_id,pay_no,pay_type,amount,pay_date) SELECT item_id,vc_id,pay_no,pay_type,amount,"'.$current_date.'" FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+			$payment = Yii::app()->db->createCommand()
+                                    ->select('*')
+                                    ->from('payment_temp')
+                                    ->where("vc_id='".$_POST['vc_id']."' AND pay_no =".$_POST['pay_no'])
+                                    ->queryAll();  
 
-			echo "error";
+			if(!empty($payment))
+			{
+				//delete old submit on payment
+				Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+
+				//insert new data from temp table
+				$current_date = date('Y-m-d');
+				Yii::app()->db->createCommand('INSERT INTO payment(item_id,vc_id,pay_no,pay_type,amount,pay_date) SELECT item_id,vc_id,pay_no,pay_type,amount,"'.$current_date.'" FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+			}
+			else	
+				echo "error";
 
 			//delete temp
 			//Yii::app()->db->createCommand('DELETE FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();

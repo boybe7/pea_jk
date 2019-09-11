@@ -1117,7 +1117,7 @@ if($form_type==1)
                   if($page!=$max_page)
                   {
                       $html .= '<td style="width:3%;text-align:center;"></td>';
-                      $html .= '<td colspan=2 style="text-align:left;border-right:1px solid black;">xxx</td>'; 
+                      $html .= '<td colspan=2 style="text-align:left;border-right:1px solid black;"></td>'; 
                   }
                $html .= '</tr>';
               }
@@ -1419,10 +1419,572 @@ else
                           
                           
                         </tr>';
+
+                        $Criteria = new CDbCriteria();
+                        $Criteria->condition = "vc_id=$vc_id";
+                        $boq = Boq::model()->findAll($Criteria); 
+
+                        $Criteria = new CDbCriteria();
+                        $Criteria->condition = "vc_id=$vc_id";
+                        $fineModel = Fine::model()->findAll($Criteria); 
+
+                       
+
+                        //----table config----//
+                        $max_row = 30;
+                        $row_height = 20;
+                        $max_page = ceil(count($boq)*1.0 / $max_row); 
+                        //$html .="max_page:".$max_page;
+
+                        $row = 0;
+                        $page = 1;
+                        $summary_cost_all = 0;
+                        $summary_curr_all = 0;
+                        $summary_prev_all = 0;
+                        $summary_cost_page = 0;
+                        $summary_curr_page = 0;
+                        $summary_prev_page = 0;
            
            
         $header_table = $html;    
 
+        foreach ($boq as $key => $value) {
+
+
+                //------------------------------Item & Transport------------------------------//
+                $html .='<tr>';
+                  //$html .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$row.'</td>';
+                  $html .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$value->no.'</td>';
+
+                  if($value->type==1 || $value->type==2)
+                      $detail = ' <b>'.$value->detail.'</b>';
+                  else if($value->type==-1)
+                      $detail = '-&nbsp;&nbsp;'.$value->detail;  
+                  else 
+                      $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+                  $html .= '<td style="'.$border_left_right.'"> '.$detail.'</td>';
+                  
+                  $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->amount.'</td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->unit.'</td>';
+                  
+                  $price_item = is_numeric($value->price_item) ? number_format($value->price_item,2) : $value->price_item;
+                  $price_trans = is_numeric($value->price_trans) ? number_format($value->price_trans,2) : $value->price_trans;
+                  $price_install = is_numeric($value->price_install) ? number_format($value->price_install,2) : $value->price_install;
+
+                  if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install)  && $value->price_item==$value->price_trans && $value->price_item!=""  && $value->price_item==$value->price_install)
+                  {
+                     $html .= '<td colspan="3" style="text-align:center;'.$border_left_right.'">'.$price_item.'</td>';
+                  }
+                  else if(!is_numeric($value->price_item) && !is_numeric($value->price_trans)   && $value->price_item==$value->price_trans && $value->price_item!=""  && $value->price_item!=$value->price_install)
+                  {
+                    
+                     $html .= '<td colspan="2" style="text-align:center;'.$border_left_right.'">'.$price_item.'</td>';
+                     if(!is_numeric($value->price_install))
+                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install.'</td>';
+                     else 
+                       $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
+                  }
+                  else
+                  {
+                      $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item.'</td>';
+                      $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_trans.'</td>';
+                      $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
+                  }
+                  
+                  $price_item_all = '';
+
+
+
+                    if(!empty($value->amount) )
+                    { 
+                        $price_item = is_numeric($value->price_item) ? $value->price_item : 0;
+                        $price_trans = is_numeric($value->price_trans) ? $value->price_trans : 0;
+                        
+                        $price_item_all = ($price_item + $price_trans) * $value->amount;
+
+                        $summary_cost_page += $price_item_all;
+                        $summary_cost_all += $price_item_all;
+
+                        if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                          $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
+                        else  
+                          $html .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+                    }
+                    else
+                        $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item_all.'</td>';
+
+                    //amount current payment
+                    $curr_payment = Yii::app()->db->createCommand()
+                                    ->select('*')
+                                    ->from('payment')
+                                    ->where("pay_type=3 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no =".$pay_no)
+                                    ->queryAll();
+                    $current_payment = "";                
+                    if(!empty($curr_payment))
+                    {
+                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.$curr_payment[0]['amount'].'</td>';
+                      $current_payment = $curr_payment[0]['amount'];
+                      $price_item_all = ($price_item + $price_trans) * $curr_payment[0]['amount'];
+
+                      $summary_curr_page += $price_item_all;
+                      $summary_curr_all += $price_item_all;
+
+                     if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                          $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
+                        else  
+                          $html .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+
+                    } 
+                    else{
+                      $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                      if(empty($value->amount))
+                        $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';  
+                      else
+                         $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
+                    }               
+
+                    //amount previous with current payment  
+                    $prev_payment = Yii::app()->db->createCommand()
+                                    ->select('SUM(amount) as amount')
+                                    ->from('payment')
+                                    ->where(" item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <=".$pay_no)
+                                    ->queryAll();     
+
+                    if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+                    {
+                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.$prev_payment[0]['amount'].'</td>';
+                      $price_item_all = ($price_item + $price_trans) * $prev_payment[0]['amount'];
+
+                      $summary_prev_page += $price_item_all;
+                      $summary_prev_all += $price_item_all;
+
+                      if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                          $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
+                        else  
+                           $html .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+
+                    } 
+                    else{
+                      $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                      if(empty($value->amount))
+                        $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';  
+                      else
+                         $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';  
+                    }   
+
+
+                  //committee check  
+
+                  if(!empty($curr_payment))
+                  {
+                    $html .= '<td style="text-align:center;'.$border_left_right.'">'.$curr_payment[0]['amount'].'</td>';
+                    $current_payment = $curr_payment[0]['amount'];
+                    $price_item_all = ($price_item + $price_trans) * $curr_payment[0]['amount'];
+                   if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                        $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
+                      else  
+                        $html .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+
+                  } 
+                  else{
+                    $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                    if(empty($value->amount))
+                        $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';  
+                      else
+                         $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
+                  }         
+
+                  //note
+                  $html .= '<td style="width:3%;text-align:center;'.$border_left_right.'"></td>'; 
+
+                  if($page==2)
+                     $row_com = 7;
+            
+                  if($row==$row_com + ($max_row*($page-1)))
+                  {
+                      $html .= '<td colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"></td>'; 
+                  }
+                  else if($row>$row_com + ($max_row*($page-1)) )
+                  {
+                    if($page!=$max_page)  
+                      $html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;"></td>'; 
+                    else{
+                      if($row== $max_row*($page-1) + $row_com+1)
+                      {
+                          $rowspan = $max_row - $row_com + 1;
+                          if($model_vc->percent_adv!=0)
+                          {  
+                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr_all*($model_vc->percent_pay/100.0));
+                             $advance_pay_str = number_format($advance_pay,2);
+                          }else{
+                             $advance_pay = 0;
+                             $advance_pay_str = "-"; 
+                          }
+                               
+
+                          $remain_pay = ($summary_curr_all*($model_vc->percent_pay/100.0)) - $advance_pay;
+
+                          $fine_all = 0;  
+                          $fine_html = "";
+                          $fine_count = count($fineModel);
+                          $fi = 0;
+
+                          $number_style = "border-bottom:1px dotted grey;text-align:right;";
+                          foreach ($fineModel as $key => $fine) {
+                            if($fi==0)
+                            {
+                              $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+
+                            }
+                            else
+                            {
+                              $fine_html .= '<tr><td></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                            }
+                            
+                            $fine_all += $fine->amount;
+
+                            $fi++;
+                          }
+
+
+                          if(empty($fineModel))
+                          {
+                             $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">- </td><td width="40%" style="'.$number_style.'">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                          }
+
+       
+                          $html .= '<td rowspan="'.$rowspan.'" colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"><br><br>&nbsp; เรียน &nbsp;……………………………………………………………………………<br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; คณะกรรมการตรวจรับงานจ้างได้ทำการตรวจรับงานดังกล่าวแล้ว <br>
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เมื่อวันที่ …………………………………… ปรากฎว่า<br>
+                              &#9633; ถูกต้องครบถ้วนเป็นไปตามสัญญาทุกประการ เห็นควรรับมอบงานและจ่ายเงินให้แก่ผู้รับจ้างดังนี้  <br> 
+                              &#9633; ผู้รับจ้างส่งมอบงานมีรายละเอียดส่วนใหญ่ถูกต้องตามสัญญา และมีรายละเอียดส่วนย่อยที่ <br>
+                              &nbsp;&nbsp;&nbsp; ไม่ใช่สาระสำคัญแตกต่างจากสัญญา  และไม่ก่อให้เกิดความเสียหายต่อการใช้งาน จึงเห็นควร <br>
+                              &nbsp;&nbsp;&nbsp; รับมอบงาน  และอนุมัติจ่ายเงินให้แก่ผู้รับจ้างดังนี้ <br>
+                              <table border=0 width="70%">
+                                <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;หัก Advance '.$model_vc->percent_adv.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.$advance_pay_str.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;บวก ค่าภาษีมูลค่าเพิ่ม 7%</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*0.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือจ่าย</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                '.$fine_html.'
+                                <tr><td width="10%">&nbsp;</td><td width="40%">คงจ่ายสุทธิ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07 - $fine_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan="3" style="width:100%;text-align:center">('.bahtText($remain_pay*1.07-$fine_all).')</td></tr>
+                              </table>
+                             
+                             <br><br>
+                             <table border=0 width="80%">
+                                <tr><td width="20%" align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td style="width:50%;text-align:center;">………………………………………………</td><td width="30%">ประธานกรรมการ</td></tr>
+                                <tr><td></td><td style="text-align:center">'.$committee_header->name.'</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
+                                <tr><td></td><td></td><td>&nbsp;</td></tr>';
+
+                              foreach ($committee_member as $key => $cm) {
+                                  
+                               $html .= '<tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td align="center">………………………………………………</td><td>กรรมการ</td></tr>
+                                <tr><td></td><td align="center">'.$cm->name.'</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
+                                <tr><td></td><td></td><td>&nbsp;</td></tr>';
+                              }  
+                            $html .='  </table>
+                           
+
+                          </td>';
+                      }    
+                    }  
+                  }
+                 
+                  
+                $html .= '</tr>';
+
+                if($row % ($max_row*$page) == 0 && $row!=0)
+                {
+                     
+                      //summary
+
+                      $html .= '<tr>';
+                      $html .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+                      $html .= '<td style="text-align:center;border:1px solid black;">รวม ('.$page.')</td>';
+                      $html .= '<td colspan=5 style="width:21%;text-align:right;'.$border_left_right2.'"></td>';
+                      
+                      $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
+                      $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                      $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                      $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                      $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                      $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                      $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                      $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
+                        $summary_cost_page = 0;
+                        $summary_curr_page = 0;
+                        $summary_prev_page = 0;
+
+                      if($page!=$max_page)
+                      {
+                         
+                          $html .= '<td rowspan="2" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
+                      }
+                      $html .= '</tr>';
+
+                      $html .= '<tr>';
+                        $html .= '<td colspan=2 style="width:22%;text-align:center;'.$border_left_right2.'">
+                                    <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
+                                    ลงชื่อ............................................<br>
+                                    '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                                    วันที่ .....................................
+
+                                  </td>';
+
+                        $html .= '<td colspan=8 style="width:36%;text-align:center;'.$border_left_right2.'">
+                                    <u>ผู้ควบคุมงาน</u><br><br>
+                                    ลงชื่อ............................................<br>
+                                    '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                                    วันที่ .....................................
+
+                                  </td>';
+
+                        $html .= '<td colspan=4 style="width:17%;text-align:center;'.$border_left_right2.'">
+                               
+                                  </td>';          
+                      $html .= '</tr>';
+
+
+                      if($page==$max_page-1)
+                      {
+                        $summary_cost_page = 0;
+                        $summary_curr_page = 0;
+                        $summary_prev_page = 0;
+                      }
+                     
+
+                      $page++;
+
+                      $html .= '</table>'; 
+                      $html .= '<br pagebreak="true">';
+                      $html .= $header_table;
+
+                      //$row = -1;
+
+                }          
+
+              $row++;
+            } //end foreach  
+
+
+            if($row==$max_row*$page-1 )
+            {
+                $html .= '<tr>';
+                $html .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+                $html .= '<td style="text-align:center;border:1px solid black;">รวม ('.$page.')</td>';
+                $html .= '<td colspan=5 style="width:21%;text-align:right;'.$border_left_right2.'"></td>';
+                
+                $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
+                  $summary_cost_page = 0;
+                  $summary_curr_page = 0;
+                  $summary_prev_page = 0;
+
+                if($page!=$max_page)
+                {
+                   
+                    $html .= '<td rowspan="2" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
+                }
+                $html .= '</tr>';
+                $html .= '<tr>';
+                $html .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+
+                $all_page = "";
+                for ($p=0; $p < $page; $p++) { 
+                      $all_page .= "รวม (".($p+1).")+";
+                }
+                $all_page = substr($all_page, 0,strlen($all_page)-1);
+
+                $html .= '<td style="text-align:center;border:1px solid black;">'.$all_page.'</td>';
+                $html .= '<td colspan=5 style="width:21%;text-align:right;'.$border_left_right2.'"></td>';
+                
+                $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all,2).'</td>';
+                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+                if($page!=$max_page)
+                {
+                   
+                    $html .= '<td rowspan="3" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
+                }
+                $html .= '</tr>';
+
+                $html .= '<tr>';
+                  $html .= '<td colspan=2 style="width:22%;text-align:center;'.$border_left_right2.'">
+                              <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
+                              ลงชื่อ............................................<br>
+                              '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                              วันที่ .....................................
+
+                            </td>';
+
+                  $html .= '<td colspan=8 style="width:36%;text-align:center;'.$border_left_right2.'">
+                              <u>ผู้ควบคุมงาน</u><br><br>
+                              ลงชื่อ............................................<br>
+                              '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                              วันที่ .....................................
+
+                            </td>';
+
+                   $html .= '<td colspan=2 style="width:8%;text-align:center;'.$border_left_bottom.'">รวมเป็นจำนวนเงินที่เบิก 100%
+                         
+                            </td><td style="width:6%;text-align:right;border-bottom:1px solid black;">'.number_format($summary_curr_all,2).'</td><td style="width:3%;text-align:right;'.$border_right_bottom.'"></td>';  
+                   $html .= '<td rowspan="3" colspan=3 style="width:25%;text-align:center;border-top:1px solid black;'.$border_left_right2.'">
+                                อนุมัติ <br><br>
+                                ลงชื่อ............................................<br>
+                                (....................................................................) <br>
+                                วันที่ .....................................
+                              </td>';          
+
+                $html .= '</tr>';
+        }          
+        else if($page==$max_page)
+        {
+
+          for ($i=$row; $i < $max_row*$page+1 ; $i++) { 
+              //summary
+              if($i!=$max_row*$page)
+              {    
+                $html .= '<tr>';
+                  $html .= '<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
+                  if($page!=$max_page)
+                  {
+                      $html .= '<td style="width:3%;text-align:center;"></td>';
+                      $html .= '<td colspan=2 style="text-align:left;border-right:1px solid black;"></td>'; 
+                  }
+
+
+               $html .= '</tr>';
+              }
+              else{
+                $html .= '<tr>';
+                $html .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+                $html .= '<td style="text-align:center;border:1px solid black;">รวม ('.$page.')</td>';
+                $html .= '<td colspan=5 style="width:21%;text-align:right;'.$border_left_right2.'"></td>';
+                
+                $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
+                  $summary_cost_page = 0;
+                  $summary_curr_page = 0;
+                  $summary_prev_page = 0;
+
+                if($page!=$max_page)
+                {
+                   
+                    $html .= '<td rowspan="3" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
+                }
+
+
+
+
+                $html .= '</tr>';
+
+                $html .= '<tr>';
+                $html .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+                $all_page = "";
+                for ($p=0; $p < $page; $p++) { 
+                  
+                      $all_page .= "รวม (".($p+1).")+";
+                      if($p%6==0 && $p!=0)
+                        $all_page .= '<br>';
+                }
+                $all_page = substr($all_page, 0,strlen($all_page)-1);
+
+                $html .= '<td style="text-align:center;border:1px solid black;">'.$all_page.'</td>';
+                $html .= '<td colspan=5 style="width:21%;text-align:right;'.$border_left_right2.'"></td>';
+                
+                $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all,2).'</td>';
+                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
+            
+                
+                $html .= '</tr>';
+
+
+
+
+                $html .= '<tr>';
+                  $html .= '<td colspan=2 style="width:22%;text-align:center;'.$border_left_right2.'">
+                              <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
+                              ลงชื่อ............................................<br>
+                              '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                              วันที่ .....................................
+
+                            </td>';
+
+                  $html .= '<td colspan=8 style="width:36%;text-align:center;'.$border_left_right2.'">
+                              <u>ผู้ควบคุมงาน</u><br><br>
+                              ลงชื่อ............................................<br>
+                              '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                              วันที่ .....................................
+
+                            </td>';
+
+                  $html .= '<td colspan=2 style="width:8%;text-align:center;'.$border_left_bottom.'">รวมเป็นจำนวนเงินที่เบิก 100%
+                         
+                            </td><td style="width:6%;text-align:right;border-bottom:1px solid black;">'.number_format($summary_curr_all,2).'</td><td style="width:3%;text-align:right;'.$border_right_bottom.'"></td>';  
+                   $html .= '<td rowspan="2" colspan=3 style="width:25%;text-align:center;border-top:1px solid black;'.$border_left_right2.'">
+                                อนุมัติ <br><br>
+                                ลงชื่อ............................................<br>
+                                (....................................................................) <br>
+                                วันที่ .....................................
+                              </td>';          
+          
+                $html .= '</tr>';
+
+              }
+          } //forloop
+       }     
 
         $html .= "</table>"; 
 }
