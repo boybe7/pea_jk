@@ -11,7 +11,7 @@
  * @property integer $percent_pay
  * @property integer $percent_adv
  * @property integer $budget
- * @property string $place
+ * @property string $detail_approve
  * @property integer $vendor_id
  * @property integer $proj_id
  * @property integer $updated_by
@@ -37,13 +37,13 @@ class VendorContract extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, percent_pay, percent_adv, vendor_id, proj_id, updated_by', 'required'),
-			array('percent_pay, percent_adv, budget, vendor_id, proj_id, updated_by, lock_boq', 'numerical', 'integerOnly'=>true),
-			array('name, place', 'length', 'max'=>500),
+			array('name, percent_pay,contract_no, percent_adv, vendor_id, proj_id, updated_by', 'required'),
+			array('percent_pay, percent_adv, budget, vendor_id, proj_id, updated_by, lock_boq,flag_del', 'numerical', 'integerOnly'=>true),
+			array('name, detail_approve', 'length', 'max'=>500),
 			array('contract_no', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, contract_no, approve_date, percent_pay, percent_adv, budget, place, vendor_id, proj_id, updated_by, lock_boq,proj_name,fiscal_year,vendor_name,owner_name,actions', 'safe', 'on'=>'search'),
+			array('id, name, contract_no, approve_date,end_date, percent_pay, percent_adv, budget, detail_approve, vendor_id, proj_id, updated_by, lock_boq,proj_name,fiscal_year,vendor_name,owner_name,actions,flag_del', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,14 +69,16 @@ class VendorContract extends CActiveRecord
 			'name' => 'ชื่องาน',
 			'contract_no' => 'เลขที่สัญญา/ใบสั่งจ้าง',
 			'approve_date' => 'วันที่ลงนาม',
+			'end_date' => 'วันที่กำหนดแล้วเสร็จ',
 			'percent_pay' => '% เบิก',
 			'percent_adv' => '% หัก advance',
 			'budget' => 'วงเงินสัญญา',
-			'place' => 'สถานที่ส่งมอบ',
+			'detail_approve' => 'รายละเอียดเพิ่ม-ลด',
 			'vendor_id' => 'ผู้รับจ้าง',
 			'proj_id' => 'โครงการ',
 			'updated_by' => 'user update',
 			'lock_boq' => 'lock ห้ามแก้ไข boq เมื่อมีการส่งแบบฟอร์มให้บริษัท',
+			'flag_del' => 'flag_del',
 
 			'proj_name'=>'โครงการ',
 			'fiscal_year'=>'ปีงบประมาณ',
@@ -108,15 +110,23 @@ class VendorContract extends CActiveRecord
 		$criteria->compare('VendorContract.name',$this->name,true);
 		$criteria->compare('contract_no',$this->contract_no,true);
 		$criteria->compare('approve_date',$this->approve_date,true);
+		$criteria->compare('end_date',$this->end_date,true);
 		$criteria->compare('percent_pay',$this->percent_pay);
 		$criteria->compare('percent_adv',$this->percent_adv);
 		$criteria->compare('budget',$this->budget);
-		$criteria->compare('place',$this->place,true);
+		$criteria->compare('detail_approve',$this->detail_approve,true);
 		$criteria->compare('vendor_id',$this->vendor_id);
 		$criteria->compare('proj_id',$this->proj_id);
 		$criteria->compare('updated_by',$this->updated_by);
 		$criteria->compare('lock_boq',$this->lock_boq);
 
+		if(Yii::app()->user->isAdmin())
+			$criteria->compare('flag_del',$this->flag_del);
+		else
+		{
+            $criteria->compare('VendorContract.flag_del',0);
+            $criteria->compare('project.flag_del',0);
+		}
 		//relative search
 		//$criteria->select = array('VendorContract.id','VendorContract.name','VendorContract.contract_no','VendorContract.budget');
 		$criteria->alias = 'VendorContract';
@@ -126,6 +136,7 @@ class VendorContract extends CActiveRecord
 		$criteria->compare('project.owner_name',$this->owner_name,true);	
 		$criteria->compare('project.fiscal_year',$this->fiscal_year,true);	
 		$criteria->compare('vendor.v_name',$this->vendor_name,true);	
+		$criteria->order = 'project.fiscal_year DESC,id DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -154,6 +165,10 @@ class VendorContract extends CActiveRecord
         $str_date = explode("/", $this->approve_date);
         if(count($str_date)>1)
         	$this->approve_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+
+         $str_date = explode("/", $this->end_date);
+        if(count($str_date)>1)
+        	$this->end_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
         
         return parent::beforeSave();
    }
@@ -162,6 +177,10 @@ class VendorContract extends CActiveRecord
             $str_date = explode("-", $this->approve_date);
             if(count($str_date)>1)
             	$this->approve_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]);
+
+             $str_date = explode("-", $this->end_date);
+            if(count($str_date)>1)
+            	$this->end_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]);
                
     }
     protected function afterFind(){
@@ -171,6 +190,13 @@ class VendorContract extends CActiveRecord
                 $this->approve_date = '';
             else if(count($str_date)>1)
             	$this->approve_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
+
+
+            $str_date = explode("-", $this->end_date);
+            if($this->end_date == "0000-00-00")
+                $this->end_date = '';
+            else if(count($str_date)>1)
+            	$this->end_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
             
                             
     }

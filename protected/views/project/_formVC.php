@@ -134,18 +134,18 @@
 
 
             <div class="row-fluid">
-              <?php echo $form->textAreaRow($model,'place',array('rows'=>2, 'cols'=>30, 'class'=>'span12')); ?>
+              <?php echo $form->textAreaRow($model,'detail_approve',array('rows'=>2, 'cols'=>30, 'class'=>'span12')); ?>
             </div>
 
             <div class="row-fluid">
-              <div class="span4">
+              <div class="span3">
                 <?php echo $form->textFieldRow($model,'contract_no',array('class'=>'span12')); ?>
               </div>  
-              <div class="span4">
+              <div class="span3">
                 <?php echo $form->textFieldRow($model,'budget',array('class'=>'span12')); ?>
               </div>  
 
-              <div class="span4">
+              <div class="span3">
                     <?php 
 
                     echo $form->labelEx($model,'approve_date',array('class'=>'span12','style'=>'text-align:left;padding-right:10px;')); 
@@ -165,6 +165,32 @@
                                                   'showAnim' => 'slideDown',
                                                   ),
                                 'htmlOptions'=>array('class'=>'span12', 'value'=>$model->approve_date),  // ใส่ค่าเดิม ในเหตุการ Update 
+                             )
+                        );
+                        echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+
+                     ?>
+            </div>
+            <div class="span3">
+                    <?php 
+
+                    echo $form->labelEx($model,'end_date',array('class'=>'span12','style'=>'text-align:left;padding-right:10px;')); 
+
+                 
+                        echo '<div class="input-append" style="margin-top:-10px;">'; //ใส่ icon ลงไป
+                            $form->widget('zii.widgets.jui.CJuiDatePicker',
+
+                            array(
+                                'name'=>'end_date',
+                                'attribute'=>'end_date',
+                                'model'=>$model,
+                                'options' => array(
+                                                  'mode'=>'focus',
+                                                  //'language' => 'th',
+                                                  'format'=>'dd/mm/yyyy', //กำหนด date Format
+                                                  'showAnim' => 'slideDown',
+                                                  ),
+                                'htmlOptions'=>array('class'=>'span12', 'value'=>$model->end_date),  // ใส่ค่าเดิม ในเหตุการ Update 
                              )
                         );
                         echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';

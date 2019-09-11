@@ -8,6 +8,75 @@
         e.target // activated tab
         e.relatedTarget // previous tab
     });
+
+  function ajaxindicatorstart(text)
+  {
+    if(jQuery('body').find('#resultLoading').attr('id') != 'resultLoading'){
+    jQuery('body').append('<div id="resultLoading" style="display:none"><div><img src="http://localhost/pea_jk/images/loading.gif"><div>'+text+'</div></div><div class="bg"></div></div>');
+
+    }
+    
+    jQuery('#resultLoading').css({
+      'width':'100%',
+      'height':'100%',
+      'position':'fixed',
+      'z-index':'10000000',
+      'top':'0',
+      'left':'0',
+      'right':'0',
+      'bottom':'0',
+      'margin':'auto'
+    }); 
+    
+    jQuery('#resultLoading .bg').css({
+      'background':'#000000',
+      'opacity':'0.7',
+      'width':'100%',
+      'height':'100%',
+      'position':'absolute',
+      'top':'0'
+    });
+    
+    jQuery('#resultLoading>div:first').css({
+      'width': '250px',
+      'height':'75px',
+      'text-align': 'center',
+      'position': 'fixed',
+      'top':'0',
+      'left':'0',
+      'right':'0',
+      'bottom':'0',
+      'margin':'auto',
+      'font-size':'16px',
+      'z-index':'10',
+      'color':'#ffffff'
+      
+    });
+
+      jQuery('#resultLoading .bg').height('100%');
+        jQuery('#resultLoading').fadeIn(300);
+      jQuery('body').css('cursor', 'wait');
+  }
+
+  function ajaxindicatorstop()
+  {
+      jQuery('#resultLoading .bg').height('100%');
+        jQuery('#resultLoading').fadeOut(300);
+      jQuery('body').css('cursor', 'default');
+  }
+  
+ 
+  
+  jQuery(document).ajaxStart(function () {
+      //show ajax indicator
+    ajaxindicatorstart('Loading data.. please wait..');
+  }).ajaxStop(function () {
+    //hide ajax indicator
+    ajaxindicatorstop();
+  });
+
+
+
 </script>
 
 
@@ -96,7 +165,9 @@
                                            
                                            window.location.href = "../exportBOQ?vc_id='.$model->id.'&form="+result+"&pay_no="+pay_no; 
 
-                                          // window.location.reload();
+                                          setTimeout(function(){
+                                             window.location.reload(1);
+                                          }, 10000);
                                     }
                                 })
                                
@@ -226,18 +297,18 @@
 
 
             <div class="row-fluid">
-              <?php echo $form->textAreaRow($model,'place',array('rows'=>2, 'cols'=>30, 'class'=>'span12')); ?>
+              <?php echo $form->textAreaRow($model,'detail_approve',array('rows'=>2, 'cols'=>30, 'class'=>'span12')); ?>
             </div>
 
-            <div class="row-fluid">
-              <div class="span4">
+           <div class="row-fluid">
+              <div class="span3">
                 <?php echo $form->textFieldRow($model,'contract_no',array('class'=>'span12')); ?>
               </div>  
-              <div class="span4">
+              <div class="span3">
                 <?php echo $form->textFieldRow($model,'budget',array('class'=>'span12')); ?>
               </div>  
 
-              <div class="span4">
+              <div class="span3">
                     <?php 
 
                     echo $form->labelEx($model,'approve_date',array('class'=>'span12','style'=>'text-align:left;padding-right:10px;')); 
@@ -257,6 +328,32 @@
                                                   'showAnim' => 'slideDown',
                                                   ),
                                 'htmlOptions'=>array('class'=>'span12', 'value'=>$model->approve_date),  // ใส่ค่าเดิม ในเหตุการ Update 
+                             )
+                        );
+                        echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+
+                     ?>
+            </div>
+            <div class="span3">
+                    <?php 
+
+                    echo $form->labelEx($model,'end_date',array('class'=>'span12','style'=>'text-align:left;padding-right:10px;')); 
+
+                 
+                        echo '<div class="input-append" style="margin-top:-10px;">'; //ใส่ icon ลงไป
+                            $form->widget('zii.widgets.jui.CJuiDatePicker',
+
+                            array(
+                                'name'=>'end_date',
+                                'attribute'=>'end_date',
+                                'model'=>$model,
+                                'options' => array(
+                                                  'mode'=>'focus',
+                                                  //'language' => 'th',
+                                                  'format'=>'dd/mm/yyyy', //กำหนด date Format
+                                                  'showAnim' => 'slideDown',
+                                                  ),
+                                'htmlOptions'=>array('class'=>'span12', 'value'=>$model->end_date),  // ใส่ค่าเดิม ในเหตุการ Update 
                              )
                         );
                         echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
@@ -529,7 +626,7 @@
       </div>
       <button class="btn btn-inverse" id="importButton" type="submit" style="margin-top: -10px;"><i class="icon-excel icon-white"></i> Import</button>
      
-      <!-- <button class="btn btn-info" type="button" id="exportButton" style="margin-top: -10px;"><i class="icon-excel icon-white"></i> Export</button> -->
+     
     </div>  
   </form>  
   <?php
@@ -736,6 +833,7 @@
         var fd = new FormData($(formName)[0]);
         fd.append('vc_id', ".$model->id.");
         fd.append('pay_no', index);
+
         $.ajax({
             url: '../submitBOQ',
             type: 'POST',
@@ -745,11 +843,42 @@
             contentType: false,
             success: function (response) { 
                $(content).html('')
-               window.location.reload();
+               if(response=='error')
+                  bootbox.alert('<font color=red><h4>การนำเข้าข้อมูลไม่ถูกต้อง</h4></font>');
+               //window.location.reload();
             },
             error: function () {
                
             }
+        });
+        
+    }", CClientScript::POS_END);
+
+
+   Yii::app()->clientScript->registerScript('printJK', "
+    function printJK(e, index)
+    {
+       
+       
+        formName = '#form-import-boq-'+index;
+        content = '#boq-content-'+index;
+        var fd = new FormData($(formName)[0]);
+        fd.append('vc_id', ".$model->id.");
+        fd.append('pay_no', index);
+        var filename = 'form_print_".$model->id."'
+        $.ajax({
+            url: '../printJK',
+            type: 'POST',
+            cache: false,
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                
+                 window.open('../../report/temp/'+filename+'.pdf', '_blank', 'fullscreen=yes');              
+                
+            }
+
         });
         
     }", CClientScript::POS_END);
@@ -789,7 +918,7 @@
     echo '<form method="POST" action="" id="form-import-boq-'.$i.'" enctype="multipart/form-data" class="pull-right">';  ?>
     <div class="form-group">
       <div class="input-prepend input-file">
-        <button class="btn btn-default btn-choose" type="button">Browse</button>
+        <button class="btn btn-default btn-choose" type="button"><i class="icon-folder-open"></i></button>
         <input type="text" name="filetext"  class="form-control" placeholder='Choose a file...' />
        
       </div>
@@ -810,6 +939,15 @@
                   ),
               ));
 
+            $this->widget('bootstrap.widgets.TbButton', array(
+            'buttonType'=>'link',
+            
+            'type'=>'warning',
+            'label'=>'Print',
+            'icon'=>'print white',
+            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px','onclick'=>'printJK(this,'.$i.');'),
+          )); 
+
          $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'link',
             
@@ -818,6 +956,8 @@
             'icon'=>'ok white',
             'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px','onclick'=>'submitBOQ(this,'.$i.');'),
           )); 
+
+         
       ?>
    
     </div>  
@@ -838,6 +978,7 @@
        {
             echo '<li class="active"><a href="#item-tab-'.$i.'" data-toggle="tab">ค่าอุปกรณ์ ขนส่ง และค่าติดตั้งทดสอบ</a></li>';
        }
+       echo '<li ><a href="#fine-tab-'.$i.'" data-toggle="tab">หัก</a></li>';
        ?>
     </ul>
     <div class="tab-content">
@@ -888,7 +1029,8 @@
                 $detail = '-&nbsp;&nbsp;'.$value->detail;  
             else 
                 $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
-            echo '<td>'.$detail.'</td>';
+            echo '<td style="text-align:left">'.$detail.'</td>';
+           
             echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
             $price_item = is_numeric($value->price_item) ? number_format($value->price_item,0) : $value->price_item;
@@ -996,7 +1138,7 @@
                 $detail = '-&nbsp;&nbsp;'.$value->detail;  
             else 
                 $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
-            echo '<td>'.$detail.'</td>';
+            echo '<td style="text-align:left">'.$detail.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
             
@@ -1179,6 +1321,118 @@
 
       echo '</div>'; //end item-tab  
       }
+
+      echo '<div class="tab-pane" id="fine-tab-'.$i.'">';
+      echo "<h5>รายละเอียดการหัก</h5>";
+
+      $models = FineDetail::model()->findAll();
+      $listData = array();
+      foreach ($models as $key => $value) {
+        $listData[] = array('text'=>$value->detail,'id'=>$value->detail);
+      }
+      //print_r($listData);
+
+      $this->widget('bootstrap.widgets.TbButton', array(
+            'buttonType'=>'link',
+            
+            'type'=>'success',
+            'label'=>'เพิ่มรายการ',
+            'icon'=>'plus-sign white',
+            // 'url'=>array('exportBOQ'),
+            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px;margin-bottom:10px',
+                  
+
+                  'onclick'=>'js:bootbox.confirm({
+                      title: "เพิ่มรายการหัก",
+                      message:  $("#modal-fine").html().replace("js-exampleForm", "js-bootboxForm"),
+                      callback: function (result) {
+                        if(result)
+                        {
+                            var fine_detail = $("#fine-detail :selected", ".js-bootboxForm").val();
+                            var fine_cost = $("#fine-cost", ".js-bootboxForm").val();
+                            $.ajax({
+                                    url: "'.$this->createUrl('fine/create').'",
+                                    type: "POST",
+                                    data: {id: '.$model->id.',pay_no: '.$i.', detail: fine_detail, cost: fine_cost},
+                                    success: function (re) {
+                                           
+                                          $("#fine-grid-'.$i.'").yiiGridView("update",{});
+                                    }
+                                })
+                               
+                        }
+                      }
+                  });'
+            ),
+          )); 
+
+      $fine_model = new Fine('search');     
+
+          
+      $this->widget('bootstrap.widgets.TbGridView',array(
+        'id'=>'fine-grid-'.$i,
+        'type'=>'bordered condensed',
+        'dataProvider'=>$fine_model->searchByPayment($model->id,$i),
+       
+        'htmlOptions'=>array('style'=>'padding-top:10px;width:100%'),
+          'enablePagination' => true,
+          'enableSorting'=>true,
+          'summaryText'=>'แสดงผล {start} ถึง {end} จากทั้งหมด {count} ข้อมูล',
+          'template'=>"{items}<div class='row-fluid'><div class='span6'>{pager}</div><div class='span6'>{summary}</div></div>",
+        'columns'=>array(
+        
+          'detail'=>array(
+              'name' => 'detail',
+              'class' => 'editable.EditableColumn',
+              'editable' => array( //editable section
+                'url' => $this->createUrl('fine/update'),
+                'success' => 'js: function(response, newValue) {
+                          if(!response.success) return response.msg;
+
+                          $("#fine-grid-'.$i.'").yiiGridView("update",{});
+                        }',
+                'options' => array(
+                  'ajaxOptions' => array('dataType' => 'json'),
+
+                ), 
+                'placement' => 'right',
+              ),
+              'headerHtmlOptions' => array('style' => 'width:60%;text-align:center;background-color: #f5f5f5'),                     
+              'htmlOptions'=>array('style'=>'text-align:left')
+            ),
+          'amount'=>array(
+              'name' => 'amount',
+              'class' => 'editable.EditableColumn',
+              'editable' => array( //editable section
+                'url' => $this->createUrl('fine/update'),
+                'success' => 'js: function(response, newValue) {
+                          if(!response.success) return response.msg;
+
+                          $("#fine-grid-'.$i.'").yiiGridView("update",{});
+                        }',
+                'options' => array(
+                  'ajaxOptions' => array('dataType' => 'json'),
+
+                ), 
+                'placement' => 'right',
+              ),
+              'headerHtmlOptions' => array('style' => 'width:30%;text-align:center;background-color: #f5f5f5'),                     
+              'htmlOptions'=>array('style'=>'text-align:right')
+            ),
+            array(
+                'class'=>'bootstrap.widgets.TbButtonColumn',
+                'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),
+                'template' => '{delete}',
+                'buttons'=>array(
+                    'delete'=>array(
+                      'url'=>'Yii::app()->createUrl("fine/delete", array("id"=>$data->id))',  
+
+                    ))
+            
+              ),
+        ),
+      ));
+      echo '</div>'; //end fine-tab
       ?>
       </div> <!-- tab-end content-payment-->
 	 </div> <!-- end tab-payment --> 
@@ -1210,4 +1464,21 @@
       </form>
       
     </div>
+
+    <div id="modal-fine">
+       <form class="js-exampleForm">
+        <label for='fine-detail'>รายละเอียด</label>
+        <?php
+        $models = FineDetail::model()->findAll();
+
+         // format models resulting using listData     
+         $listData =  CHtml::listData($models,'detail', 'detail'); 
+         echo CHtml::dropDownList('fine-detail', '', $listData);
+        ?>
+        <!-- <input type="text" name="fine-detail" id="fine-detail" class="span4"> -->
+        <label for='fine-cost'>ค่าปรับ</label>
+        <input type="text" name="fine-cost" id="fine-cost">
+       </form> 
+    </div>
+
 </div>    

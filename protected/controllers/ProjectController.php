@@ -31,7 +31,7 @@ class ProjectController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','index','update','createBOQ','exportBOQ','createByAjax','createVendorContract','updateVendorContract','importBOQ','submitBOQ'),
+				'actions'=>array('create','index','update','createBOQ','exportBOQ','createByAjax','createVendorContract','updateVendorContract','importBOQ','submitBOQ','printJK','printTestJK'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -43,6 +43,38 @@ class ProjectController extends Controller
 			),
 		);
 	}
+
+	public function actionPrintJK()
+    {
+  
+  		
+        $this->renderPartial('_formJK_PDF', array(
+            'vc_id' => $_POST['vc_id'],
+            'pay_no' => $_POST['pay_no'],
+            'filename' => '',
+            
+        ));
+        
+        //if (Yii::app()->request->isAjaxRequest)
+        //echo $filename;
+        
+    }
+
+    public function actionPrintTestJK()
+    {
+  
+  		
+        $this->renderPartial('_formJK_PDF', array(
+            'vc_id' => 3,
+            'pay_no' => 1,
+            'filename' => '',
+            
+        ));
+        
+        //if (Yii::app()->request->isAjaxRequest)
+        //echo $filename;
+        
+    }
 
 	/**
 	 * Displays a particular model.
@@ -96,11 +128,13 @@ class ProjectController extends Controller
 		
 		try{
 			//delete old submit on payment
-			Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+			//Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
 
 			//insert new data from temp table
-			$current_date = date('Y-m-d');
-			Yii::app()->db->createCommand('INSERT INTO payment(item_id,vc_id,pay_no,pay_type,amount,pay_date) SELECT item_id,vc_id,pay_no,pay_type,amount,"'.$current_date.'" FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+			// $current_date = date('Y-m-d');
+			// Yii::app()->db->createCommand('INSERT INTO payment(item_id,vc_id,pay_no,pay_type,amount,pay_date) SELECT item_id,vc_id,pay_no,pay_type,amount,"'.$current_date.'" FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
+
+			echo "error";
 
 			//delete temp
 			//Yii::app()->db->createCommand('DELETE FROM payment_temp WHERE vc_id='.$_POST['vc_id'].' AND pay_no='.$_POST['pay_no'])->execute();
@@ -448,16 +482,27 @@ class ProjectController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			if($this->loadModel($id)->delete()){
-				$m_vc =  VendorContract::model()->findAll(array('join'=>'','condition'=>'proj_id='.$id));
-				foreach ($m_vc as $key => $value) {
+			if(Yii::app()->user->isAdmin())
+	       	{		
+				if($this->loadModel($id)->delete()){
+					$m_vc =  VendorContract::model()->findAll(array('join'=>'','condition'=>'proj_id='.$id));
+					foreach ($m_vc as $key => $value) {
 
-					if($value->delete())
-					{//delete relation table
-						Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
-						Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
+						if($value->delete())
+						{//delete relation table
+							Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$value->id)->execute();
+							Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$value->id)->execute();
+						}
 					}
 				}
+			}
+			else{
+
+				$model = $this->loadModel($id);
+				$model->flag_del = 1;
+				$model->save();
+
+				Yii::app()->db->createCommand('UPDATE vendor_contract SET flag_del=1 WHERE proj_id='.$id)->execute();
 			}
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -472,16 +517,30 @@ class ProjectController extends Controller
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
-			// we only allow deletion via POST request
 			
 
-			if(VendorContract::model()->findByPk($id)->delete()){
-				//delete relation table
-				Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
-				Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
+			// we only allow deletion via POST request
+	       	if(Yii::app()->user->isAdmin())
+	       	{		
 
 
+					if(VendorContract::model()->findByPk($id)->delete()){
+						Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
+						Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
+
+
+					}
 			}
+			else{
+
+				$model = VendorContract::model()->findByPk($id);
+				$model->flag_del = 1;
+				$model->save();
+
+				
+
+
+			}				
 			
 		}
 		else
@@ -798,7 +857,10 @@ class ProjectController extends Controller
 					if($amount_max-$amount_prev >0)
 					{	
 						$objValidation = $objPHPExcel->getActiveSheet()->getCell('L'.$row)->getDataValidation();
-						$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
+						if($value->unit=="Lot" || $value->unit=="lot")
+							$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_DECIMAL );
+						else
+							$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
 						$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_STOP );
 						$objValidation->setAllowBlank(true);
 						$objValidation->setShowInputMessage(true);
@@ -809,12 +871,15 @@ class ProjectController extends Controller
 						$objValidation->setError($recommen_val);
 						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าอุปกรณ์ 	:');
 						$objValidation->setPrompt($recommen_val);
-						$objValidation->setFormula1(1);
-						$objValidation->setFormula2($amount_max-$amount_prev);
+						$objValidation->setFormula1(0.0);
+						$objValidation->setFormula2(floatval($amount_max-$amount_prev));
 
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('L'.$row,0);
-						$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,'=PRODUCT(SUM(G'.$row.':H'.$row.'),L'.$row.')');
+						if(is_numeric($value->price_item))
+							$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,'=PRODUCT(SUM(G'.$row.':H'.$row.'),L'.$row.')');
+						else
+							$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,'-');
 
 						$input_row[] = $row;
 					}
@@ -966,7 +1031,10 @@ class ProjectController extends Controller
 					if($amount_max-$amount_prev >0)
 					{	
 						$objValidation = $objPHPExcel->getActiveSheet()->getCell('K'.$row)->getDataValidation();
-						$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
+						if($value->unit=="Lot" || $value->unit=="lot")
+							$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_DECIMAL );
+						else
+							$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
 						$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_STOP );
 						$objValidation->setAllowBlank(true);
 						$objValidation->setShowInputMessage(true);
@@ -977,13 +1045,15 @@ class ProjectController extends Controller
 						$objValidation->setError($recommen_val);
 						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าติดตั้งทดสอบ 	:');
 						$objValidation->setPrompt($recommen_val);
-						$objValidation->setFormula1(1);
+						$objValidation->setFormula1(0);
 						$objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')');
 
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('K'.$row,0);
-						$objPHPExcel->getActiveSheet()->setCellValue('L'.$row,'=PRODUCT(G'.$row.',K'.$row.')');
-
+						if(is_numeric($value->price_install))
+						    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row,'=PRODUCT(G'.$row.',K'.$row.')');
+						else
+                             $objPHPExcel->getActiveSheet()->setCellValue('L'.$row,'-');
 						$input_row[] = $row;
 					}
 
@@ -1140,7 +1210,10 @@ class ProjectController extends Controller
 					if($amount_max-$amount_prev >0)
 					{	
 						$objValidation = $objPHPExcel->getActiveSheet()->getCell('M'.$row)->getDataValidation();
-						$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
+						if($value->unit=="Lot" || $value->unit=="lot")
+							$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_DECIMAL );
+						else
+							$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_WHOLE );
 						$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_STOP );
 						$objValidation->setAllowBlank(true);
 						$objValidation->setShowInputMessage(true);
@@ -1151,12 +1224,15 @@ class ProjectController extends Controller
 						$objValidation->setError($recommen_val);
 						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าอุปกรณ์ 	:');
 						$objValidation->setPrompt($recommen_val);
-						$objValidation->setFormula1(1);
-						$objValidation->setFormula2($amount_max-$amount_prev);
+						$objValidation->setFormula1(0);
+						$objValidation->setFormula2(floatval($amount_max-$amount_prev));
 
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,0);
-						$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'=PRODUCT(SUM(G'.$row.':I'.$row.'),M'.$row.')');
+						if(is_numeric($value->price_item))
+							$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'=PRODUCT(SUM(G'.$row.':I'.$row.'),M'.$row.')');
+						else
+							$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'-');
 
 						$input_row[] = $row;
 					}
@@ -1246,6 +1322,6 @@ class ProjectController extends Controller
 		        'file' => "data:application/vnd.ms-excel;base64,".base64_encode($xlsData)
 		    );
 
-			return $this->goBack(Yii::$app->request->referrer);
+			
     }
 }

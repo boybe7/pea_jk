@@ -44,11 +44,11 @@ class Project extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name,owner_id', 'required'),
-			array('fiscal_year, is_special, updated_by', 'numerical', 'integerOnly'=>true),
+			array('fiscal_year, is_special, updated_by', 'numerical','flag_del', 'integerOnly'=>true),
 			array('name,owner_id', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id,owner_id,owner_name, name, fiscal_year, is_special, updated_by,vc_name,vc_contract_no,vc_budget,vc_vendor_name', 'safe', 'on'=>'search'),
+			array('id,owner_id,owner_name, name, fiscal_year,flag_del, is_special, updated_by,vc_name,vc_contract_no,vc_budget,vc_vendor_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,6 +77,7 @@ class Project extends CActiveRecord
 			'is_special' => 'โครงการเพิ่มลด',
 			'updated_by' => 'user update',
 			'owner_id'=>'ผู้ว่าจ้าง',
+			'flag_del'=>'flag_del',
 
 			'vc_name'=>'ชื่องาน',
 			'vc_contract_no'=>'เลขที่สัญญา/ใบสั่งจ้าง',
@@ -108,6 +109,9 @@ class Project extends CActiveRecord
 		$criteria->compare('fiscal_year',$this->fiscal_year);
 		$criteria->compare('is_special',$this->is_special);
 		$criteria->compare('updated_by',$this->updated_by);
+		$criteria->compare('flag_del',$this->flag_del);
+
+		
 
 		//relative search
 		$criteria->select = array('Project.id','Project.name','Project.fiscal_year');
@@ -120,7 +124,7 @@ class Project extends CActiveRecord
 		$criteria->compare('vendor.v_name',$this->vc_vendor_name,true);	
 
 		//$criteria->group = 'Project.id';
-	
+		 
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

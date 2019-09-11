@@ -289,7 +289,7 @@ $this->buttons['delete']['click']=<<<EOD
             var href = $(this).attr('href');
             afterDelete = $this->afterDelete;
 
-                bootbox.confirm("ต้องการจะลบข้อมูล?", function(result) {
+                bootbox.confirm("<font color=red><h4>คุณต้องการจะลบข้อมูล ?</h4></font>", function(result) {
                         if(result){
                             jQuery('#{$this->grid->id}').yiiGridView('update', {
                                 type: 'POST',

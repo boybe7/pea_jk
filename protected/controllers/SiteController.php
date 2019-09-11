@@ -34,7 +34,8 @@ class SiteController extends Controller
             if(Yii::app()->user->getId()===null)
                 $this->redirect(array('site/login'));
             else
-		$this->render('index');
+            	$this->redirect(array('project/index'));
+		//$this->render('index');
 	}
 
 	/**

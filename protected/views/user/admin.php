@@ -115,7 +115,7 @@ $this->widget('bootstrap.widgets.TbButton', array(
                        if($.fn.yiiGridView.getSelection("user-grid").length==0)
                        		js:bootbox.alert("กรุณาเลือกแถวข้อมูลที่ต้องการลบ?","ตกลง");
                        else  
-                          js:bootbox.confirm("คุณต้องการจะลบข้อมูล?","ยกเลิก","ตกลง",
+                          js:bootbox.confirm("<font color=red><h4>คุณต้องการจะลบข้อมูล?</h4></font>","ยกเลิก","ตกลง",
 			                   function(confirmed){
 			                   	 	
 			                   	 //console.log("Confirmed: "+confirmed);

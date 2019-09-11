@@ -2,7 +2,7 @@
 	$(function(){
 		 $('.confirmation').on('click', function(event){
 		      event.preventDefault();
-		        bootbox.confirm("ต้องการจะลบข้อมูลโครงการ?", function(result) {
+		        bootbox.confirm("<font color=red><h4>ต้องการจะลบข้อมูลโครงการ?</h4></font>", function(result) {
 		            if (result) {
 		                 //include the href duplication link here?;
 		                 window.location = $(this).attr("href");
@@ -176,7 +176,7 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 		//'selectableRows' =>2,
 		//'extraRowColumns' => array('proj_name'),
         //'extraRowPos' => 'above',
-		 'mergeColumns' => array('fiscal_year','proj_name','actions'),  
+		 'mergeColumns' => array('fiscal_year','proj_name','owner_name','actions'),  
 		'htmlOptions'=>array('style'=>'padding-top:10px'),
 	    'enablePagination' => true,
 	    'summaryText'=>'แสดงผล {start} ถึง {end} จากทั้งหมด {count} ข้อมูล',
@@ -191,14 +191,7 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 					'headerHtmlOptions' => array('style' => 'width:7%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:center;vertical-align:top')
 		  	),
-		  	'proj_name'=>array(
-				    'name' => 'proj_name',
-				    //'value'=>'$data->proj_id',
-				    'value'=>'Project::model()->findByPk($data->proj_id)->name',
-				    'filter'=>CHtml::activeTextField($model, 'proj_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("proj_name"))),
-					'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
-					'htmlOptions'=>array('style'=>'text-align:left')
-		  	),
+		  
 		  	'owner_name'=>array(
 				    'name' => 'owner_name',
 				    //'value'=>'$data->proj_id',
@@ -230,11 +223,21 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 					'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
-		  	'name'=>array(
-				    'name' => 'name',
-				    
-				    'filter'=>CHtml::activeTextField($model, 'name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("name"))),
-					'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
+		  		'proj_name'=>array(
+				    'name' => 'proj_name',
+				    //'value'=>'$data->proj_id',
+				    'value'=>'Project::model()->findByPk($data->proj_id)->name',
+				    'filter'=>CHtml::activeTextField($model, 'proj_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("proj_name"))),
+					'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
+					'htmlOptions'=>array('style'=>'text-align:left')
+		  	),
+		  	
+		  	'vendor_name'=>array(
+				    'name' => 'vendor_name',
+				    //'value'=>'$data->vendor_id',
+				    'value'=>'Vendor::model()->findByPk($data->vendor_id)->v_name',
+				    'filter'=>CHtml::activeTextField($model, 'vendor_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vendor_name"))),
+					'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
 		  	'contract_no'=>array(
@@ -244,18 +247,18 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 					'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:center')
 		  	),
-		  	'vendor_name'=>array(
-				    'name' => 'vendor_name',
-				    //'value'=>'$data->vendor_id',
-				    'value'=>'Vendor::model()->findByPk($data->vendor_id)->v_name',
-				    'filter'=>CHtml::activeTextField($model, 'vendor_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vendor_name"))),
-					'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
+		  	'name'=>array(
+				    'name' => 'name',
+				    
+				    'filter'=>CHtml::activeTextField($model, 'name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("name"))),
+					'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
 		  	array(
 				'class'=>'bootstrap.widgets.TbButtonColumn',
 				'headerHtmlOptions' => array('style' => 'width:8%;text-align:center;background-color: #f5f5f5'),
 				'template' => '{update} {delete}',
+				//'deleteConfirmation'=>'',
 				'buttons'=>array(
 					    'update' => array
                                     (
