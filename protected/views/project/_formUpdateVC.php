@@ -817,11 +817,27 @@
             contentType: false,
             success: function (response) { 
                $(content).html(response)
+              
+               if($('#error_'+index).val() =='error')
+                  $('#submit_'+index).hide()
+               else
+               {
+                 
+                  $('#submit_'+index).show('fast')
+               }
             },
             error: function () {
                
             }
         });
+        
+    }", CClientScript::POS_END);
+
+  Yii::app()->clientScript->registerScript('exportJK', "
+    function exportJK(elm, index)
+    {
+       
+       window.location.href = '../exportExcel?vc_id=".$model->id."&pay_no='+index
         
     }", CClientScript::POS_END);
 
@@ -846,7 +862,9 @@
                if(response=='error')
                   bootbox.alert('<font color=red><h4>การนำเข้าข้อมูลไม่ถูกต้อง</h4></font>');
                else  
+               {
                   window.location.reload();
+               }
             },
             error: function () {
                
@@ -912,15 +930,19 @@
 
         $form_type = $payment_detail[0]['form_type'];                     
      ?>   
-     <h4>รายละเอียดค่าใช้จ่าย งวดที่ <?php echo $i;?></h4>
-    <hr style="margin-top:5px; ">
 
-    <?php 
+
+    
+     <h4>รายละเอียดค่าใช้จ่าย งวดที่ <?php echo $i;?></h4>
+    
+    <div class="row-fluid" style="margin-top: -35px">
+ 
+      <?php 
     echo '<form method="POST" action="" id="form-import-boq-'.$i.'" enctype="multipart/form-data" class="pull-right">';  ?>
     <div class="form-group">
       <div class="input-prepend input-file">
         <button class="btn btn-default btn-choose" type="button"><i class="icon-folder-open"></i></button>
-        <input type="text" name="filetext"  class="form-control" placeholder='Choose a file...' />
+        <input type="text" name="filetext"  class="" placeholder='Choose a file...' />
        
       </div>
       
@@ -940,29 +962,45 @@
                   ),
               ));
 
+             $this->widget('bootstrap.widgets.TbButton', array(
+            'buttonType'=>'link',
+            
+            'type'=>'info',
+            'label'=>'Submit',
+            'icon'=>'ok white',
+            'htmlOptions'=>array('id'=>'submit_'.$i,'style'=>'margin-left: 10px;margin-top:-10px;display:none','onclick'=>'submitBOQ(this,'.$i.');'),
+          )); 
+
+
+            $this->widget('bootstrap.widgets.TbButton', array(
+            'buttonType'=>'link',
+            
+            'type'=>'success',
+            'label'=>'Export',
+            'icon'=>'excel white',
+            'htmlOptions'=>array('class'=>'','style'=>'margin-left: 10px;margin-top:-10px','onclick'=>'exportJK(this,'.$i.');'),
+          )); 
+
             $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'link',
             
             'type'=>'warning',
             'label'=>'Print',
             'icon'=>'print white',
-            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px','onclick'=>'printJK(this,'.$i.');'),
+            'htmlOptions'=>array('class'=>'','style'=>'margin-left: 10px;margin-top:-10px','onclick'=>'printJK(this,'.$i.');'),
           )); 
 
-         $this->widget('bootstrap.widgets.TbButton', array(
-            'buttonType'=>'link',
-            
-            'type'=>'info',
-            'label'=>'Submit',
-            'icon'=>'ok white',
-            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px','onclick'=>'submitBOQ(this,'.$i.');'),
-          )); 
+        
 
+       
          
       ?>
    
     </div>  
   </form>
+
+</div>
+  
 
      <?php  echo '<div id="boq-content-'.$i.'" > </div>'; ?>  
 
@@ -1279,8 +1317,10 @@
                             ->from('payment')
                             ->where("pay_type=3 AND item_id='".$value->id."' AND vc_id='".$model->id."' AND pay_no =".$i)
                             ->queryAll();
+
             if(!empty($curr_payment))
             {
+
               echo '<td style="text-align:center">'.$curr_payment[0]['amount'].'</td>';
               $price_item_all = ($price_item + $price_trans+$price_install) * $curr_payment[0]['amount'];
                if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install))

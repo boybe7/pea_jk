@@ -31,7 +31,7 @@ class PaymentTemp extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('item_id, vc_id, pay_no, pay_type, amount, user_id', 'required'),
-			array('item_id, vc_id, pay_no, pay_type, amount, user_id', 'numerical', 'integerOnly'=>true),
+			array('item_id, vc_id, pay_no, pay_type, user_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, item_id, vc_id, pay_no, pay_type, amount, user_id', 'safe', 'on'=>'search'),

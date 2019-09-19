@@ -13,7 +13,7 @@
 	}
 	
 </style>
-<br><br><br><h5><u>ตรวจสอบการนำเข้าข้อมูล</u></h5>
+<h5><u>ตรวจสอบการนำเข้าข้อมูล</u></h5>
 <?php
 Yii::import('ext.phpexcel.XPHPExcel');    
 		$objPHPExcel= XPHPExcel::createPHPExcel();
@@ -59,14 +59,14 @@ Yii::import('ext.phpexcel.XPHPExcel');
 		//echo "งวดที่ส่ง ".$pay_no."<br>";
 
 		$invalid_file = false;
-		$error_msg = array();
+		$error_msg = "";
 
 
 
 		if($pay_no != $pay_no_current || $worksheet->getCell("A6")->getCalculatedValue()!=$boqs[0]->id )
         {
 
-        	
+        	$error_msg = "error";
 			echo "<h5>ข้อผิดพลาด:</h5><div class='alert alert-danger'>แบบฟอร์มไม่ถูกต้อง</div>";
 		
         }
@@ -109,7 +109,7 @@ Yii::import('ext.phpexcel.XPHPExcel');
 		        if(!empty($boq->amount) )
 	            {
 				        if($worksheet->getCell("A".$row)->getCalculatedValue()!=$boq->id)
-				       	    $error = "ไม่พบรายการนี้"; 
+				       	{    $error = "ไม่พบรายการนี้";   $error_msg="error";}
 				       	else 
 				       	{
 
@@ -128,6 +128,7 @@ Yii::import('ext.phpexcel.XPHPExcel');
 					        {
 					        
 					        	$error .= '***เบิกค่าของเกินสัญญา***';
+					        	$error_msg = "error";
 
 					        }else{
 					        	 //insert to payment temp for submit data
@@ -161,11 +162,13 @@ Yii::import('ext.phpexcel.XPHPExcel');
 					        {
 					        
 					        	$error .= "<br>***เบิกค่าติดตั้งเกินค่าของตามสัญญา*** <br>";
+					        	$error_msg = "error";
 					        }
 					        else if($amount_pay > $amount_max)
 					        {
 					        
 					        	$error .= "!***ค่าติดตั้งเบิกเกินค่าของรวม*** <br>";
+					        	$error_msg = "error";
 					        }else{
 					        	if( $amount_pay > 0)
 					        	{
@@ -223,7 +226,7 @@ Yii::import('ext.phpexcel.XPHPExcel');
 
 		}
 		
-
+		echo "<input type='hidden' id='error_".$pay_no_current."' value='$error_msg'>";
 	}
 	else if($payment_detail[0]['form_type']==2)
 	{

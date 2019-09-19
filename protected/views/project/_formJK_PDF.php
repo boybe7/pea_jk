@@ -28,6 +28,21 @@ function renderDate($value)
     return $renderDate;             
 }
 
+function formatMoney($number, $cents = 1) { // cents: 0=never, 1=if needed, 2=always
+  if (is_numeric($number)) { // a number
+    if (!$number) { // zero
+      $money = ($cents == 2 ? '0.00' : '0'); // output zero
+    } else { // value
+      if (floor($number) == $number) { // whole number
+        $money = number_format($number, ($cents == 2 ? 2 : 0)); // format
+      } else { // cents
+        $money = number_format(round($number, 2), ($cents == 0 ? 0 : 2)); // format
+      } // integer or decimal
+    } // value
+    return $money;
+  } // numeric
+} // formatMoney
+
 
 function renderDate2($value)
 {
@@ -544,9 +559,19 @@ if($form_type==1)
                       if($row== $max_row*($page-1) + $row_com+1)
                       {
                           $rowspan = $max_row - $row_com;
+                          
+                          $payment_all = Yii::app()->db->createCommand()
+                                    ->select('SUM(payment.amount*(price_item+price_trans)) as amount')
+                                    ->from('payment')
+                                    ->join('boq','boq.id=payment.item_id')
+                                    ->where(" pay_type=0 AND payment.vc_id='".$vc_id."' AND pay_no =".$pay_no)
+                                    ->queryAll();  
+
+                          $summary_curr = $payment_all[0]['amount'];          
+
                           if($model_vc->percent_adv!=0)
                           {  
-                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr_all*($model_vc->percent_pay/100.0));
+                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr*($model_vc->percent_pay/100.0));
                              $advance_pay_str = number_format($advance_pay,2);
                           }else{
                              $advance_pay = 0;
@@ -554,7 +579,7 @@ if($form_type==1)
                           }
                                
 
-                          $remain_pay = ($summary_curr_all*($model_vc->percent_pay/100.0)) - $advance_pay;
+                          $remain_pay = ($summary_curr*($model_vc->percent_pay/100.0)) - $advance_pay;
 
                           $fine_all = 0;  
                           $fine_html = "";
@@ -587,7 +612,9 @@ if($form_type==1)
 
                           }
 
-       
+                    
+                       
+
                           $html .= '<td rowspan="'.$rowspan.'" colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"><br><br>&nbsp; เรียน &nbsp;……………………………………………………………………………<br>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; คณะกรรมการตรวจรับงานจ้างได้ทำการตรวจรับงานดังกล่าวแล้ว <br>
                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เมื่อวันที่ …………………………………… ปรากฎว่า<br>
@@ -596,9 +623,9 @@ if($form_type==1)
                               &nbsp;&nbsp;&nbsp; ไม่ใช่สาระสำคัญแตกต่างจากสัญญา  และไม่ก่อให้เกิดความเสียหายต่อการใช้งาน จึงเห็นควร <br>
                               &nbsp;&nbsp;&nbsp; รับมอบงาน  และอนุมัติจ่ายเงินให้แก่ผู้รับจ้างดังนี้ <br>
                               <table border=0 width="70%">
-                                <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
 
-                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;หัก Advance '.$model_vc->percent_adv.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.$advance_pay_str.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
@@ -854,42 +881,61 @@ if($form_type==1)
                      {
                          $rowspan = $max_row - $row_com;
 
+
+                         $payment_all = Yii::app()->db->createCommand()
+                                    ->select('SUM(payment.amount*(price_install)) as amount')
+                                    ->from('payment')
+                                    ->join('boq','boq.id=payment.item_id')
+                                    ->where(" pay_type=2 AND payment.vc_id='".$vc_id."' AND pay_no =".$pay_no)
+                                    ->queryAll();  
+
+                          $summary_curr = $payment_all[0]['amount'];          
+
+
+     
+
                          if($model_vc->percent_adv!=0)
                           {  
-                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr_all2*($model_vc->percent_pay/100.0));
+                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr*($model_vc->percent_pay/100.0));
                              $advance_pay_str = number_format($advance_pay,2);
                           }else{
                              $advance_pay = 0;
                              $advance_pay_str = "-"; 
                           }
                          
-                         $remain_pay = ($summary_curr_all2*($model_vc->percent_pay/100.0)) - $advance_pay;
+                         $remain_pay = ($summary_curr*($model_vc->percent_pay/100.0)) - $advance_pay;
 
                          $fine_all = 0;  
                          $fine_html = "";
                          $fine_count = count($fineModel);
                          $fi = 0;
 
-                         $number_style = "border-bottom:1px dotted grey;text-align:right;";
-                         foreach ($fineModel as $key => $fine) {
-                           if($fi==0)
-                           {
-                             $fine_html .= '<tr><td rowspan="'.($fine_count+1).'" width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+                          $number_style = "border-bottom:1px dotted grey;text-align:right;";
+                          foreach ($fineModel as $key => $fine) {
+                            if($fi==0)
+                            {
+                              $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
 
 
-                           }
-                           else
-                           {
-                             $fine_html .= '<tr><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+                            }
+                            else
+                            {
+                              $fine_html .= '<tr><td></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
 
-                           }
-                          
-                           $fine_all += $fine->amount;
+                            }
+                            
+                            $fine_all += $fine->amount;
 
-                           $fi++;
-                         }
+                            $fi++;
+                          }
 
-     
+
+                         if(empty($fineModel))
+                          {
+                             $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">- </td><td width="40%" style="'.$number_style.'">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                          }
+
                          $html2 .= '<td rowspan="'.$rowspan.'" colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"><br><br>&nbsp; เรียน &nbsp;……………………………………………………………………………<br>
                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; คณะกรรมการตรวจรับงานจ้างได้ทำการตรวจรับงานดังกล่าวแล้ว <br>
                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; เมื่อวันที่ …………………………………… ปรากฎว่า<br>
@@ -898,9 +944,9 @@ if($form_type==1)
                              &nbsp;&nbsp;&nbsp; ไม่ใช่สาระสำคัญแตกต่างจากสัญญา  และไม่ก่อให้เกิดความเสียหายต่อการใช้งาน จึงเห็นควร <br>
                              &nbsp;&nbsp;&nbsp; รับมอบงาน  และอนุมัติจ่ายเงินให้แก่ผู้รับจ้างดังนี้ <br>
                              <table border=0 width="70%">
-                               <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all2,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
+                               <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
 
-                               <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all2*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                               <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;หัก Advance '.$model_vc->percent_adv.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.$advance_pay_str.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
@@ -911,9 +957,9 @@ if($form_type==1)
                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือจ่าย</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
                                '.$fine_html.'
-                               <tr><td>คงจ่ายสุทธิ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07 - $fine_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
-                               <tr><td colspan="3" style="width:100%;text-align:center">('.bahtText($remain_pay*1.07-$fine_all).')</td></tr>
-                             </table>
+                                <tr><td width="10%">&nbsp;</td><td width="40%">คงจ่ายสุทธิ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07 - $fine_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan="3" style="width:100%;text-align:center">('.bahtText($remain_pay*1.07-$fine_all).')</td></tr>
+                              </table>
                            
                             <br><br>
                             <table border=0 width="80%">
@@ -1499,8 +1545,9 @@ else
                     { 
                         $price_item = is_numeric($value->price_item) ? $value->price_item : 0;
                         $price_trans = is_numeric($value->price_trans) ? $value->price_trans : 0;
+                        $price_install = is_numeric($value->price_install) ? $value->price_install : 0;
                         
-                        $price_item_all = ($price_item + $price_trans) * $value->amount;
+                        $price_item_all = ($price_item + $price_trans + $price_install) * $value->amount;
 
                         $summary_cost_page += $price_item_all;
                         $summary_cost_all += $price_item_all;
@@ -1522,9 +1569,9 @@ else
                     $current_payment = "";                
                     if(!empty($curr_payment))
                     {
-                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.$curr_payment[0]['amount'].'</td>';
+                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.formatMoney($curr_payment[0]['amount']).'</td>';
                       $current_payment = $curr_payment[0]['amount'];
-                      $price_item_all = ($price_item + $price_trans) * $curr_payment[0]['amount'];
+                      $price_item_all = ($price_item + $price_trans + $price_install) * $curr_payment[0]['amount'];
 
                       $summary_curr_page += $price_item_all;
                       $summary_curr_all += $price_item_all;
@@ -1552,8 +1599,8 @@ else
 
                     if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
                     {
-                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.$prev_payment[0]['amount'].'</td>';
-                      $price_item_all = ($price_item + $price_trans) * $prev_payment[0]['amount'];
+                      $html .= '<td style="text-align:center;'.$border_left_right.'">'.formatMoney($prev_payment[0]['amount']).'</td>';
+                      $price_item_all = ($price_item + $price_trans + $price_install) * $prev_payment[0]['amount'];
 
                       $summary_prev_page += $price_item_all;
                       $summary_prev_all += $price_item_all;
@@ -1577,9 +1624,9 @@ else
 
                   if(!empty($curr_payment))
                   {
-                    $html .= '<td style="text-align:center;'.$border_left_right.'">'.$curr_payment[0]['amount'].'</td>';
+                    $html .= '<td style="text-align:center;'.$border_left_right.'">'.formatMoney($curr_payment[0]['amount']).'</td>';
                     $current_payment = $curr_payment[0]['amount'];
-                    $price_item_all = ($price_item + $price_trans) * $curr_payment[0]['amount'];
+                    $price_item_all = ($price_item + $price_trans + $price_install) * $curr_payment[0]['amount'];
                    if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
                         $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
                       else  
@@ -1612,9 +1659,18 @@ else
                       if($row== $max_row*($page-1) + $row_com+1)
                       {
                           $rowspan = $max_row - $row_com + 1;
+
+                           $payment_all = Yii::app()->db->createCommand()
+                                    ->select('SUM(payment.amount*(price_install+price_item+price_trans)) as amount')
+                                    ->from('payment')
+                                    ->join('boq','boq.id=payment.item_id')
+                                    ->where(" pay_type=3 AND payment.vc_id='".$vc_id."' AND pay_no =".$pay_no)
+                                    ->queryAll();  
+
+                          $summary_curr = $payment_all[0]['amount'];          
                           if($model_vc->percent_adv!=0)
                           {  
-                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr_all*($model_vc->percent_pay/100.0));
+                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr*($model_vc->percent_pay/100.0));
                              $advance_pay_str = number_format($advance_pay,2);
                           }else{
                              $advance_pay = 0;
@@ -1622,7 +1678,7 @@ else
                           }
                                
 
-                          $remain_pay = ($summary_curr_all*($model_vc->percent_pay/100.0)) - $advance_pay;
+                          $remain_pay = ($summary_curr*($model_vc->percent_pay/100.0)) - $advance_pay;
 
                           $fine_all = 0;  
                           $fine_html = "";
@@ -1664,9 +1720,9 @@ else
                               &nbsp;&nbsp;&nbsp; ไม่ใช่สาระสำคัญแตกต่างจากสัญญา  และไม่ก่อให้เกิดความเสียหายต่อการใช้งาน จึงเห็นควร <br>
                               &nbsp;&nbsp;&nbsp; รับมอบงาน  และอนุมัติจ่ายเงินให้แก่ผู้รับจ้างดังนี้ <br>
                               <table border=0 width="70%">
-                                <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
 
-                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr_all*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;หัก Advance '.$model_vc->percent_adv.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.$advance_pay_str.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
 
@@ -1932,7 +1988,8 @@ else
                       if($p%6==0 && $p!=0)
                         $all_page .= '<br>';
                 }
-                $all_page = substr($all_page, 0,strlen($all_page)-1);
+                $all_page = $page==1 ? "" : substr($all_page, 0,strlen($all_page)-1);
+
 
                 $html .= '<td style="text-align:center;border:1px solid black;">'.$all_page.'</td>';
                 $html .= '<td colspan=5 style="width:21%;text-align:right;'.$border_left_right2.'"></td>';

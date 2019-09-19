@@ -240,3 +240,415 @@ Stack trace:
 REQUEST_URI=/pea_jk/site/login
 HTTP_REFERER=http://localhost/pea_jk/site/login
 ---
+2019/09/12 20:41:04 [error] [php] Missing argument 2 for CDbCommand::join(), called in C:\xampp\htdocs\pea_jk\protected\views\project\_formJK_PDF.php on line 594 and defined (C:\xampp\htdocs\pea_jk\framework\db\CDbCommand.php:870)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#1 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#2 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(56): ProjectController->renderPartial()
+#3 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionPrintJK()
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#9 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#11 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#14 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/printJK
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formJK_PDF.php (594)
+in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php (56)
+in C:\xampp\htdocs\pea_jk\index.php (13)
+2019/09/12 20:41:17 [error] [php] Missing argument 2 for CDbCommand::join(), called in C:\xampp\htdocs\pea_jk\protected\views\project\_formJK_PDF.php on line 594 and defined (C:\xampp\htdocs\pea_jk\framework\db\CDbCommand.php:870)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#1 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#2 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(56): ProjectController->renderPartial()
+#3 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionPrintJK()
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#9 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#11 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#14 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/printJK
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formJK_PDF.php (594)
+in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php (56)
+in C:\xampp\htdocs\pea_jk\index.php (13)
+2019/09/12 20:42:29 [error] [php] Undefined index: amount (C:\xampp\htdocs\pea_jk\protected\views\project\_formJK_PDF.php:598)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#1 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(56): ProjectController->renderPartial()
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionPrintJK()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/printJK
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formJK_PDF.php (598)
+in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php (56)
+in C:\xampp\htdocs\pea_jk\index.php (13)
+2019/09/14 14:31:29 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "TbButton.visible" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\pea_jk\framework\base\CComponent.php:173
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CWidgetFactory.php(161): CComponent->__set('visible', false)
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(146): CWidgetFactory->createWidget(Object(ProjectController), 'bootstrap.widge...', Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(172): CBaseController->createWidget('bootstrap.widge...', Array)
+#3 C:\xampp\htdocs\pea_jk\protected\views\project\_formUpdateVC.php(955): CBaseController->widget('bootstrap.widge...', Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#7 C:\xampp\htdocs\pea_jk\protected\views\project\updateVC.php(9): CController->renderPartial('_formUpdateVC', Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('updateVC', Array, true)
+#12 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(482): CController->render('updateVC', Array)
+#13 [internal function]: ProjectController->actionUpdateVendorContract('20')
+#14 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#15 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#16 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#17 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#18 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#19 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#20 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#21 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#22 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#23 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#24 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#25 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#26 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#27 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#28 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/20
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 14:44:27 [error] [exception.PHPExcel_Reader_Exception] exception 'PHPExcel_Reader_Exception' with message 'Could not open  for reading! File does not exist.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php:347
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php(22): PHPExcel_Reader_Excel2007->load('')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(637): CController->renderPartial('_formValidate', Array)
+#5 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionImportBOQ()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#14 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('importBOQ')
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/importB...')
+#16 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#17 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#18 {main}
+REQUEST_URI=/pea_jk/project/importBOQ
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 14:47:26 [error] [exception.PHPExcel_Reader_Exception] exception 'PHPExcel_Reader_Exception' with message 'Could not open  for reading! File does not exist.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php:347
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php(22): PHPExcel_Reader_Excel2007->load('')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(637): CController->renderPartial('_formValidate', Array)
+#5 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionImportBOQ()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#14 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('importBOQ')
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/importB...')
+#16 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#17 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#18 {main}
+REQUEST_URI=/pea_jk/project/importBOQ
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 16:12:21 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Your request is invalid.' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:336
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#2 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('updateVendorCon...')
+#9 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/updateV...')
+#10 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#12 {main}
+REQUEST_URI=/pea_jk/project/updateVendorContract/exportExcel?vc_id=20&pay_no=+index
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 16:13:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "exportExcel" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('exportExcel')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 16:16:52 [error] [exception.PHPExcel_Reader_Exception] exception 'PHPExcel_Reader_Exception' with message 'Could not open template/template_form.xlsx for reading! File does not exist.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php:347
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(70): PHPExcel_Reader_Excel2007->load('template/templa...')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 16:48:17 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Rows to be deleted should at least start from row 1.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:2058
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(73): PHPExcel_Worksheet->removeRow(0)
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 21:24:11 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V50 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(72): PHPExcel_Worksheet->unmergeCells('A1:v50')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 21:45:49 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V50 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(72): PHPExcel_Worksheet->unmergeCells('A1:V50')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/14 21:46:04 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V50 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(72): PHPExcel_Worksheet->unmergeCells('A1:V50')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/15 10:42:46 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A5:V5 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(75): PHPExcel_Worksheet->unmergeCells('A5:V5')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/15 14:52:13 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V1 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(166): PHPExcel_Worksheet->unmergeCells('A1:V1')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/15 14:53:53 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V1 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(166): PHPExcel_Worksheet->unmergeCells('A1:V1')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/15 21:45:21 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V1 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(165): PHPExcel_Worksheet->unmergeCells('A1:V1')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/15 21:45:49 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V1 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(165): PHPExcel_Worksheet->unmergeCells('A1:V1')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/15 21:47:12 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'Cell range A1:V1 not known as merged.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Worksheet.php:1741
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(165): PHPExcel_Worksheet->unmergeCells('A1:V1')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportExcel()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportExcel')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportE...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=20&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/20
+---
+2019/09/16 23:51:24 [error] [php] Undefined variable: price_trans (C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:250)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=21&pay_no=2
+in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php (250)
+in C:\xampp\htdocs\pea_jk\index.php (13)
