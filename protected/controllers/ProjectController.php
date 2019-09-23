@@ -158,7 +158,7 @@ class ProjectController extends Controller
 	        $modelMember = ContractMember::model()->findAll('vc_id =:id AND type=3', array(':id' => $vc_id));
 	        $committee_vendor = empty($modelMember) ? new ContractMember : $modelMember[0]; 
 
-
+	        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
 			if($form_type==1)
 			{
 
@@ -1036,11 +1036,12 @@ class ProjectController extends Controller
             		$page = 1;
 
             		$objPHPExcel->setActiveSheetIndex(0);
-            		
+            		$item_page = 0;
             		foreach ($boq as $key => $value) {
             			if($row%50==0 )
             			{
             				$page++;
+            				$item_page = 0;
             				$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page);  
 
             				//--------------header----------------//
@@ -1057,20 +1058,118 @@ class ProjectController extends Controller
 
 		            		$objPHPExcel->getActiveSheet()->getStyle('A'.($row+1).':S'.($row+5))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-		            		/*$objPHPExcel->getActiveSheet()->mergeCells('R14:T14');
-		            		$objPHPExcel->getActiveSheet()->setCellValue('R14', "(".$committee_control->name.")");
-		            		$objPHPExcel->getActiveSheet()->setCellValue('V14', $committee_control->position);
-		            		$objPHPExcel->getActiveSheet()->setCellValue('C49', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
-		            		$objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
-		            		$objPHPExcel->getActiveSheet()->setCellValue('F49', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);*/
+		            		
+		            		if($page!=$max_page)
+		            		{
+		            			$objPHPExcel->getActiveSheet()->mergeCells('R'.($row+14).':T'.($row+14));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('R'.($row+14), "(".$committee_control->name.")");
+		            			$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+14), $committee_control->position);
+		            			$objPHPExcel->getActiveSheet()->setCellValue('C'.($row+49), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            			$objPHPExcel->getActiveSheet()->mergeCells('F'.($row+49).':I'.($row+49));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row+49), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+		            		}
+		            		else{
+		            			//$objPHPExcel->getActiveSheet()->mergeCells('R'.($row+14).':T'.($row+14));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('R'.($row+14), "(".$committee_control->name.")");
+		            			$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+14), $committee_control->position);
+		            			$objPHPExcel->getActiveSheet()->setCellValue('C'.($row+50), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            			//$objPHPExcel->getActiveSheet()->mergeCells('F'.($row+50).':I'.($row+50));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row+50), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);	
+		            		}
 
+		            		//-------------------Install sheet----------------------//
+							$objPHPExcel->setActiveSheetIndex(1);
+						    $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+1).':V'.($row+1));
+				            $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+2).':V'.($row+2));
+				            $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+4).':V'.($row+4));
+				            $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+5).':S'.($row+5));
+				            $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+4), $model_vc->name);  
+		            		$objPHPExcel->getActiveSheet()->setCellValue('A'.($row+5), $detail);
+		            		$objPHPExcel->getActiveSheet()->getStyle('A'.($row+5))->getAlignment()->setWrapText(true);
+		            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+5), 'งวดที่ : '.$pay_no); 
 
-            				//if($page <= 2)
-            				//	$objPHPExcel->getActiveSheet()->setCellValue('A'.($page-1)*50 + 1, $page);  
-            				$row = $row+12;//skip footer and header
+		            		$objPHPExcel->getActiveSheet()->getStyle('A'.($row+1).':S'.($row+5))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
+		            		
+
+		            		if($page!=$max_page)
+		            		{
+		            			$objPHPExcel->getActiveSheet()->mergeCells('R'.($row+14).':T'.($row+14));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('R'.($row+14), "(".$committee_control->name.")");
+		            			$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+14), $committee_control->position);
+		            			$objPHPExcel->getActiveSheet()->setCellValue('C'.($row+49), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            			$objPHPExcel->getActiveSheet()->mergeCells('F'.($row+49).':I'.($row+49));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row+49), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+		            		}
+		            		else{
+		            			//$objPHPExcel->getActiveSheet()->mergeCells('R'.($row+14).':T'.($row+14));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('R'.($row+14), "(".$committee_control->name.")");
+		            			$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+14), $committee_control->position);
+		            			$objPHPExcel->getActiveSheet()->setCellValue('A'.($row+50), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            			//$objPHPExcel->getActiveSheet()->mergeCells('F'.($row+50).':I'.($row+50));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row+50), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);	
+		            		}
+
+            				
+            				$row = ($page-1)*50 + 9;//skip footer and header
+            				//$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page); 
             				//break;
             			}
+            			else
+            			{
+            				$item_page++;
+
+            				if($item_page <= 35)
+            				{
+            					$objPHPExcel->setActiveSheetIndex(0);
+            					$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+
+            					$objPHPExcel->setActiveSheetIndex(1);
+            					$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+            					
+            					if($value->type==2) //part
+            					{
+            						$objPHPExcel->setActiveSheetIndex(0);
+            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+
+            						$objPHPExcel->setActiveSheetIndex(1);
+            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+            					}
+            					else if($value->type==1) //part
+            					{
+            						$objPHPExcel->setActiveSheetIndex(0);
+            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+
+            						$objPHPExcel->setActiveSheetIndex(1);
+            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+            					}
+            					else if($value->type==-1) //indent
+				             	{
+				             		$objPHPExcel->setActiveSheetIndex(0);
+				            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
+				            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+				            		$objPHPExcel->setActiveSheetIndex(1);
+				            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
+				            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+				             	}
+				             	else{
+				             		$objPHPExcel->setActiveSheetIndex(0);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+				             		$objPHPExcel->setActiveSheetIndex(1);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+				             	}
+
+            						
+            				
+            				}
+            			
+			             	
+
+
+            			}
+
 
             			$row++;
             		}
