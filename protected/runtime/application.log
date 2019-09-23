@@ -675,3 +675,19 @@ Stack trace:
 REQUEST_URI=/pea_jk/project/exportExcel?vc_id=21&pay_no=2
 HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/21
 ---
+2019/09/23 00:14:28 [error] [php] Undefined variable: objWorksheet (C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:977)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/exportExcel?vc_id=15&pay_no=1
+in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php (977)
+in C:\xampp\htdocs\pea_jk\index.php (13)
