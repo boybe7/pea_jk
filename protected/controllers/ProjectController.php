@@ -974,9 +974,107 @@ class ProjectController extends Controller
 				else // page > 2
 				{
 
-					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50);
-					 //$sheet = $objPHPExcel->getActiveSheet();
-		   			copyRows($objPHPExcel->getActiveSheet(), 1, 51, 50, 22);
+					$objPHPExcel->setActiveSheetIndex(0);
+					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
+					for ($i=1; $i <= $max_page-2 ; $i++) { 
+
+						copyRows($objPHPExcel->getActiveSheet(), 1, 50*$i + 1, 50, 22);
+					}
+
+					$objPHPExcel->setActiveSheetIndex(1);
+					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
+					for ($i=1; $i <= $max_page-2 ; $i++) { 
+					
+						copyRows($objPHPExcel->getActiveSheet(), 1, 50*$i + 1, 50, 22);
+					}
+
+					//-------------------Item sheet----------------------//
+					$objPHPExcel->setActiveSheetIndex(0);
+				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
+		            $objPHPExcel->getActiveSheet()->mergeCells('A2:V2');
+		            $objPHPExcel->getActiveSheet()->mergeCells('A4:V4');
+		            $objPHPExcel->getActiveSheet()->mergeCells('A5:S5');
+		            $objPHPExcel->getActiveSheet()->setCellValue('A4', $model_vc->name);  
+            		$objPHPExcel->getActiveSheet()->setCellValue('A5', $detail);
+            		$objPHPExcel->getActiveSheet()->getStyle('A5')->getAlignment()->setWrapText(true);
+            		$objPHPExcel->getActiveSheet()->setCellValue('V5', 'งวดที่ : '.$pay_no); 
+
+            		$objPHPExcel->getActiveSheet()->getStyle('A1:S5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+            		$objPHPExcel->getActiveSheet()->mergeCells('R14:T14');
+            		$objPHPExcel->getActiveSheet()->setCellValue('R14', "(".$committee_control->name.")");
+            		$objPHPExcel->getActiveSheet()->setCellValue('V14', $committee_control->position);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C49', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
+            		$objPHPExcel->getActiveSheet()->setCellValue('F49', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+
+
+            	    //-------------------Install sheet----------------------//
+					$objPHPExcel->setActiveSheetIndex(1);
+				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
+		            $objPHPExcel->getActiveSheet()->mergeCells('A2:V2');
+		            $objPHPExcel->getActiveSheet()->mergeCells('A4:V4');
+		            $objPHPExcel->getActiveSheet()->mergeCells('A5:S5');
+		            $objPHPExcel->getActiveSheet()->setCellValue('A4', $model_vc->name);  
+            		$objPHPExcel->getActiveSheet()->setCellValue('A5', $detail);
+            		$objPHPExcel->getActiveSheet()->getStyle('A5')->getAlignment()->setWrapText(true);
+            		$objPHPExcel->getActiveSheet()->setCellValue('V5', 'งวดที่ : '.$pay_no); 
+
+            		$objPHPExcel->getActiveSheet()->getStyle('A1:S5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+            		$objPHPExcel->getActiveSheet()->mergeCells('R14:T14');
+            		$objPHPExcel->getActiveSheet()->setCellValue('R14', "(".$committee_control->name.")");
+            		$objPHPExcel->getActiveSheet()->setCellValue('V14', $committee_control->position);
+            		$objPHPExcel->getActiveSheet()->setCellValue('C49', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
+            		$objPHPExcel->getActiveSheet()->setCellValue('F49', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+
+
+            	
+					$row = 10;
+            		$row_start = 10;
+            		$page = 1;
+
+            		$objPHPExcel->setActiveSheetIndex(0);
+            		
+            		foreach ($boq as $key => $value) {
+            			if($row%50==0 )
+            			{
+            				$page++;
+            				$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page);  
+
+            				//--------------header----------------//
+            				//-------------------Item sheet----------------------//
+							$objPHPExcel->setActiveSheetIndex(0);
+						    $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+1).':V'.($row+1));
+				            $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+2).':V'.($row+2));
+				            $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+4).':V'.($row+4));
+				            $objPHPExcel->getActiveSheet()->mergeCells('A'.($row+5).':S'.($row+5));
+				            $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+4), $model_vc->name);  
+		            		$objPHPExcel->getActiveSheet()->setCellValue('A'.($row+5), $detail);
+		            		$objPHPExcel->getActiveSheet()->getStyle('A'.($row+5))->getAlignment()->setWrapText(true);
+		            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+5), 'งวดที่ : '.$pay_no); 
+
+		            		$objPHPExcel->getActiveSheet()->getStyle('A'.($row+1).':S'.($row+5))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+		            		/*$objPHPExcel->getActiveSheet()->mergeCells('R14:T14');
+		            		$objPHPExcel->getActiveSheet()->setCellValue('R14', "(".$committee_control->name.")");
+		            		$objPHPExcel->getActiveSheet()->setCellValue('V14', $committee_control->position);
+		            		$objPHPExcel->getActiveSheet()->setCellValue('C49', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            		$objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
+		            		$objPHPExcel->getActiveSheet()->setCellValue('F49', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);*/
+
+
+            				//if($page <= 2)
+            				//	$objPHPExcel->getActiveSheet()->setCellValue('A'.($page-1)*50 + 1, $page);  
+            				$row = $row+12;//skip footer and header
+
+            				//break;
+            			}
+
+            			$row++;
+            		}
+		   			
 				}
 
 			}
