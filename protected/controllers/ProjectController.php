@@ -987,9 +987,15 @@ class ProjectController extends Controller
 					
 						copyRows($objPHPExcel->getActiveSheet(), 1, 50*$i + 1, 50, 22);
 					}
+					
 
 					//-------------------Item sheet----------------------//
 					$objPHPExcel->setActiveSheetIndex(0);
+					$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N10:N45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A2:V2');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A4:V4');
@@ -1011,6 +1017,11 @@ class ProjectController extends Controller
 
             	    //-------------------Install sheet----------------------//
 					$objPHPExcel->setActiveSheetIndex(1);
+					$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N10:N45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A2:V2');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A4:V4');
@@ -1042,7 +1053,7 @@ class ProjectController extends Controller
             			{
             				$page++;
             				$item_page = 0;
-            				$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page);  
+            				//$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page);  
 
             				//--------------header----------------//
             				//-------------------Item sheet----------------------//
@@ -1076,6 +1087,22 @@ class ProjectController extends Controller
 		            			//$objPHPExcel->getActiveSheet()->mergeCells('F'.($row+50).':I'.($row+50));
 		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row+50), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);	
 		            		}
+		            		//summary
+		            		$objPHPExcel->getActiveSheet()->setCellValue('C'.($row+45), "รวม(".($page).")");
+		            		$objPHPExcel->getActiveSheet()->setCellValue('H'.($row+45), "=SUM(H".(($page-1)*50 + 10).":H".(($page-1)*50 + 10 + 34).")");
+		            		$objPHPExcel->getActiveSheet()->setCellValue('J'.($row+45), "=SUM(J".(($page-1)*50 + 10).":J".(($page-1)*50 + 10 + 34).")");
+		            		$objPHPExcel->getActiveSheet()->setCellValue('L'.($row+45), "=SUM(L".(($page-1)*50 + 10).":L".(($page-1)*50 + 10 + 34).")");
+		            		$objPHPExcel->getActiveSheet()->setCellValue('N'.($row+45), "=SUM(N".(($page-1)*50 + 10).":N".(($page-1)*50 + 10 + 34).")");
+
+
+		            		$objPHPExcel->getActiveSheet()->getStyle("H".(($page-1)*50 + 10).":H".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            		$objPHPExcel->getActiveSheet()->getStyle("J".(($page-1)*50 + 10).":J".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            		$objPHPExcel->getActiveSheet()->getStyle("L".(($page-1)*50 + 10).":L".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            		$objPHPExcel->getActiveSheet()->getStyle("M".(($page-1)*50 + 10).":M".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            		$objPHPExcel->getActiveSheet()->getStyle("N".(($page-1)*50 + 10).":N".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+		            		
+
 
 		            		//-------------------Install sheet----------------------//
 							$objPHPExcel->setActiveSheetIndex(1);
@@ -1121,47 +1148,111 @@ class ProjectController extends Controller
 
             				if($item_page <= 35)
             				{
-            					$objPHPExcel->setActiveSheetIndex(0);
-            					$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
-
-            					$objPHPExcel->setActiveSheetIndex(1);
-            					$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
             					
-            					if($value->type==2) //part
+            					
+            					if($value->type==2 || $value->type==1) //part
             					{
+            						
+            						
+
             						$objPHPExcel->setActiveSheetIndex(0);
+            						$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
             						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
 
             						$objPHPExcel->setActiveSheetIndex(1);
+            						$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
             						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
-            					}
-            					else if($value->type==1) //part
-            					{
-            						$objPHPExcel->setActiveSheetIndex(0);
-            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
-
-            						$objPHPExcel->setActiveSheetIndex(1);
-            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+            					
             					}
             					else if($value->type==-1) //indent
 				             	{
 				             		$objPHPExcel->setActiveSheetIndex(0);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
 				            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
 				            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 				            		$objPHPExcel->setActiveSheetIndex(1);
+				            		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
 				            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
 				            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 				             	}
 				             	else{
 				             		$objPHPExcel->setActiveSheetIndex(0);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
 				             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 				             		$objPHPExcel->setActiveSheetIndex(1);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
 				             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 				             	}
 
-            						
+				             	$objPHPExcel->setActiveSheetIndex(0);
+
+				             	$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->amount);
+				             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->unit);
+				             	if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && $value->price_item==$value->price_trans && $value->price_item!="")
+	                  			{
+	                  				
+	                  				$objPHPExcel->getActiveSheet()->mergeCells('F'.$row.':G'.$row);
+	                  				$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+	                  			}
+	                  			else
+	                  			{
+	                  				
+	                  				$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $value->price_trans);
+	                  			}	
+				             	
+
+				             	$price_item_all = ($value->price_item+$value->price_trans)*$value->amount;
+				         		//if(is_numeric($value->price_item) && is_numeric($value->price_trans)) 
+				             		$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $price_item_all);
+				             	    	
+
+				             	//amount current payment
+			                    $curr_payment = Yii::app()->db->createCommand()
+			                                    ->select('*')
+			                                    ->from('payment')
+			                                    ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no =".$pay_no)
+			                                    ->queryAll();
+			                    $current_payment = "";                
+			                    if(!empty($curr_payment))
+			                    {
+			                    	$current_payment = $curr_payment[0]['amount'];
+			                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+			                    	
+				                    $price_item_all = ($value->price_item + $value->price_trans) * $curr_payment[0]['amount'];
+				                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
+				                    
+				                    $summary_curr_page += $price_item_all;
+
+
+			                    }
+
+			                  
+
+			                    //amount previous with current payment  
+			                    $prev_payment = Yii::app()->db->createCommand()
+			                                    ->select('SUM(amount) as amount')
+			                                    ->from('payment')
+			                                    ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <=".$pay_no)
+			                                    ->queryAll();     
+
+			                    if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+			                    {
+			                    	$prev_payment = $prev_payment[0]['amount'];
+			                    	$objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $prev_payment);
+				                    $price_item_all = ($value->price_item + $value->price_trans) * $prev_payment;
+				                    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $price_item_all);
+			                    }
+
+            					$objPHPExcel->setActiveSheetIndex(0);
+		            			$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, "=I".$row);
+					            $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, "=J".$row);
+
+					            $objPHPExcel->setActiveSheetIndex(1);
+		            			$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, "=I".$row);
+					            $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, "=J".$row);	
             				
             				}
             			
@@ -1170,6 +1261,7 @@ class ProjectController extends Controller
 
             			}
 
+            			
 
             			$row++;
             		}
