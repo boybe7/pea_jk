@@ -159,8 +159,12 @@ class ProjectController extends Controller
 	        $committee_vendor = empty($modelMember) ? new ContractMember : $modelMember[0]; 
 
 	        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+			
+	        $filename = "";
+
 			if($form_type==1)
 			{
+
 
 				$objPHPExcel->setActiveSheetIndex(0);
 
@@ -175,6 +179,7 @@ class ProjectController extends Controller
 
 				if($max_page==1)
 				{
+					$filename = "form 1 max_page1.xlsx";
 				 	//---------------   Item & Install Form1 using for 1 Page-----------------//
 		           $objPHPExcel->setActiveSheetIndex(0);
 		           $objPHPExcel->getActiveSheet()->unmergeCells('D7:H7');
@@ -198,9 +203,9 @@ class ProjectController extends Controller
 
             		$objPHPExcel->getActiveSheet()->setCellValue('R14', "(".$committee_control->name.")");
             		$objPHPExcel->getActiveSheet()->setCellValue('V14', $committee_control->position);
-            		$objPHPExcel->getActiveSheet()->setCellValue('C49', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->setCellValue('C50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
             		// $objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
-            		$objPHPExcel->getActiveSheet()->setCellValue('F49', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+            		$objPHPExcel->getActiveSheet()->setCellValue('F50', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
 
             		//-------------------Install sheet----------------------//
 					$objPHPExcel->setActiveSheetIndex(1);
@@ -232,7 +237,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('V14', $committee_control->position);
             		$objPHPExcel->getActiveSheet()->setCellValue('A50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
             		//$objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
-            		$objPHPExcel->getActiveSheet()->setCellValue('F50', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+            		$objPHPExcel->getActiveSheet()->setCellValue('E50', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
 
             		$row = 10;
             		$row_start = 10;
@@ -313,6 +318,7 @@ class ProjectController extends Controller
 		                    {
 		                    	$current_payment = $curr_payment[0]['amount'];
 		                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
 			                    $price_item_all = ($value->price_item + $value->price_trans) * $curr_payment[0]['amount'];
 			                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
 			                    $summary_curr_page += $price_item_all;
@@ -359,6 +365,7 @@ class ProjectController extends Controller
 		                    {
 		                    	$current_payment = $curr_payment[0]['amount'];
 		                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
 			                    $price_item_all = ($value->price_install) * $curr_payment[0]['amount'];
 			                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
 			                    $summary_curr_page += $price_item_all;
@@ -413,6 +420,9 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("N10:N47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
             		
 
             		$objPHPExcel->setActiveSheetIndex(1);
@@ -440,7 +450,9 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("N10:N47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
-            		
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
 
             		//---------committee----------//
@@ -555,6 +567,7 @@ class ProjectController extends Controller
 				}
 				else if($max_page==2)
 				{
+					$filename = "form 1 max_page2.xlsx";
 					//-------------------Item sheet----------------------//
 					$objPHPExcel->setActiveSheetIndex(0);
 				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
@@ -578,7 +591,7 @@ class ProjectController extends Controller
 
             		$objPHPExcel->getActiveSheet()->setCellValue('R64', "(".$committee_control->name.")");
             		$objPHPExcel->getActiveSheet()->setCellValue('V64', $committee_control->position);
-            		$objPHPExcel->getActiveSheet()->setCellValue('A100', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->setCellValue('C100', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
             		$objPHPExcel->getActiveSheet()->setCellValue('F100', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
 
 
@@ -720,6 +733,7 @@ class ProjectController extends Controller
 		                    {
 		                    	$current_payment = $curr_payment[0]['amount'];
 		                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
 			                    $price_item_all = ($value->price_item + $value->price_trans) * $curr_payment[0]['amount'];
 			                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
 			                    $summary_curr_page += $price_item_all;
@@ -766,6 +780,7 @@ class ProjectController extends Controller
 		                    {
 		                    	$current_payment = $curr_payment[0]['amount'];
 		                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
 			                    $price_item_all = ($value->price_install) * $curr_payment[0]['amount'];
 			                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
 			                    $summary_curr_page += $price_item_all;
@@ -825,7 +840,15 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->getStyle("H60:H96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("J60:J96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("L60:L96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("N60:N96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N60:N97")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I60:I96")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K60:K96")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M60:M96")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
             		$objPHPExcel->setActiveSheetIndex(1);
             		$row_summary = ($max_page-1)*50 + 24;
@@ -855,7 +878,15 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->getStyle("H60:H96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("J60:J96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("L60:L96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("N60:N96")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N60:N97")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I60:I96")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K60:K96")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M60:M96")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
 
             		//---------committee----------//
@@ -973,7 +1004,7 @@ class ProjectController extends Controller
 				}	
 				else // page > 2
 				{
-
+					$filename = "form 1 max_page 3.xlsx";
 					$objPHPExcel->setActiveSheetIndex(0);
 					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
 					for ($i=1; $i <= $max_page-2 ; $i++) { 
@@ -994,8 +1025,14 @@ class ProjectController extends Controller
 					$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("M10:M45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		//$objPHPExcel->getActiveSheet()->getStyle("M10:M45")->getNumberFormat()->setFormatCode('_(* #,##0_);_(* (#,##0);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("N10:N45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+
 				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A2:V2');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A4:V4');
@@ -1020,8 +1057,13 @@ class ProjectController extends Controller
 					$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("M10:M45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		//$objPHPExcel->getActiveSheet()->getStyle("M10:M45")->getNumberFormat()->setFormatCode('_(* #,##0_);_(* (#,##0);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("N10:N45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+
 				    $objPHPExcel->getActiveSheet()->mergeCells('A1:V1');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A2:V2');
 		            $objPHPExcel->getActiveSheet()->mergeCells('A4:V4');
@@ -1098,10 +1140,14 @@ class ProjectController extends Controller
 		            		$objPHPExcel->getActiveSheet()->getStyle("H".(($page-1)*50 + 10).":H".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 		            		$objPHPExcel->getActiveSheet()->getStyle("J".(($page-1)*50 + 10).":J".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 		            		$objPHPExcel->getActiveSheet()->getStyle("L".(($page-1)*50 + 10).":L".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-		            		$objPHPExcel->getActiveSheet()->getStyle("M".(($page-1)*50 + 10).":M".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            		
 		            		$objPHPExcel->getActiveSheet()->getStyle("N".(($page-1)*50 + 10).":N".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
 		            		
+            				$objPHPExcel->getActiveSheet()->getStyle("I".(($page-1)*50 + 10).":I".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            				$objPHPExcel->getActiveSheet()->getStyle("K".(($page-1)*50 + 10).":K".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            				$objPHPExcel->getActiveSheet()->getStyle("M".(($page-1)*50 + 10).":M".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
 
 
 		            		//-------------------Install sheet----------------------//
@@ -1220,6 +1266,7 @@ class ProjectController extends Controller
 			                    {
 			                    	$current_payment = $curr_payment[0]['amount'];
 			                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+			                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
 			                    	
 				                    $price_item_all = ($value->price_item + $value->price_trans) * $curr_payment[0]['amount'];
 				                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
@@ -1246,13 +1293,10 @@ class ProjectController extends Controller
 				                    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $price_item_all);
 			                    }
 
-            					$objPHPExcel->setActiveSheetIndex(0);
-		            			$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, "=I".$row);
+            					$objPHPExcel->setActiveSheetIndex(0);		            			
 					            $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, "=J".$row);
 
-					            $objPHPExcel->setActiveSheetIndex(1);
-		            			$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, "=I".$row);
-					            $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, "=J".$row);	
+					            
             				
             				}
             			
@@ -1317,7 +1361,7 @@ class ProjectController extends Controller
 			ob_start();
 
 
-			$filename = "ใบ จค. xxxx.xlsx";
+			//$filename = "ใบ จค. xxxx.xlsx";
 
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="'.$filename.'"');
