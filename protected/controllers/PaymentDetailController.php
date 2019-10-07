@@ -96,6 +96,16 @@ class PaymentDetailController extends Controller
 
 	}
 
+	public function actionUpdate()
+	{
+		$model = PaymentDetail::model()->findAll('vc_id =:id AND pay_no=:pay_no', array(':id' =>$_POST["id"],':pay_no'=>$_POST["pay_no"]));
+		$model[0]->form_type = $_POST['form_type'];
+		$model[0]->date_create = date("Y-m-d");
+		$model[0]->save();
+
+		echo $model[0]->pay_no;
+	}
+
 	public function exportBOQ($pay_no,$vc_id,$form)
     {
 
@@ -780,24 +790,27 @@ class PaymentDetailController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+	// public function actionUpdate($id)
+	// {
+	// 	$model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+	// 	// Uncomment the following line if AJAX validation is needed
+	// 	// $this->performAjaxValidation($model);
 
-		if(isset($_POST['PaymentDetail']))
-		{
-			$model->attributes=$_POST['PaymentDetail'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+	// 	if(isset($_POST['PaymentDetail']))
+	// 	{
+	// 		$model->attributes=$_POST['PaymentDetail'];
+	// 		if($model->save())
+	// 			$this->redirect(array('view','id'=>$model->id));
+	// 	}
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
+	// 	$this->render('update',array(
+	// 		'model'=>$model,
+	// 	));
+	// }
+
+
+
 
 	/**
 	 * Deletes a particular model.

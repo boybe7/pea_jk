@@ -52,6 +52,7 @@ class ProjectController extends Controller
             'vc_id' => $_POST['vc_id'],
             'pay_no' => $_POST['pay_no'],
             'filename' => '',
+            'max_row' => $_POST['max_item'],
             
         ));
         
@@ -1005,7 +1006,7 @@ class ProjectController extends Controller
 				else // page > 2
 				{
 					$filename = "form 1 max_page 3.xlsx";
-					$max_page--;
+					//$max_page--;
 					$objPHPExcel->setActiveSheetIndex(0);
 					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
 					for ($i=1; $i <= $max_page-2 ; $i++) { 
@@ -1350,6 +1351,11 @@ class ProjectController extends Controller
 
             				
             				}
+            				else{
+            					
+            					$row = $row+4; //skip footer
+            					
+            				}
             			
 			             	
 
@@ -1537,27 +1543,262 @@ class ProjectController extends Controller
 
 
             
-
+				//remove sheet form 2
+				$objPHPExcel->setActiveSheetIndex(2);
+				$sheetIndex = $objPHPExcel->getActiveSheetIndex();
+				$objPHPExcel->removeSheetByIndex($sheetIndex);
 			}
-			else
+			else //form 2
 			{
 				$objPHPExcel->setActiveSheetIndex(2);
 
 				if($max_page==1)
 				{
-				 	//---------------   Form2 using for 1 Page-----------------//
-		             $objPHPExcel->getActiveSheet()->unmergeCells('A1:V1');
-		             $objPHPExcel->getActiveSheet()->unmergeCells('A2:V2');
-		             $objPHPExcel->getActiveSheet()->unmergeCells('A4:V4');
-		           // $objPHPExcel->getActiveSheet()->unmergeCells('A5:S5');
-		           // $objPHPExcel->getActiveSheet()->unmergeCells('D7:J7');
-		           // $objPHPExcel->getActiveSheet()->unmergeCells('K7:L7');
-		           // $objPHPExcel->getActiveSheet()->unmergeCells('M7:N7');
-				   // $objPHPExcel->getActiveSheet()->unmergeCells('O7:P7');
-		           // $objPHPExcel->getActiveSheet()->removeRow(1,50);
+				
+            		$filename = "form 2 max_page1.xlsx";
+				 	//---------------  Form2 using for 1 Page-----------------//
+		   
+		           $objPHPExcel->getActiveSheet()->unmergeCells('D7:J7');
+		           $objPHPExcel->getActiveSheet()->unmergeCells('K7:L7');
+		           $objPHPExcel->getActiveSheet()->unmergeCells('M7:N7');
+		           $objPHPExcel->getActiveSheet()->unmergeCells('O7:P7');
+		           $objPHPExcel->getActiveSheet()->removeRow(1,50);
 
 		            $objPHPExcel->getActiveSheet()->setCellValue('A4', $model_vc->name);  
-            		$objPHPExcel->getActiveSheet()->setCellValue('A5', $detail); 
+            		$objPHPExcel->getActiveSheet()->setCellValue('A5', $detail);
+            		$objPHPExcel->getActiveSheet()->getStyle('A5')->getAlignment()->setWrapText(true);
+            		$objPHPExcel->getActiveSheet()->setCellValue('X5', 'งวดที่ : '.$pay_no); 
+
+            		$objPHPExcel->getActiveSheet()->getStyle('A1:S5')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+            		$objPHPExcel->getActiveSheet()->setCellValue('B45', "รวม (1)");
+            		$objPHPExcel->getActiveSheet()->setCellValue('C46', "รวม (1)");
+            		$objPHPExcel->getActiveSheet()->setCellValue('J46', "=+J45");
+            		$objPHPExcel->getActiveSheet()->setCellValue('L46', "=+L45");
+            		$objPHPExcel->getActiveSheet()->setCellValue('N46', "=+N45");
+
+            		$objPHPExcel->getActiveSheet()->setCellValue('T14', "(".$committee_control->name.")");
+            		$objPHPExcel->getActiveSheet()->setCellValue('X14', $committee_control->position);
+            		$objPHPExcel->getActiveSheet()->setCellValue('A50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		// $objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
+            		$objPHPExcel->getActiveSheet()->setCellValue('F50', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+
+            		$row = 10;
+            		$row_start = 10;
+            		foreach ($boq as $key => $value) {
+            				if($value->type==2) // PART
+			            	{
+			            		$row = $row == $max_row+$row_start-1 ? $row + 16 : $row ;		   
+			            		$objPHPExcel->getActiveSheet()->mergeCells('B'.$row.':C'.$row);
+			            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);	
+
+			            	}
+			            	else if($value->type==1) //item
+			             	{
+			             		$row = $row == $max_row+$row_start-1 ? $row + 16 : $row ;
+			             		
+			            		$objPHPExcel->getActiveSheet()->mergeCells('B'.$row.':C'.$row);
+			            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);	
+
+			             	}
+			             	else if($value->type==-1) //indent
+			             	{
+		
+			            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
+			            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+			             	}
+			             	else{
+	
+			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+			             		
+			             	}
+
+			             	$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+			             	$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->amount);
+			             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->unit);
+			         
+                  			if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install)  && $value->price_item==$value->price_trans && $value->price_item!=""  && $value->price_item==$value->price_install)
+			                  {
+			                   
+                  				$objPHPExcel->getActiveSheet()->mergeCells('F'.$row.':I'.$row);
+                  				$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+			                  }
+			                  else if(!is_numeric($value->price_item) && !is_numeric($value->price_trans)   && $value->price_item==$value->price_trans && $value->price_item!=""  && $value->price_item!=$value->price_install)
+			                  {
+			                    
+			                     
+                  				$objPHPExcel->getActiveSheet()->mergeCells('F'.$row.':G'.$row);
+                  				$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+			                    $objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $value->price_install);
+			                  }
+			                  else
+			                  {
+								$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+								$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $value->price_trans);
+			                    $objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $value->price_install);
+			                  
+			                  }
+			             	
+
+			             	$price_item_all = ($value->price_item+$value->price_trans+$value->price_install)*$value->amount;
+			         		//if(is_numeric($value->price_item) && is_numeric($value->price_trans)) 
+			             	$objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
+			             	    	
+
+			             	//amount current payment
+		                    $curr_payment = Yii::app()->db->createCommand()
+		                                    ->select('*')
+		                                    ->from('payment')
+		                                    ->where("pay_type=3 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no =".$pay_no)
+		                                    ->queryAll();
+		                    $current_payment = "";                
+		                    if(!empty($curr_payment))
+		                    {
+		                    	$current_payment = $curr_payment[0]['amount'];
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $current_payment);
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('O'.$row, $current_payment);
+			                    $price_item_all = ($value->price_item + $value->price_trans + $value->price_install) * $curr_payment[0]['amount'];
+			                    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $price_item_all);
+			                  
+		                    }
+		                    //amount previous with current payment  
+		                    $prev_payment = Yii::app()->db->createCommand()
+		                                    ->select('SUM(amount) as amount')
+		                                    ->from('payment')
+		                                    ->where("item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <=".$pay_no)
+		                                    ->queryAll();     
+
+		                    if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+		                    {
+		                    	$prev_payment = $prev_payment[0]['amount'];
+		                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $prev_payment);
+			                    $price_item_all = ($value->price_item + $value->price_trans + $value->price_install) * $prev_payment;
+			                    $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, $price_item_all);
+		                    }
+
+
+
+            			$row++;
+            		}
+
+            		//-------- Summary-----------------//
+            		/*$objPHPExcel->setActiveSheetIndex(0);
+            		$row_summary = ($max_page-1)*50 + 24;
+            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
+            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
+
+            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
+            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
+
+            		//fine detail
+            		$row_fine = 80;
+            		foreach ($fineModel as $key => $fine) {
+            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_fine, "- ".$fine->detail);
+            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, $fine->amount);
+
+            			$row_fine++;
+
+            		}
+
+            		$objPHPExcel->getActiveSheet()->getStyle("T".$row_summary.":T".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N10:N47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		
+
+            		$objPHPExcel->setActiveSheetIndex(1);
+            		$row_summary = ($max_page-1)*50 + 24;
+            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
+            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
+
+            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
+            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
+            		//fine detail
+            		$row_fine = 80;
+            		foreach ($fineModel as $key => $fine) {
+            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_fine, "- ".$fine->detail);
+            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, $fine->amount);
+
+            			$row_fine++;
+
+            		}
+
+            		//cell accouting format
+            		$objPHPExcel->getActiveSheet()->getStyle("T".$row_summary.":T".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N10:N47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+
+            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+
+
+            		//---------committee----------//
+            		$row_committee = ($max_page-1)*50 + 36;
+            		$objPHPExcel->setActiveSheetIndex(0);
+            		if(count($committee_member)<=2)
+            		{
+            			$row_comm = $row_committee+1;
+            			$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");           			
+					    $objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
+            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ประธานกรรมการ ");
+            			$row_comm++;
+            			$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
+            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$committee_header->name.')');
+            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$committee_header->position);
+            			$row_comm = $row_comm+2;
+            			foreach ($committee_member as $key => $member) {
+            				$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");
+            				$objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
+            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "กรรมการ ");
+            				$row_comm++;
+            				$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
+            				$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$member->name.')');
+            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$member->position);
+            				$row_comm = $row_comm+2;
+
+            			}
+
+            		}
+            		else
+            		{
+            			$row_comm = $row_committee;
+            			$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");
+            			$objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
+            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ประธานกรรมการ ");
+            			$row_comm++;
+            			$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
+            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$committee_header->name.')');
+            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$committee_header->position);
+            			$row_comm ++;
+            			foreach ($committee_member as $key => $member) {
+            				$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");
+            				$objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
+            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "กรรมการ ");
+            				$row_comm++;
+            				$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
+            				$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$member->name.')');
+            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$member->position);
+            				$row_comm++;
+
+            			}
+            		}
+            		*/
 
 				}
 				else
@@ -1613,7 +1854,7 @@ class ProjectController extends Controller
         $this->renderPartial('_formJK_PDF', array(
             'vc_id' => 3,
             'pay_no' => 1,
-            'filename' => '',
+            'filename' => ''
             
         ));
         
@@ -2729,9 +2970,9 @@ class ProjectController extends Controller
             	$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $value->price_trans);
             	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $value->price_install);
 
-            	if(!(is_numeric($value->price_item) && is_numeric($value->price_trans) && is_numeric($value->price_install)))
+            	if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && !is_numeric($value->price_install))
             		$objPHPExcel->getActiveSheet()->mergeCells('G'.$row.':I'.$row);
-            	else if(!(is_numeric($value->price_item) && is_numeric($value->price_trans)))
+            	else if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
             		$objPHPExcel->getActiveSheet()->mergeCells('G'.$row.':H'.$row);
 
             	
@@ -2793,12 +3034,12 @@ class ProjectController extends Controller
 
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('M'.$row,0);
-						if(is_numeric($value->price_item))
+						if(is_numeric($value->price_item) || is_numeric($value->price_install))
 							$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'=PRODUCT(SUM(G'.$row.':I'.$row.'),M'.$row.')');
 						else
 							$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'-');
 
-						$input_row[] = $row;
+						
 					}
 
             	}
@@ -2848,6 +3089,8 @@ class ProjectController extends Controller
 
 
 		}	
+
+		
 			$objPHPExcel->getProperties()
 						    ->setCreator("boybe")
 						    ->setLastModifiedBy("boybe")

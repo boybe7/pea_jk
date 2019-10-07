@@ -940,6 +940,53 @@
       <?php 
     echo '<form method="POST" action="" id="form-import-boq-'.$i.'" enctype="multipart/form-data" class="pull-right">';  ?>
     <div class="form-group">
+      <?php
+              $this->widget('bootstrap.widgets.TbButton', array(
+                  'buttonType'=>'link',
+                  
+                  'type'=>'info',
+                  'label'=>'BOQ',
+                  'icon'=>'excel ',
+                  
+                  'htmlOptions'=>array(
+                    'class'=>'',
+                    'style'=>'margin-top:-10px',
+                    //'onclick' => 'exportBOQ(this,'.$i.');'
+                    'onclick'=>'js:bootbox.prompt({
+                          title: "เลือกแบบฟอร์มรายละเอียดขออนุมัติเบิกจ่าย",
+                          inputType: "select",
+                          inputOptions: [
+                            {
+                                text: "แบบฟอร์ม 1 (ค่าอุปกรณ์ค่าขนส่ง แยกกันกับค่าติดตั้งทดสอบ)",
+                                value: 1,
+                            },
+                            {
+                                text: "แบบฟอร์ม 2 (ค่าอุปกรณ์ ค่าขนส่ง และค่าติดตั้งทดสอบ เบิกรวมกัน)",
+                                value: 2,
+                            }],
+                          callback: function (result) {
+                            if(result==1 || result==2)
+                            {
+                                $.ajax({
+                                        url: "'.$this->createUrl('PaymentDetail/update').'",
+                                        type: "POST",
+                                        data: {id: '.$model->id.',form_type: result,pay_no: '.$i.'},
+                                        success: function (pay_no) {
+                                               
+                                               window.location.href = "../exportBOQ?vc_id='.$model->id.'&form="+result+"&pay_no="+pay_no; 
+
+                                              setTimeout(function(){
+                                                 window.location.reload(1);
+                                              }, 10000);
+                                        }
+                                    })
+                                   
+                            }
+                          }
+                      });'
+                  ),
+              )); 
+      ?>
       <div class="input-prepend input-file">
         <button class="btn btn-default btn-choose" type="button"><i class="icon-folder-open"></i></button>
         <input type="text" name="filetext"  class="" placeholder='Choose a file...' />
@@ -947,6 +994,7 @@
       </div>
       
       <?php
+          
 
            $this->widget('bootstrap.widgets.TbButton', array(
                   'buttonType'=>'link',
@@ -987,7 +1035,30 @@
             'type'=>'warning',
             'label'=>'Print',
             'icon'=>'print white',
-            'htmlOptions'=>array('class'=>'','style'=>'margin-left: 10px;margin-top:-10px','onclick'=>'printJK(this,'.$i.');'),
+            'htmlOptions'=>array('class'=>'','style'=>'margin-left: 10px;margin-top:-10px',
+              //'onclick'=>'printJK(this,'.$i.');'
+              'onclick'=>'js:bootbox.prompt({
+                          title: "กำหนดจำนวนรายการต่อหน้า",
+                          inputType: "number",
+                          value: 35,
+                            
+                          callback: function (result) {
+                                var filename = "form_print_'.$model->id.'"
+                                $.ajax({
+                                        url: "../printJK",
+                                        type: "POST",
+                                        data: {vc_id: '.$model->id.',pay_no: '.$i.',max_item: result},
+                                        success: function (result2) {
+                                               
+                                               window.open("../../report/temp/"+filename+".pdf", "_blank", "fullscreen=yes"); 
+
+                                        }
+                                    })
+                                   
+      
+                          }
+                      });'
+            ),
           )); 
 
         

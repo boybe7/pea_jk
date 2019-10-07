@@ -44,7 +44,7 @@ class Project extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name,owner_id', 'required'),
-			array('fiscal_year, is_special, updated_by', 'numerical','flag_del', 'integerOnly'=>true),
+			array('fiscal_year, is_special, updated_by,flag_del', 'numerical', 'integerOnly'=>true),
 			array('name,owner_id', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

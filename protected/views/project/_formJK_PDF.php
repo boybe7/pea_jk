@@ -379,7 +379,7 @@ if($form_type==1)
        
 
         //----table config----//
-        $max_row = 35;
+        //$max_row = 35;
         $row_height = 20;
         $max_page = ceil(count($boq)*1.0 / $max_row); 
         //$html .="max_page:".$max_page;
@@ -1192,6 +1192,32 @@ if($form_type==1)
                     $html .= '<td rowspan="2" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
                 }
                 $html .= '</tr>';
+                $html .= '<tr>';
+                $html .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+
+                $all_page = "";
+                for ($p=0; $p < $page; $p++) { 
+                      $all_page .= "รวม (".($p+1).")+";
+                }
+                $all_page = substr($all_page, 0,strlen($all_page)-1);
+
+                $html .= '<td style="text-align:center;border:1px solid black;">'.$all_page.'</td>';
+                $html .= '<td colspan=4 style="width:15%;text-align:right;'.$border_left_right2.'"></td>';
+                
+                $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all,2).'</td>';
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all,2).'</td>';
+                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+                if($page!=$max_page)
+                {
+                   
+                    $html .= '<td rowspan="3" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
+                }
+                $html .= '</tr>';
 
                 $html .= '<tr>';
                   $html .= '<td colspan=2 style="width:28%;text-align:center;'.$border_left_right2.'">
@@ -1210,16 +1236,16 @@ if($form_type==1)
 
                             </td>';
 
-                  $html .= '<td colspan=2 style="width:8%;text-align:center;'.$border_left_bottom.'">รวมเป็นจำนวนเงินที่เบิก 100%
+                   $html .= '<td colspan=2 style="width:8%;text-align:center;'.$border_left_bottom.'">รวมเป็นจำนวนเงินที่เบิก 100%
                          
                             </td><td style="width:6%;text-align:right;border-bottom:1px solid black;">'.number_format($summary_curr_all,2).'</td><td style="width:3%;text-align:right;'.$border_right_bottom.'"></td>';  
-                   $html .= '<td rowspan="2" colspan=3 style="width:25%;text-align:center;border-top:1px solid black;'.$border_left_right2.'">
+                   $html .= '<td rowspan="3" colspan=3 style="width:25%;text-align:center;border-top:1px solid black;'.$border_left_right2.'">
                                 อนุมัติ <br><br>
                                 ลงชื่อ............................................<br>
                                 (....................................................................) <br>
                                 วันที่ .....................................
                               </td>';          
-          
+
                 $html .= '</tr>';
 
               }
@@ -1356,6 +1382,32 @@ if($form_type==1)
                      $html2 .= '<td rowspan="2" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
                  }
                  $html2 .= '</tr>';
+                 $html2 .= '<tr>';
+                 $html2 .= '<td style="height:'.$row_height.'px;text-align:center;border:1px solid black;"></td>';
+
+                 $all_page = "";
+                 for ($p=0; $p < $page2; $p++) { 
+                       $all_page .= "รวม (".($p+1).")+";
+                 }
+                 $all_page = substr($all_page, 0,strlen($all_page)-1);
+
+                 $html2 .= '<td style="text-align:center;border:1px solid black;">'.$all_page.'</td>';
+                 $html2 .= '<td colspan=3 style="width:11%;text-align:right;'.$border_left_right2.'"></td>';
+                
+                 $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_all2,2).'</td>';
+                 $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                 $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all2,2).'</td>';
+                 $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                 $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+                 if($page2!=$max_page)
+                 {
+                   
+                     $html2 .= '<td rowspan="3" colspan=3 style="width:25%;text-align:left;border-top:1px solid black;'.$border_left_right2.'"></td>'; 
+                 }
+                 $html2 .= '</tr>';
 
                  $html2 .= '<tr>';
                    $html2 .= '<td colspan=2 style="width:32%;text-align:center;'.$border_left_right2.'">
@@ -1374,16 +1426,16 @@ if($form_type==1)
 
                              </td>';
 
-                   $html2 .= '<td colspan=2 style="width:8%;text-align:center;'.$border_left_bottom.'">รวมเป็นจำนวนเงินที่เบิก 100%
+                    $html2 .= '<td colspan=2 style="width:8%;text-align:center;'.$border_left_bottom.'">รวมเป็นจำนวนเงินที่เบิก 100%
                          
                              </td><td style="width:6%;text-align:right;border-bottom:1px solid black;">'.number_format($summary_curr_all2,2).'</td><td style="width:3%;text-align:right;'.$border_right_bottom.'"></td>';  
-                    $html2 .= '<td rowspan="2" colspan=3 style="width:25%;text-align:center;border-top:1px solid black;'.$border_left_right2.'">
+                    $html2 .= '<td rowspan="3" colspan=3 style="width:25%;text-align:center;border-top:1px solid black;'.$border_left_right2.'">
                                  อนุมัติ <br><br>
                                  ลงชื่อ............................................<br>
                                  (....................................................................) <br>
                                  วันที่ .....................................
                                </td>';          
-          
+
                  $html2 .= '</tr>';
 
                }
@@ -1477,7 +1529,7 @@ else
                        
 
                         //----table config----//
-                        $max_row = 30;
+                        //$max_row = 30;
                         $row_height = 20;
                         $max_page = ceil(count($boq)*1.0 / $max_row); 
                         //$html .="max_page:".$max_page;

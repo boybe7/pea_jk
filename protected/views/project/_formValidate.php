@@ -314,11 +314,40 @@ Yii::import('ext.phpexcel.XPHPExcel');
 									        	 //insert to payment temp for submit data
 									        	if($item_amount_pay>0)
 									        	{
+											        /*
 											        $payment_model = new PaymentTemp;
 											        $payment_model->item_id = $boq->id;
 											        $payment_model->vc_id = $model->id;
 											        $payment_model->pay_no = $pay_no;
 											        $payment_model->pay_type = 3;
+											        $payment_model->amount = $item_amount_pay;
+											        $payment_model->user_id = Yii::app()->user->ID;;
+											        $payment_model->save();
+											        */
+
+											        $payment_model = new PaymentTemp;
+											        $payment_model->item_id = $boq->id;
+											        $payment_model->vc_id = $model->id;
+											        $payment_model->pay_no = $pay_no;
+											        $payment_model->pay_type = 0;
+											        $payment_model->amount = $item_amount_pay;
+											        $payment_model->user_id = Yii::app()->user->ID;;
+											        $payment_model->save();
+
+											        $payment_model = new PaymentTemp;
+											        $payment_model->item_id = $boq->id;
+											        $payment_model->vc_id = $model->id;
+											        $payment_model->pay_no = $pay_no;
+											        $payment_model->pay_type = 1;
+											        $payment_model->amount = $item_amount_pay;
+											        $payment_model->user_id = Yii::app()->user->ID;;
+											        $payment_model->save();
+
+											        $payment_model = new PaymentTemp;
+											        $payment_model->item_id = $boq->id;
+											        $payment_model->vc_id = $model->id;
+											        $payment_model->pay_no = $pay_no;
+											        $payment_model->pay_type = 2;
 											        $payment_model->amount = $item_amount_pay;
 											        $payment_model->user_id = Yii::app()->user->ID;;
 											        $payment_model->save();
