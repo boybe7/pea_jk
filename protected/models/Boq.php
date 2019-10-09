@@ -42,7 +42,7 @@ class Boq extends CActiveRecord
 			array('price_trans, price_item, price_install', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, vc_id, detail, no, amount, unit, type, price_trans, price_item, price_install, last_update', 'safe', 'on'=>'search'),
+			array('id, vc_id, detail, no, amount, unit, type, price_trans, price_item, price_install, last_update,indent', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +74,7 @@ class Boq extends CActiveRecord
 			'price_item' => 'ค่าอุปกรณ์',
 			'price_install' => 'ค่าติดตั้งทดสอบ',
 			'last_update' => 'Last Update',
+			'indent'=>'indent'
 		);
 	}
 

@@ -199,6 +199,7 @@ class BoqController extends Controller
 		$objPHPExcel= XPHPExcel::createPHPExcel();
 		
 		header('Content-type: text/plain');
+	
 
 		$sheet_no = 1;
 		
@@ -237,6 +238,7 @@ class BoqController extends Controller
 
 								//part header
 								$part_header = $worksheet->getCell("A1")->getCalculatedValue();
+								
 								if($part_header!="")
 								{	
 									$model=new Boq;
@@ -260,7 +262,7 @@ class BoqController extends Controller
 
 									echo $row."==========<br>";
 									
-									if(trim($indent)=="-")
+									/*if(trim($indent)=="-")
 									{
 										$have_indent = true;
 										$detail = $worksheet->getCell("C".$row)->getCalculatedValue();
@@ -301,10 +303,34 @@ class BoqController extends Controller
 										$type = 0;
 
 										echo "type0:".$detail.":".$price_item.":".$price_trans.":".$price_install;
-									}	
+									}*/	
+
+									if($indent!="" && $no !="")
+									{
+										//header	
+										$detail = $worksheet->getCell("B".$row)->getCalculatedValue();
+										$indent = "";
+										$type = 1;
+									}
+									else{
+										//detail
+										$detail = $worksheet->getCell("C".$row)->getCalculatedValue();
+										$indent = $worksheet->getCell("B".$row)->getCalculatedValue();
+										$type = 0;
+									}
+
+
+									$amount = $worksheet->getCell("E".$row)->getCalculatedValue();
+									$unit = $worksheet->getCell("F".$row)->getCalculatedValue();
+									$price_item = $worksheet->getCell("G".$row)->getCalculatedValue();
+									$price_trans = $worksheet->getCell("I".$row)->getCalculatedValue();
+									$price_trans = empty($price_trans) ? $price_item : $price_trans;
+									$price_install = $worksheet->getCell("K".$row)->getCalculatedValue();
+									$price_install = empty($price_install) ? $price_trans : $price_install;
 
 									$model=new Boq;
 									$model->no = $no;
+									$model->indent = $indent;
 									$model->vc_id = $vc_id;
 									$model->detail = $detail;
 									$model->type = $type;
@@ -314,6 +340,7 @@ class BoqController extends Controller
 									$model->price_trans = $price_trans;
 									$model->price_install = $price_install;
 									$model->save();
+									print_r($model);
 									$model_list[] = $model;
 
 									$row++;

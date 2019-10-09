@@ -3,29 +3,15 @@ ini_set('max_execution_time', 300); //300 seconds = 5 minutes
 
 function renderDate($value)
 {
-    $th_month = array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
-    $dates = explode("/", $value);
-    $d=0;
-    $mi = 0;
-    $yi = 0;
-    foreach ($dates as $key => $value) {
-         $d++;
-         if($d==2)
-            $mi = $value;
-         if($d==3)
-            $yi = $value;
-    }
-    if(substr($mi, 0,1)==0)
-        $mi = substr($mi, 1);
-    if(substr($dates[0], 0,1)==0)
-        $d = substr($dates[0], 1);
+          $th_month = array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+          $dates = explode("/", $value);
+          $renderDate = 0;
+          if(count($dates)==3)
+             $renderDate = $dates[0]." ".$th_month[intval($dates[1])]." ".$dates[2];
+          if($renderDate==0)
+              $renderDate = "";   
 
-
-    $renderDate = $d." ".$th_month[$mi]." ".$yi;
-    if($renderDate==0)
-        $renderDate = "";   
-
-    return $renderDate;             
+          return $renderDate;             
 }
 
 function formatMoney($number, $cents = 1) { // cents: 0=never, 1=if needed, 2=always

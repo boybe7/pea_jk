@@ -599,7 +599,7 @@
                     
                     $('#form-import')[0].reset();
                     $("#boq-grid").yiiGridView("update",{});
-                    window.location.reload();
+                   // window.location.reload();
                     
               }
 
@@ -679,10 +679,16 @@
                     //'class' => 'editable.EditableColumn',
                     'type'=>'raw',
                     'value'=> function($data){
-                        if($data->type==1 || $data->type==2)
+                        /*if($data->type==1 || $data->type==2)
                            return '<b>'.$data->detail.'</b>';
                         else if($data->type==-1)
                            return '-&nbsp;&nbsp;'.$data->detail;  
+                        else 
+                           return '&nbsp;&nbsp;&nbsp;'.$data->detail;*/
+                        if($data->type==1 || $data->type==2)
+                          return '<b>'.$data->detail.'</b>';
+                        else if($data->indent!="")
+                          return $data->indent.'&nbsp;&nbsp;'.$data->detail;  
                         else 
                            return '&nbsp;&nbsp;&nbsp;'.$data->detail;
                     },  

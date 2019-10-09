@@ -118,23 +118,9 @@ class ProjectController extends Controller
 			{
 			    $th_month = array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 			    $dates = explode("/", $value);
-			    $d=0;
-			    $mi = 0;
-			    $yi = 0;
-			    foreach ($dates as $key => $value) {
-			         $d++;
-			         if($d==2)
-			            $mi = $value;
-			         if($d==3)
-			            $yi = $value;
-			    }
-			    if(substr($mi, 0,1)==0)
-			        $mi = substr($mi, 1);
-			    if(substr($dates[0], 0,1)==0)
-			        $d = substr($dates[0], 1);
-
-
-			    $renderDate = $d." ".$th_month[$mi]." ".$yi;
+			    $renderDate = 0;
+			    if(count($dates)==3)
+			       $renderDate = $dates[0]." ".$th_month[intval($dates[1])]." ".$dates[2];
 			    if($renderDate==0)
 			        $renderDate = "";   
 
@@ -1187,6 +1173,7 @@ class ProjectController extends Controller
 
             				
             				$row = ($page-1)*50 + 9;//skip footer and header
+            				
             				//$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page); 
             				//break;
             			}
@@ -1196,6 +1183,167 @@ class ProjectController extends Controller
 
             				if($item_page <= 35)
             				{
+            					if($item_page==1 && $page!=1)
+            					{	
+            						
+            						$value_old = $value;
+            						$value = $prev_value;
+            						if($value->type==2 || $value->type==1) //part
+	            					{
+	            						
+	            						
+
+	            						$objPHPExcel->setActiveSheetIndex(0);
+	            						$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+	            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+
+	            						$objPHPExcel->setActiveSheetIndex(1);
+	            						$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+	            						$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);
+	            					
+	            					}
+	            					else if($value->type==-1) //indent
+					             	{
+					             		$objPHPExcel->setActiveSheetIndex(0);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
+					            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+					            		$objPHPExcel->setActiveSheetIndex(1);
+					            		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
+					            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+					             	}
+					             	else{
+					             		$objPHPExcel->setActiveSheetIndex(0);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+					             		$objPHPExcel->setActiveSheetIndex(1);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+					             	}
+
+					             	$objPHPExcel->setActiveSheetIndex(0);
+
+					             	$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->amount);
+					             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->unit);
+					             	if(!is_numeric($value->price_item) && !is_numeric($value->price_trans) && $value->price_item==$value->price_trans && $value->price_item!="")
+		                  			{
+		                  				
+		                  				$objPHPExcel->getActiveSheet()->mergeCells('F'.$row.':G'.$row);
+		                  				$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+		                  			}
+		                  			else
+		                  			{
+		                  				
+		                  				$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_item);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $value->price_trans);
+		                  			}	
+					             	
+
+					             	$price_item_all = ($value->price_item+$value->price_trans)*$value->amount;
+					         		//if(is_numeric($value->price_item) && is_numeric($value->price_trans)) 
+					             		$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $price_item_all);
+					             	    	
+
+					             	//amount current payment
+				                    $curr_payment = Yii::app()->db->createCommand()
+				                                    ->select('*')
+				                                    ->from('payment')
+				                                    ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no =".$pay_no)
+				                                    ->queryAll();
+				                    $current_payment = "";                
+				                    if(!empty($curr_payment))
+				                    {
+				                    	$current_payment = $curr_payment[0]['amount'];
+				                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+				                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
+				                    	
+					                    $price_item_all = ($value->price_item + $value->price_trans) * $curr_payment[0]['amount'];
+					                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
+					                    
+					                    $summary_curr_page += $price_item_all;
+
+
+				                    }
+
+				                  
+
+				                    //amount previous with current payment  
+				                    $prev_payment = Yii::app()->db->createCommand()
+				                                    ->select('SUM(amount) as amount')
+				                                    ->from('payment')
+				                                    ->where("pay_type=0 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <=".$pay_no)
+				                                    ->queryAll();     
+
+				                    if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+				                    {
+				                    	$prev_payment = $prev_payment[0]['amount'];
+				                    	$objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $prev_payment);
+					                    $price_item_all = ($value->price_item + $value->price_trans) * $prev_payment;
+					                    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $price_item_all);
+				                    }
+
+	            					$objPHPExcel->setActiveSheetIndex(0);		            			
+						            $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, "=J".$row);
+
+
+						            //-------Install sheet-----------//
+				                    $objPHPExcel->setActiveSheetIndex(1);
+					             	$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					             	$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->amount);
+					             	$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->unit);
+					             	$objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $value->price_install);
+					             	
+					             	$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, 0);
+					             	$price_item_all = ($value->price_install)*$value->amount;
+					         
+					             	$objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $price_item_all);
+
+					             	//amount current payment
+				                    $curr_payment = Yii::app()->db->createCommand()
+				                                    ->select('*')
+				                                    ->from('payment')
+				                                    ->where("pay_type=2 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no =".$pay_no)
+				                                    ->queryAll();
+				                    $current_payment = "";                
+				                    if(!empty($curr_payment))
+				                    {
+				                    	$current_payment = $curr_payment[0]['amount'];
+				                    	$objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $current_payment);
+				                    	$objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $current_payment);
+					                    $price_item_all = ($value->price_install) * $curr_payment[0]['amount'];
+					                    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $price_item_all);
+					                    $summary_curr_page += $price_item_all;
+
+
+				                    }
+
+				                    //amount previous with current payment  
+				                    $prev_payment = Yii::app()->db->createCommand()
+				                                    ->select('SUM(amount) as amount')
+				                                    ->from('payment')
+				                                    ->where("pay_type=2 AND item_id='".$value->id."' AND vc_id='".$vc_id."' AND pay_no <=".$pay_no)
+				                                    ->queryAll();     
+
+				                    if(!empty($prev_payment) and $prev_payment[0]['amount']>0)
+				                    {
+				                    	$prev_payment = $prev_payment[0]['amount'];
+				                    	$objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $prev_payment);
+					                    $price_item_all = ($value->price_install) * $prev_payment;
+					                    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $price_item_all);
+				                    }
+
+						            $objPHPExcel->setActiveSheetIndex(1);		            			
+						            $objPHPExcel->getActiveSheet()->setCellValue('N'.$row, "=J".$row);
+	
+
+            						$row++;
+            						$item_page++;
+
+            						$value = $value_old;
+            					}
             					
             					
             					if($value->type==2 || $value->type==1) //part
@@ -1354,7 +1502,8 @@ class ProjectController extends Controller
             				else{
             					
             					$row = $row+4; //skip footer
-            					
+
+            					$prev_value = $value;
             				}
             			
 			             	
@@ -3039,7 +3188,7 @@ class ProjectController extends Controller
 						else
 							$objPHPExcel->getActiveSheet()->setCellValue('N'.$row,'-');
 
-						
+						$input_row[] = $row;
 					}
 
             	}
@@ -3089,8 +3238,6 @@ class ProjectController extends Controller
 
 
 		}	
-
-		
 			$objPHPExcel->getProperties()
 						    ->setCreator("boybe")
 						    ->setLastModifiedBy("boybe")
