@@ -340,7 +340,7 @@ class BoqController extends Controller
 									$model->price_trans = $price_trans;
 									$model->price_install = $price_install;
 									$model->save();
-									print_r($model);
+									
 									$model_list[] = $model;
 
 									$row++;
