@@ -399,12 +399,14 @@ if($form_type==1)
                   //$html .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$row.'</td>';
                   $html .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$value->no.'</td>';
 
+
                   if($value->type==1 || $value->type==2)
-                      $detail = ' <b>'.$value->detail.'</b>';
-                  else if($value->type==-1)
-                      $detail = '-&nbsp;&nbsp;'.$value->detail;  
+                      $detail = '<b>'.$value->detail.'</b>';
+                  else if($value->indent!="")
+                      $detail = $value->indent.'&nbsp;&nbsp;'.$value->detail;  
                   else 
-                      $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+                      $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;   
+
                   $html .= '<td style="'.$border_left_right.'"> '.$detail.'</td>';
                   
                   $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->amount.'</td>';
@@ -727,12 +729,13 @@ if($form_type==1)
                  //$html2 .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$row2.'</td>';
                  $html2 .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$value->no.'</td>';
 
-                 if($value->type==1 || $value->type==2)
-                     $detail = ' <b>'.$value->detail.'</b>';
-                 else if($value->type==-1)
-                     $detail = '-&nbsp;&nbsp;'.$value->detail;  
-                 else 
-                     $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+                  if($value->type==1 || $value->type==2)
+                      $detail = '<b>'.$value->detail.'</b>';
+                  else if($value->indent!="")
+                      $detail = $value->indent.'&nbsp;&nbsp;'.$value->detail;  
+                  else 
+                      $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;   
+
                  $html2 .= '<td style="'.$border_left_right.'"> '.$detail.'</td>';
                 
                  $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$value->amount.'</td>';
@@ -1541,11 +1544,12 @@ else
                   $html .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$value->no.'</td>';
 
                   if($value->type==1 || $value->type==2)
-                      $detail = ' <b>'.$value->detail.'</b>';
-                  else if($value->type==-1)
-                      $detail = '-&nbsp;&nbsp;'.$value->detail;  
+                      $detail = '<b>'.$value->detail.'</b>';
+                  else if($value->indent!="")
+                      $detail = $value->indent.'&nbsp;&nbsp;'.$value->detail;  
                   else 
-                      $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+                      $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;   
+                    
                   $html .= '<td style="'.$border_left_right.'"> '.$detail.'</td>';
                   
                   $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->amount.'</td>';

@@ -265,9 +265,11 @@ class ProjectController extends Controller
 			             	}
 			             	else{
 			             		$objPHPExcel->setActiveSheetIndex(0);
+			             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 			             		$objPHPExcel->setActiveSheetIndex(1);
+			             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 			             	}
 
@@ -680,9 +682,11 @@ class ProjectController extends Controller
 			             	}
 			             	else{
 			             		$objPHPExcel->setActiveSheetIndex(0);
+			             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 			             		$objPHPExcel->setActiveSheetIndex(1);
+			             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 			             	}
 
@@ -1217,10 +1221,12 @@ class ProjectController extends Controller
 					             	else{
 					             		$objPHPExcel->setActiveSheetIndex(0);
 					             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 					             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 					             		$objPHPExcel->setActiveSheetIndex(1);
 					             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+					             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 					             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 					             	}
 
@@ -1375,10 +1381,12 @@ class ProjectController extends Controller
 				             	else{
 				             		$objPHPExcel->setActiveSheetIndex(0);
 				             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 				             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 				             		$objPHPExcel->setActiveSheetIndex(1);
 				             		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+				             		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 				             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 				             	}
 
@@ -1758,7 +1766,7 @@ class ProjectController extends Controller
 
 			             	}
 			             	else{
-	
+								$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
 			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
 
 			             		
@@ -2765,6 +2773,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
              	}
              	else{
+             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->indent);	
              		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
              	}
 
@@ -2924,6 +2933,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
              	}
              	else{
+             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->indent);	
              		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
              	}
 
@@ -3110,6 +3120,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
              	}
              	else{
+             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->indent);	
              		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->detail);	
              	}
 

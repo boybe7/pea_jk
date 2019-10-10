@@ -1141,10 +1141,11 @@
             echo '<td style="text-align:center">'.$value->no.'</td>';
             if($value->type==1 || $value->type==2)
                 $detail = '<b>'.$value->detail.'</b>';
-            else if($value->type==-1)
-                $detail = '-&nbsp;&nbsp;'.$value->detail;  
+            else if($value->indent!="")
+                $detail = $value->indent.'&nbsp;&nbsp;'.$value->detail;  
             else 
                 $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+ 
             echo '<td style="text-align:left">'.$detail.'</td>';
            
             echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
@@ -1248,12 +1249,15 @@
         foreach ($boq as $key => $value) {
           echo '<tr>';
             echo '<td style="text-align:center">'.$value->no.'</td>';
+           
+
             if($value->type==1 || $value->type==2)
                 $detail = '<b>'.$value->detail.'</b>';
-            else if($value->type==-1)
-                $detail = '-&nbsp;&nbsp;'.$value->detail;  
+            else if($value->indent!="")
+                $detail = $value->indent.'&nbsp;&nbsp;'.$value->detail;  
             else 
-                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;  
+
             echo '<td style="text-align:left">'.$detail.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
@@ -1357,12 +1361,12 @@
         foreach ($boq as $key => $value) {
           echo '<tr>';
             echo '<td style="text-align:center">'.$value->no.'</td>';
-            if($value->type==1 || $value->type==2)
+             if($value->type==1 || $value->type==2)
                 $detail = '<b>'.$value->detail.'</b>';
-            else if($value->type==-1)
-                $detail = '-&nbsp;&nbsp;'.$value->detail;  
+            else if($value->indent!="")
+                $detail = $value->indent.'&nbsp;&nbsp;'.$value->detail;  
             else 
-                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;
+                $detail = '&nbsp;&nbsp;&nbsp;'.$value->detail;  
             echo '<td>'.$detail.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->amount.'</td>';
             echo '<td style="text-align:center;width:5%">'.$value->unit.'</td>';
