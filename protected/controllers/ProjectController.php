@@ -1714,7 +1714,7 @@ class ProjectController extends Controller
 				
             		$filename = "form 2 max_page1.xlsx";
 				 	//---------------  Form2 using for 1 Page-----------------//
-		   
+		   			$objPHPExcel->setActiveSheetIndex(2);
 		           $objPHPExcel->getActiveSheet()->unmergeCells('D7:J7');
 		           $objPHPExcel->getActiveSheet()->unmergeCells('K7:L7');
 		           $objPHPExcel->getActiveSheet()->unmergeCells('M7:N7');
@@ -1841,90 +1841,63 @@ class ProjectController extends Controller
             		}
 
             		//-------- Summary-----------------//
-            		/*$objPHPExcel->setActiveSheetIndex(0);
+            		
             		$row_summary = ($max_page-1)*50 + 24;
-            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
+            		$objPHPExcel->getActiveSheet()->setCellValue('S'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
+            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
 
-            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
+            		$objPHPExcel->getActiveSheet()->setCellValue('S'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
+            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
 
             		//fine detail
             		$row_fine = 80;
             		foreach ($fineModel as $key => $fine) {
-            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_fine, "- ".$fine->detail);
-            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, $fine->amount);
+            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, "- ".$fine->detail);
+            			$objPHPExcel->getActiveSheet()->setCellValue('V'.$row_fine, $fine->amount);
 
             			$row_fine++;
 
             		}
 
-            		$objPHPExcel->getActiveSheet()->getStyle("T".$row_summary.":T".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("V".$row_summary.":V".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
-            		$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		
             		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("N10:N47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N10:N45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("P10:P47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
-            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            		$objPHPExcel->getActiveSheet()->getStyle("O10:O47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
             		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
             		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
             		
 
-            		$objPHPExcel->setActiveSheetIndex(1);
-            		$row_summary = ($max_page-1)*50 + 24;
-            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
-
-            		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
-            		//fine detail
-            		$row_fine = 80;
-            		foreach ($fineModel as $key => $fine) {
-            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_fine, "- ".$fine->detail);
-            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, $fine->amount);
-
-            			$row_fine++;
-
-            		}
-
-            		//cell accouting format
-            		$objPHPExcel->getActiveSheet()->getStyle("T".$row_summary.":T".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-
-            		$objPHPExcel->getActiveSheet()->getStyle("H10:H45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("N10:N47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-
-            		$objPHPExcel->getActiveSheet()->getStyle("I10:I47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-            		$objPHPExcel->getActiveSheet()->getStyle("K10:K47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-            		$objPHPExcel->getActiveSheet()->getStyle("M10:M47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-
+            	
 
             		//---------committee----------//
             		$row_committee = ($max_page-1)*50 + 36;
-            		$objPHPExcel->setActiveSheetIndex(0);
+            		
             		if(count($committee_member)<=2)
             		{
             			$row_comm = $row_committee+1;
-            			$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");           			
-					    $objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+            			$objPHPExcel->getActiveSheet()->setCellValue('S'.$row_comm, "ลงชื่อ ");           			
+					    $objPHPExcel->getActiveSheet()->getStyle('T'.$row_comm.':V'.$row_comm)->getBorders()->getBottom()
 					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
-            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ประธานกรรมการ ");
+            			$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "ประธานกรรมการ ");
             			$row_comm++;
-            			$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
-            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$committee_header->name.')');
-            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$committee_header->position);
+            			$objPHPExcel->getActiveSheet()->mergeCells('T'.$row_comm.':V'.$row_comm);
+            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_comm, '('.$committee_header->name.')');
+            			$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "ตำแหน่ง ".$committee_header->position);
             			$row_comm = $row_comm+2;
             			foreach ($committee_member as $key => $member) {
-            				$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");
-            				$objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+            				$objPHPExcel->getActiveSheet()->setCellValue('S'.$row_comm, "ลงชื่อ ");
+            				$objPHPExcel->getActiveSheet()->getStyle('T'.$row_comm.':V'.$row_comm)->getBorders()->getBottom()
 					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
-            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "กรรมการ ");
+            				$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "กรรมการ ");
             				$row_comm++;
-            				$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
-            				$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$member->name.')');
-            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$member->position);
+            				$objPHPExcel->getActiveSheet()->mergeCells('T'.$row_comm.':V'.$row_comm);
+            				$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_comm, '('.$member->name.')');
+            				$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "ตำแหน่ง ".$member->position);
             				$row_comm = $row_comm+2;
 
             			}
@@ -1933,37 +1906,49 @@ class ProjectController extends Controller
             		else
             		{
             			$row_comm = $row_committee;
-            			$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");
-            			$objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+            			$objPHPExcel->getActiveSheet()->setCellValue('S'.$row_comm, "ลงชื่อ ");           			
+					    $objPHPExcel->getActiveSheet()->getStyle('T'.$row_comm.':V'.$row_comm)->getBorders()->getBottom()
 					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
-            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ประธานกรรมการ ");
+            			$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "ประธานกรรมการ ");
             			$row_comm++;
-            			$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
-            			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$committee_header->name.')');
-            			$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$committee_header->position);
+            			$objPHPExcel->getActiveSheet()->mergeCells('T'.$row_comm.':V'.$row_comm);
+            			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_comm, '('.$committee_header->name.')');
+            			$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "ตำแหน่ง ".$committee_header->position);
             			$row_comm ++;
             			foreach ($committee_member as $key => $member) {
-            				$objPHPExcel->getActiveSheet()->setCellValue('Q'.$row_comm, "ลงชื่อ ");
-            				$objPHPExcel->getActiveSheet()->getStyle('R'.$row_comm.':T'.$row_comm)->getBorders()->getBottom()
+            				$objPHPExcel->getActiveSheet()->setCellValue('S'.$row_comm, "ลงชื่อ ");
+            				$objPHPExcel->getActiveSheet()->getStyle('T'.$row_comm.':V'.$row_comm)->getBorders()->getBottom()
 					                ->setBorderStyle(PHPExcel_Style_Border::BORDER_DASHED );
-            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "กรรมการ ");
+            				$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "กรรมการ ");
             				$row_comm++;
-            				$objPHPExcel->getActiveSheet()->mergeCells('R'.$row_comm.':T'.$row_comm);
-            				$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_comm, '('.$member->name.')');
-            				$objPHPExcel->getActiveSheet()->setCellValue('U'.$row_comm, "ตำแหน่ง ".$member->position);
+            				$objPHPExcel->getActiveSheet()->mergeCells('T'.$row_comm.':V'.$row_comm);
+            				$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_comm, '('.$member->name.')');
+            				$objPHPExcel->getActiveSheet()->setCellValue('W'.$row_comm, "ตำแหน่ง ".$member->position);
             				$row_comm++;
 
             			}
             		}
-            		*/
+            		
 
 				}
-				else
+				else if($max_page==2)
 				{
-
+					$filename = "form 2 max_page2.xlsx";
 
 				}	
+				else //more than 2 pages
+				{
+					$filename = "form 2 max_page3.xlsx";
+				}
 
+				//remove sheet form 1
+				$objPHPExcel->setActiveSheetIndex(0);
+				$sheetIndex = $objPHPExcel->getActiveSheetIndex();
+				$objPHPExcel->removeSheetByIndex($sheetIndex);
+
+				$objPHPExcel->setActiveSheetIndex(0);
+				$sheetIndex = $objPHPExcel->getActiveSheetIndex();
+				$objPHPExcel->removeSheetByIndex($sheetIndex);
 
 			}
 
