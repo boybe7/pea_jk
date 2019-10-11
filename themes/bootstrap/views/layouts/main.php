@@ -111,10 +111,16 @@ float: none;
 
 }    
 
-.nav-tabs a {
+/*.nav-tabs a {
   background: #fffbfb ;
   border: 1px solid #000000;
   border-bottom-color: transparent;
+}*/
+
+.nav-tabs a {
+    background: #b5b3c1;
+    border: 1px solid #000000;
+    border-bottom-color: transparent;
 }
 
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
