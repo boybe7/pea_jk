@@ -1788,7 +1788,7 @@ class ProjectController extends Controller
 
             		$objPHPExcel->getActiveSheet()->setCellValue('T14', "(".$committee_control->name.")");
             		$objPHPExcel->getActiveSheet()->setCellValue('X14', $committee_control->position);
-            		$objPHPExcel->getActiveSheet()->setCellValue('A50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->setCellValue('C50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
             		// $objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
             		$objPHPExcel->getActiveSheet()->setCellValue('F50', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
 
@@ -1986,20 +1986,20 @@ class ProjectController extends Controller
 				else //if($max_page==2)
 				{
 					$filename = "form 2 max_page2.xlsx";
-
+					$objPHPExcel->setActiveSheetIndex(2);
 					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
 
 					if($max_page>2)
 						for ($i=1; $i <= $max_page-2 ; $i++) { 
 						
-							copyRows($objPHPExcel->getActiveSheet(), 1, 50*$i + 1, 50, 22);
+							copyRows($objPHPExcel->getActiveSheet(), 1, 50*$i + 1, 50, 25);
 						}
 
 				
 	            	$row = 1;
             		$row_start = 10;
             		$page = 1;
-            		$objPHPExcel->setActiveSheetIndex(2);
+            		
 
             		$item_page = 0;
             		foreach ($boq as $key => $value) {
@@ -2029,11 +2029,14 @@ class ProjectController extends Controller
 		            		$objPHPExcel->getActiveSheet()->setCellValue('P'.($row_header+45), "=SUM(P".($row_header + 10).":P".($row_header + 44).")");
 
 		            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_header+14), "(".$committee_control->name.")");
+		            		$objPHPExcel->getActiveSheet()->mergeCells('T'.($row_header+14).':V'.($row_header+14));
 		            		$objPHPExcel->getActiveSheet()->setCellValue('X'.($row_header+14), $committee_control->position);
-		            		$objPHPExcel->getActiveSheet()->setCellValue('A'.($row_header+50), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
-		            		// $objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
-		            		$objPHPExcel->getActiveSheet()->setCellValue('F'.($row_header+50), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
-
+		            		$objPHPExcel->getActiveSheet()->setCellValue('C'.($row_header+49), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            		if($page!=$max_page)
+		            		{
+		            			$objPHPExcel->getActiveSheet()->mergeCells('F'.($row_header+49).':L'.($row_header+49));
+		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row_header+49), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+		            		}	
 
 		            		$objPHPExcel->getActiveSheet()->getStyle("F".(($page-1)*50 + 10).":H".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
@@ -2049,17 +2052,51 @@ class ProjectController extends Controller
             				$objPHPExcel->getActiveSheet()->getStyle("M".(($page-1)*50 + 10).":M".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
 		            		
-            				$row = ($page-1)*50 + 10;//skip footer and header
+            				$row = ($page-1)*50 + 10;//skip footer 
             				$page++;
             				
             			}
 
-            			$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $page);  
+            			
+            			if($value->type==2) // PART
+			            {
+			            		//$row = $row == $max_row+$row_start-1 ? $row + 16 : $row ;		   
+			            		$objPHPExcel->getActiveSheet()->mergeCells('B'.$row.':C'.$row);
+			            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);	
 
-            			if($row%50==0)
+			            }
+			            else if($value->type==1) //item
+			             {
+			             		//$row = $row == $max_row+$row_start-1 ? $row + 16 : $row ;
+			             		
+			            		$objPHPExcel->getActiveSheet()->mergeCells('B'.$row.':C'.$row);
+			            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->detail);	
+
+			             }
+			             else if($value->type==-1) //indent
+			             {
+		
+			            		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, "-");	
+			            		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+			             }
+			             else{
+								$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $value->indent);	
+			             		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $value->detail);	
+
+			             		
+			             }
+
+			             $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $value->no);
+			             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $value->amount);
+			             $objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $value->unit);
+
+
+			            if($item_page%34==0 && $item_page!=0)
+            			{
             				$item_page = -1;
-
-
+            				$row = $row + 5;
+            			}
             			$item_page++;
             			$row++;
             		}	
@@ -2069,6 +2106,10 @@ class ProjectController extends Controller
 
             		//--------------footer-----------------//
             		$row_header = ($max_page-1)*50;
+            		$objPHPExcel->getActiveSheet()->setCellValue('A'.($row_header+50), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");		         
+		            $objPHPExcel->getActiveSheet()->setCellValue('F'.($row_header+50), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
+
+
 		            //summary
 		            $objPHPExcel->getActiveSheet()->setCellValue('B'.($row_header+45), "รวม(".($page-1).")");
 		            $objPHPExcel->getActiveSheet()->setCellValue('J'.($row_header+45), "=SUM(J".($row_header + 10).":J".($row_header + 44).")");
