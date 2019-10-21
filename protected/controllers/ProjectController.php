@@ -1990,14 +1990,16 @@ class ProjectController extends Controller
 				{
 					$filename = "form 2 max_page2.xlsx";
 					$objPHPExcel->setActiveSheetIndex(2);
-					$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
-
+					
 					if($max_page>2)
+					{
+						$objPHPExcel->getActiveSheet()->insertNewRowBefore(51, 50*($max_page-2));
+
 						for ($i=1; $i <= $max_page-2 ; $i++) { 
 						
 							copyRows($objPHPExcel->getActiveSheet(), 1, 50*$i + 1, 50, 25);
 						}
-
+					}	
 				
 	            	$row = 1;
             		$row_start = 10;
