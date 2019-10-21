@@ -611,7 +611,7 @@ class ProjectController extends Controller
 
             		$objPHPExcel->getActiveSheet()->setCellValue('R64', "(".$committee_control->name.")");
             		$objPHPExcel->getActiveSheet()->setCellValue('V64', $committee_control->position);
-            		$objPHPExcel->getActiveSheet()->setCellValue('A100', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->setCellValue('C100', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
             		$objPHPExcel->getActiveSheet()->setCellValue('F100', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
 
             		$row = 10;
@@ -1175,7 +1175,7 @@ class ProjectController extends Controller
 		            			//$objPHPExcel->getActiveSheet()->mergeCells('R'.($row+14).':T'.($row+14));
 		            			$objPHPExcel->getActiveSheet()->setCellValue('R'.($row+14), "(".$committee_control->name.")");
 		            			$objPHPExcel->getActiveSheet()->setCellValue('V'.($row+14), $committee_control->position);
-		            			$objPHPExcel->getActiveSheet()->setCellValue('A'.($row+50), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+		            			$objPHPExcel->getActiveSheet()->setCellValue('C'.($row+50), "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
 		            			//$objPHPExcel->getActiveSheet()->mergeCells('F'.($row+50).':I'.($row+50));
 		            			$objPHPExcel->getActiveSheet()->setCellValue('F'.($row+50), "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);	
 		            		}
@@ -1788,7 +1788,7 @@ class ProjectController extends Controller
 
             		$objPHPExcel->getActiveSheet()->setCellValue('T14', "(".$committee_control->name.")");
             		$objPHPExcel->getActiveSheet()->setCellValue('X14', $committee_control->position);
-            		$objPHPExcel->getActiveSheet()->setCellValue('C50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
+            		$objPHPExcel->getActiveSheet()->setCellValue('A50', "(".$committee_vendor->name.")   ผู้จัดการโครงการ");
             		// $objPHPExcel->getActiveSheet()->mergeCells('F49:I49');
             		$objPHPExcel->getActiveSheet()->setCellValue('F50', "(".$committee_control->name.")  ตำแหน่ง ".$committee_control->position);
 
@@ -1902,7 +1902,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+2), "=+V".$row_summary."*".$model_vc->percent_adv."%" );
 
             		//fine detail
-            		$row_fine = 80;
+            		$row_fine = 30;
             		foreach ($fineModel as $key => $fine) {
             			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, "- ".$fine->detail);
             			$objPHPExcel->getActiveSheet()->setCellValue('V'.$row_fine, $fine->amount);
@@ -1911,12 +1911,15 @@ class ProjectController extends Controller
 
             		}
 
+            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+11), '="("&(BAHTTEXT(V'.($row_summary+10).'))&")"' );
+
+
             		$objPHPExcel->getActiveSheet()->getStyle("V".$row_summary.":V".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
             		
-            		$objPHPExcel->getActiveSheet()->getStyle("J10:J45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("L10:L45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-            		$objPHPExcel->getActiveSheet()->getStyle("N10:N45")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("J10:J46")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("L10:L46")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+            		$objPHPExcel->getActiveSheet()->getStyle("N10:N46")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
             		$objPHPExcel->getActiveSheet()->getStyle("P10:P47")->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
             		$objPHPExcel->getActiveSheet()->getStyle("O10:O47")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
@@ -3348,7 +3351,7 @@ class ProjectController extends Controller
 						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าติดตั้งทดสอบ 	:');
 						$objValidation->setPrompt($recommen_val);
 						$objValidation->setFormula1(0);
-						$objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')');
+						$objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')-ค่าติดตั้งทดสอบ!I'.$row);
 
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('K'.$row,0);

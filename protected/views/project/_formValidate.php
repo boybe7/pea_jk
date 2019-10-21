@@ -167,7 +167,7 @@ Yii::import('ext.phpexcel.XPHPExcel');
 					        else if($amount_pay > $amount_max)
 					        {
 					        
-					        	$error .= "!***ค่าติดตั้งเบิกเกินค่าของรวม*** <br>";
+					        	$error .= $amount_pay."!***ค่าติดตั้งเบิกเกินค่าของรวม*** <br>".$amount_max;
 					        	$error_msg = "error";
 					        }else{
 					        	if( $amount_pay > 0)

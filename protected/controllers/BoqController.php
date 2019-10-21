@@ -524,7 +524,7 @@ class BoqController extends Controller
 			        	echo $boq->detail."<br>";
 			        	$invalid_file = true;
 			        	echo "จำนวนค่าของเบิกรวมครั้งนี้ : ".($item_amount_prev+$item_amount_pay)." | จำนวนค่าติดตั้งที่เบิกแล้ว : ".$amount_prev." | จำนวนค่าติดตั้งเบิกครั้งนี้ : ".$amount_pay;
-			        	echo "!***ค่าติดตั้งเบิกเกินค่าของรวม*** <br>";
+			        	echo $amount_prev." !***ค่าติดตั้งเบิกเกินค่าของรวม***".$amount_pay;
 			        }
 
 	            }	
