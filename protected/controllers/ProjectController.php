@@ -78,7 +78,7 @@ class ProjectController extends Controller
 	        $boq = Boq::model()->findAll($Criteria); 
 
 	        $Criteria = new CDbCriteria();
-	        $Criteria->condition = "vc_id=".$_GET["vc_id"];
+	        $Criteria->condition = "vc_id=".$_GET["vc_id"]." AND pay_no=".$_GET["pay_no"];
 	        $fineModel = Fine::model()->findAll($Criteria); 
 
 
@@ -395,7 +395,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
 
             		//fine detail
-            		$row_fine = 80;
+            		$row_fine = 30;
             		foreach ($fineModel as $key => $fine) {
             			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_fine, "- ".$fine->detail);
             			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, $fine->amount);
@@ -424,7 +424,7 @@ class ProjectController extends Controller
             		$objPHPExcel->getActiveSheet()->setCellValue('Q'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
             		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
             		//fine detail
-            		$row_fine = 80;
+            		$row_fine = 30;
             		foreach ($fineModel as $key => $fine) {
             			$objPHPExcel->getActiveSheet()->setCellValue('R'.$row_fine, "- ".$fine->detail);
             			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, $fine->amount);
@@ -1896,10 +1896,10 @@ class ProjectController extends Controller
             		
             		$row_summary = ($max_page-1)*50 + 24;
             		$objPHPExcel->getActiveSheet()->setCellValue('S'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
+            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+1), "=+V".$row_summary."*".$model_vc->percent_pay."%" );
 
             		$objPHPExcel->getActiveSheet()->setCellValue('S'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
+            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+2), "=+V".$row_summary."*".$model_vc->percent_adv."%" );
 
             		//fine detail
             		$row_fine = 80;
@@ -2162,7 +2162,7 @@ class ProjectController extends Controller
             		}	
 
 
-            		//-----last page
+            		//--------------------------last page--------------------------//
 
             		//--------------footer-----------------//
             		$row_header = ($max_page-1)*50;
@@ -2268,13 +2268,13 @@ class ProjectController extends Controller
 
             		$row_summary = ($max_page-1)*50 + 24;
             		$objPHPExcel->getActiveSheet()->setCellValue('S'.($row_summary+1), "เบิก ".$model_vc->percent_pay."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+1), "=+T".$row_summary."*".$model_vc->percent_pay."%" );
+            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+1), "=+V".$row_summary."*".$model_vc->percent_pay."%" );
 
             		$objPHPExcel->getActiveSheet()->setCellValue('S'.($row_summary+2), "หัก Advance ".$model_vc->percent_adv."%");
-            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+2), "=+T".$row_summary."*".$model_vc->percent_adv."%" );
+            		$objPHPExcel->getActiveSheet()->setCellValue('V'.($row_summary+2), "=+V".$row_summary."*".$model_vc->percent_adv."%" );
 
             		//fine detail
-            		$row_fine = 80;
+            		$row_fine = $row_summary + 6;
             		foreach ($fineModel as $key => $fine) {
             			$objPHPExcel->getActiveSheet()->setCellValue('T'.$row_fine, "- ".$fine->detail);
             			$objPHPExcel->getActiveSheet()->setCellValue('V'.$row_fine, $fine->amount);
@@ -2282,6 +2282,8 @@ class ProjectController extends Controller
             			$row_fine++;
 
             		}
+
+            		$objPHPExcel->getActiveSheet()->setCellValue('T'.($row_summary+11), '="("&(BAHTTEXT(V'.($row_summary+10).'))&")"' );
 
             		$objPHPExcel->getActiveSheet()->getStyle("V".$row_summary.":V".($row_summary+11))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
