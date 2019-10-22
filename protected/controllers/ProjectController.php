@@ -1750,6 +1750,12 @@ class ProjectController extends Controller
 
 				}
 
+				//auto size column
+				$objPHPExcel->setActiveSheetIndex(0);
+				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+
+				$objPHPExcel->setActiveSheetIndex(1);
+				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 
             
 				//remove sheet form 2
@@ -2203,13 +2209,13 @@ class ProjectController extends Controller
 
 
 		            $page = $max_page;
-		            $objPHPExcel->getActiveSheet()->getStyle("F".(($page-1)*50 + 10).":H".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            $objPHPExcel->getActiveSheet()->getStyle("F".(($page-1)*50 + 10).":H".(($page-1)*50 + 10 + 36))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
 		            $objPHPExcel->getActiveSheet()->getStyle("P".(($page-1)*50 + 10).":P".(($page-1)*50 + 10 + 37))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-		            $objPHPExcel->getActiveSheet()->getStyle("J".(($page-1)*50 + 10).":J".(($page-1)*50 + 10 + 35))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
-		            $objPHPExcel->getActiveSheet()->getStyle("L".(($page-1)*50 + 10).":L".(($page-1)*50 + 10 + 35))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            $objPHPExcel->getActiveSheet()->getStyle("J".(($page-1)*50 + 10).":J".(($page-1)*50 + 10 + 36))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            $objPHPExcel->getActiveSheet()->getStyle("L".(($page-1)*50 + 10).":L".(($page-1)*50 + 10 + 36))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 		            		
-		            $objPHPExcel->getActiveSheet()->getStyle("N".(($page-1)*50 + 10).":N".(($page-1)*50 + 10 + 35))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
+		            $objPHPExcel->getActiveSheet()->getStyle("N".(($page-1)*50 + 10).":N".(($page-1)*50 + 10 + 36))->getNumberFormat()->setFormatCode('_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)');
 
 		            		
             		$objPHPExcel->getActiveSheet()->getStyle("O".(($page-1)*50 + 10).":O".(($page-1)*50 + 10 + 34))->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
@@ -2294,6 +2300,10 @@ class ProjectController extends Controller
 
 
 				}	
+
+				//auto size column
+				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+
 				/*else //more than 2 pages
 				{
 					$filename = "form 2 max_page3.xlsx";
