@@ -438,19 +438,7 @@ if(Yii::app()->user->id !="")
             'class'=>'bootstrap.widgets.TbMenu',
             'encodeLabel'=>false,
             'items'=>array(
-                //array('label'=>'หน้าแรก','icon'=>'home', 'url'=>array('/site/index')),
-                // array('label'=>'โครงการ','icon'=>'flag', 'url'=>array('/project/index')),
-                array('label'=>'โครงการ ','icon'=>'flag', 'url'=>'#','items'=>array(
-                     array('label'=>'ข้อมูลโครงการ', 'url'=>array('/project/index')),
-                     array('label'=>'ข้อมูลรายละเอียดงานเพื่อขออนุมัติเบิกจ่าย', 'url'=>array('/paymentDetail/index')),
-                     array('label'=>'บันทึกความก้าวหน้าสัญญาหลัก', 'url'=>array('/paymentProjectContract/index'),'visible'=>Yii::app()->user->isAccess('/paymentProjectContract/index')),
-                     array('label'=>'บันทึกความก้าวหน้าสัญญาจ้างช่วง/ซื้อ', 'url'=>array('/paymentOutsourceContract/index'),'visible'=>Yii::app()->user->isAccess('/paymentOutsourceContract/index')),
-                     array('label'=>'บันทึกค่าบริหารโครงการ (SAP)', 'url'=>array('/managementCostSap/index'),'visible'=>Yii::app()->user->isAccess('/managementCostSap/index')),
-                      array('label'=>'หนังสือขอคืนค้ำประกันสัญญา', 'url'=>array('/report/guarantee'),'visible'=>Yii::app()->user->isAccess('/report/guarantee')),
-                     
-                    ),
-                ),
-                
+              
                 
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'eye-open', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
                     
