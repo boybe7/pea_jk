@@ -1202,3 +1202,196 @@ Stack trace:
 REQUEST_URI=/pea_jk/paymentDetail/index
 HTTP_REFERER=http://localhost/pea_jk/project/index
 ---
+2019/10/23 23:34:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/23 23:38:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/23 23:44:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/23 23:52:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/23 23:52:52 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:06:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:07:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:07:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:14:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:16:46 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "undefined" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('undefined')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('undefined')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/undefin...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/undefined
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:45:07 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2828
+Stack trace:
+#0 [internal function]: ProjectController->actionDelete('17')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('delete')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/delete')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/delete/17
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:45:20 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2828
+Stack trace:
+#0 [internal function]: ProjectController->actionDelete('17')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('delete')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/delete')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/delete/17
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:46:14 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2828
+Stack trace:
+#0 [internal function]: ProjectController->actionDelete('17')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('delete')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/delete')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/delete/17
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/10/24 00:46:30 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2828
+Stack trace:
+#0 [internal function]: ProjectController->actionDelete('17')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('delete')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/delete')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/delete/17
+---

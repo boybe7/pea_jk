@@ -35,7 +35,7 @@ class ProjectController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','deleteVendorContract'),
+				'actions'=>array('admin','delete','deleteVendorContract','deleteRealVendorContract','flagDel'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -2787,11 +2787,13 @@ class ProjectController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
+	
+		//if(Yii::app()->request->isPostRequest)
+		//{
 			// we only allow deletion via POST request
 			if(Yii::app()->user->isAdmin())
 	       	{		
+
 				if($this->loadModel($id)->delete()){
 					$m_vc =  VendorContract::model()->findAll(array('join'=>'','condition'=>'proj_id='.$id));
 					foreach ($m_vc as $key => $value) {
@@ -2814,11 +2816,14 @@ class ProjectController extends Controller
 			}
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+			//if(!isset($_GET['ajax']))
+			//	$this->redirect(array('index'));
+
+			$this->redirect(Yii::app()->request->urlReferrer);
+			//	$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+		//}
+		//else
+		//	throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	public function actionDeleteVendorContract($id)
@@ -2827,28 +2832,28 @@ class ProjectController extends Controller
 		{
 			
 
-			// we only allow deletion via POST request
-	       	if(Yii::app()->user->isAdmin())
-	       	{		
-
-
-					if(VendorContract::model()->findByPk($id)->delete()){
-						Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
-						Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
-
-
-					}
-			}
-			else{
 
 				$model = VendorContract::model()->findByPk($id);
 				$model->flag_del = 1;
 				$model->save();
 
-				
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
 
+	public function actionDeleteRealVendorContract($id)
+	{
+		if(Yii::app()->request->isPostRequest)
+		{
+			
 
-			}				
+					if(VendorContract::model()->findByPk($id)->delete()){
+						Yii::app()->db->createCommand('DELETE FROM contract_member WHERE vc_id='.$id)->execute();
+						Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
+
+					}	
+		
 			
 		}
 		else
@@ -2871,6 +2876,19 @@ class ProjectController extends Controller
 			$model->attributes=$_GET['VendorContract'];
 
 		$this->render('index',array(
+			'model'=>$model,
+		));
+	}
+
+	public function actionFlagDel()
+	{
+	
+		$model = new VendorContract('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['VendorContract']))
+			$model->attributes=$_GET['VendorContract'];
+
+		$this->render('flag_del',array(
 			'model'=>$model,
 		));
 	}

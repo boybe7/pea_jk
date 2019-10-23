@@ -6,7 +6,7 @@
 		        bootbox.confirm("<font color=red><h4>ต้องการจะลบข้อมูลโครงการ?</h4></font>", function(result) {
 		            if (result) {
 		                 //include the href duplication link here?;
-		                 //console.log($(this));
+		                 console.log(link);
 		                 window.location.href = link;
 
 		            } else {
@@ -27,50 +27,9 @@ tr.filters td{
 <div class="navbar">
 	<div class="navbar-inner navbar-header">
 		<div class="container">
-			<a class="brand pull-left" href="#" >ข้อมูลโครงการ</a>
+			<a class="brand pull-left" href="#" >ข้อมูลโครงการที่ถูกลบ</a>
 			
 			<form class="navbar-form pull-right">
-
-			  <!-- <input type="text" class="span2"> -->
-			  <!-- <button type="submit" class="btn">Submit</button> -->
-			  <?php
-				if(Yii::app()->user->getAccess(Yii::app()->request->url))
-				{
-				   $this->widget('bootstrap.widgets.TbButton', array(
-				    'buttonType'=>'link',
-				    'type'=>'success',
-				    'label'=>'เพิ่มโครงการ',
-				    'icon'=>'plus-sign',
-				    'url'=>array('create'),
-				    'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left:10px',
-
-				    	// 'onclick'=>'js:bootbox.confirm($("#modal-body").html(),"ยกเลิก","บันทึก",
-         //                      function(confirmed){
-         //                          if(confirmed)
-         //                          {
-         //                           $.ajax({
-									// 	type: "POST",
-									// 	url: "createByAjax",
-									// 	dataType:"json",
-									// 	data: $(".modal-body #project-form").serialize()
-									// })
-									// .done(function( msg ) {
-									// 	if(msg.status=="failure")
-									// 	{
-									// 		js:bootbox.alert("<font color=red>!!!!บันทึกไม่สำเร็จ</font>","ตกลง");
-									// 	}
-									// 	else{
-									// 		//js:bootbox.alert("บันทึกสำเร็จ","ตกลง");
-									// 		window.location.href = "createVendorContract/"+msg.proj_id;
-									// 	}
-									// });
-         //                          }
-
-         //                      })'
-						),
-					)); 
-				}
-			?>
 
 			</form>
 		</div>	
@@ -82,98 +41,11 @@ tr.filters td{
 if(Yii::app()->user->getAccess(Yii::app()->request->url))
 {
 
-	// $this->widget('ext.groupgridview.BootGroupGridView', array(
- //      'id' => 'grid1',
-	// 	'dataProvider'=>$model->search(),
-	// 	'filter'=>$model,
-	// 	'htmlOptions'=>array('style'=>'padding-top:10px'),
- //      'mergeColumns' => array('fiscal_year','name'),  
- //      'columns' => array(
- //        'fiscal_year',
-      
- //        'name',
- //        'vc_name'=>array(
-	// 			    'name' => 'vc_name',
-	// 			    'value'=>'$data->getName($data)',
-	// 			    'filter'=>CHtml::activeTextField($model, 'vc_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vc_name"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:left')
-	// 	  	),
-
- //      ),
- //    ));
-
-	// $this->widget('bootstrap.widgets.TbGridView',array(
-	// 	'id'=>'project-grid',
-	// 	'type'=>'bordered condensed',
-	// 	'dataProvider'=>$model->search(),
-	// 	'filter'=>$model,
-	// 	'selectableRows' =>2,
-	// 	'htmlOptions'=>array('style'=>'padding-top:10px'),
-	//     'enablePagination' => true,
-	//     'summaryText'=>'แสดงผล {start} ถึง {end} จากทั้งหมด {count} ข้อมูล',
-	//     'template'=>"{items}<div class='row-fluid'><div class='span6'>{pager}</div><div class='span6'>{summary}</div></div>",
-	// 	'columns'=>array(
-		
-	//         'fiscal_year'=>array(
-	// 			    'name' => 'fiscal_year',
-	// 			    'filter'=>CHtml::activeTextField($model, 'fiscal_year',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("fiscal_year"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:7%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:center')
-	// 	  	),
-	// 	  	'name'=>array(
-	// 			    'name' => 'name',
-	// 			    'filter'=>CHtml::activeTextField($model, 'name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("name"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:left')
-	// 	  	),
-	// 	  	'vc_name'=>array(
-	// 			    'name' => 'vc_name',
-	// 			    'type' => 'raw',
-	// 			    'value'=>'$data->getVendorContract($data,"name")',
-	// 			    'filter'=>CHtml::activeTextField($model, 'vc_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vc_name"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:left')
-	// 	  	),
-	// 	  	'vc_contract_no'=>array(
-	// 			    'name' => 'vc_contract_no',
-	// 			    'type' => 'raw',
-	// 			    'value'=>'$data->getVendorContract($data,"contract_no")',
-	// 			    'filter'=>CHtml::activeTextField($model, 'vc_contract_no',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vc_contract_no"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:center')
-	// 	  	),
-	// 	  	'vc_vendor_name'=>array(
-	// 			    'name' => 'vc_vendor_name',
-	// 			    'value'=>'$data->getVendor($data,"v_name")',
-	// 			    'filter'=>CHtml::activeTextField($model, 'vc_vendor_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vc_vendor_name"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:left')
-	// 	  	),
-	// 	  	'vc_budget'=>array(
-	// 			    'name' => 'vc_budget',
-	// 			    'value'=>'$data->getVendorContract($data,"budget")',
-	// 			    'type' => 'raw',
-	// 			    'filter'=>CHtml::activeTextField($model, 'vc_budget',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("vc_budget"))),
-	// 				'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
-	// 				'htmlOptions'=>array('style'=>'text-align:center')
-	// 	  	),
-	// 		array(
-	// 			'class'=>'bootstrap.widgets.TbButtonColumn',
-	// 			'headerHtmlOptions' => array('style' => 'width:8%;text-align:center;background-color: #f5f5f5'),
-	// 			'template' => '{update} {delete}',
-		
-	// 		),
-	// 	),
-	// 	)
-	// );
-
-	//'bootstrap.widgets.TbGridView'
 	//'ext.groupgridview.BootGroupGridView
 	$this->widget('ext.groupgridview.BootGroupGridView',array(
 		'id'=>'project-grid',
 		//'type'=>'bordered condensed',
-		'dataProvider'=>$model->search(),
+		'dataProvider'=>$model->searchFlag(),
 		'filter'=>$model,
 		//'selectableRows' =>2,
 		//'extraRowColumns' => array('proj_name'),
@@ -283,7 +155,7 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
                                         //'url'=>'Yii::app()->createUrl("deleteVendorContract/".$data["id"])',
                                         'url'=>function($data){
 
-								            return Yii::app()->createUrl('/project/deleteVendorContract/',
+								            return Yii::app()->createUrl('/project/deleteRealVendorContract/',
 
 								                    array('id'=>$data->id) /* <- customise that */
 

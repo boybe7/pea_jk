@@ -100,6 +100,45 @@ class VendorContract extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
+
+	public function searchFlag()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('VendorContract.name',$this->name,true);
+		$criteria->compare('contract_no',$this->contract_no,true);
+		$criteria->compare('approve_date',$this->approve_date,true);
+		$criteria->compare('end_date',$this->end_date,true);
+		$criteria->compare('percent_pay',$this->percent_pay);
+		$criteria->compare('percent_adv',$this->percent_adv);
+		$criteria->compare('budget',$this->budget);
+		$criteria->compare('detail_approve',$this->detail_approve,true);
+		$criteria->compare('vendor_id',$this->vendor_id);
+		$criteria->compare('proj_id',$this->proj_id);
+		$criteria->compare('updated_by',$this->updated_by);
+		$criteria->compare('lock_boq',$this->lock_boq);
+
+		$criteria->compare('VendorContract.flag_del',1);
+        //$criteria->compare('project.flag_del',1);
+		//relative search
+		//$criteria->select = array('VendorContract.id','VendorContract.name','VendorContract.contract_no','VendorContract.budget');
+		$criteria->alias = 'VendorContract';
+		$criteria->join='LEFT JOIN project ON project.id=VendorContract.proj_id LEFT JOIN vendor ON vendor.v_id=VendorContract.vendor_id';
+
+		$criteria->compare('project.name',$this->proj_name,true);
+		$criteria->compare('project.owner_name',$this->owner_name,true);	
+		$criteria->compare('project.fiscal_year',$this->fiscal_year,true);	
+		$criteria->compare('vendor.v_name',$this->vendor_name,true);	
+		$criteria->order = 'project.fiscal_year DESC,id DESC';
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -120,13 +159,13 @@ class VendorContract extends CActiveRecord
 		$criteria->compare('updated_by',$this->updated_by);
 		$criteria->compare('lock_boq',$this->lock_boq);
 
-		if(Yii::app()->user->isAdmin())
-			$criteria->compare('flag_del',$this->flag_del);
-		else
-		{
+		// if(Yii::app()->user->isAdmin())
+		// 	$criteria->compare('flag_del',$this->flag_del);
+		// else
+		// {
             $criteria->compare('VendorContract.flag_del',0);
             $criteria->compare('project.flag_del',0);
-		}
+		//}
 		//relative search
 		//$criteria->select = array('VendorContract.id','VendorContract.name','VendorContract.contract_no','VendorContract.budget');
 		$criteria->alias = 'VendorContract';
