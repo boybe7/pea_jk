@@ -244,4 +244,16 @@ class VendorContract extends CActiveRecord
    {
    	    return "<a href='createVendorContract/".$proj_id."' title='เพิ่มสัญญา'><i class=' icon-plus-sign icon-green'></i></a><br><a href='update/".$proj_id."' title='แก้ไขโครงการ'><i class=' icon-ok '></i></a><br><a class='confirmation' href='delete/".$proj_id."' title='ลบโครงการ'><i class=' icon-remove icon-red'></i></a><br>";
    }
+
+   public function getActionFlag($proj_id)
+   {
+   	    $model = Project::model()->findByPk($proj_id);
+
+   	    $Criteria = new CDbCriteria();
+	    $Criteria->condition = "proj_id=".$proj_id." AND flag_del=0";
+	    $vendor = VendorContract::model()->findAll($Criteria); 
+
+   	    if($model->flag_del || empty($vendor))
+   	      return "<a class='confirmation' href='deleteReal/".$proj_id."' title='ลบโครงการ'><i class=' icon-remove icon-red'></i></a><br>";
+   }
 }

@@ -189,8 +189,10 @@ $pdf->setFontSubsetting(true);
 
 // Set some content to print
 $html = "";
-//$vc_id = 19;
-//$pay_no = 2;
+//$vc_id = 24;
+//$pay_no = 1;
+//$max_row = 29;
+
     $model_vc = VendorContract::model()->findByPk($vc_id);
 
     //----------------------style-------------------------------//
@@ -542,7 +544,7 @@ if($form_type==1)
                   else if($row>$row_com + ($max_row*($page-1)) )
                   {
                     if($page!=$max_page)  
-                      $html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;"></td>'; 
+                      $html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;">'.$row_com.'</td>'; 
                     else{
                       if($row== $max_row*($page-1) + $row_com+1)
                       {
@@ -600,6 +602,8 @@ if($form_type==1)
 
                           }
 
+                           //$html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;">'.$row.'</td>'; 
+
                     
                        
 
@@ -644,7 +648,8 @@ if($form_type==1)
                            
 
                           </td>';
-                      }    
+                      } 
+                    
                     }  
                   }
                  
@@ -2090,7 +2095,7 @@ else
 
 
 
-//echo $html;
+echo $html;
   
 $pdf->AddPage();
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
@@ -2099,7 +2104,7 @@ $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 $filename = 'form_print_'.$vc_id.'.pdf';
 //$pdf->Output($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename,'F');
 // This method has several options, check the source code documentation for more information.
-if(file_exists($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename))
+/*if(file_exists($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename))
 {    
     unlink($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename);
        // echo "xx";
@@ -2107,7 +2112,7 @@ if(file_exists($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename))
 }else{
    $pdf->Output($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename,'F');
 }
-ob_end_clean() ;
+ob_end_clean() ;*/
 
 
 

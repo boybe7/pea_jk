@@ -900,7 +900,7 @@
             contentType: false,
             success: function (result) {
                 
-                 window.open('../../report/temp/'+filename+'.pdf', '_blank', 'fullscreen=yes');              
+                 //window.open('../../report/temp/'+filename+'.pdf', '_blank', 'fullscreen=yes');              
                 
             }
 

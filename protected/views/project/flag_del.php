@@ -180,7 +180,7 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 				'name' => 'actions', 
 				'filter' => false,
 				'type'=>'raw',
-				'value'=>'$data->getAction($data->proj_id)',
+				'value'=>'$data->getActionFlag($data->proj_id)',
 				'headerHtmlOptions' => array('style' => 'width:8%;text-align:center;background-color: #f5f5f5'),
 				'htmlOptions'=>array('style'=>'background-color: #f5f5f5')
 		

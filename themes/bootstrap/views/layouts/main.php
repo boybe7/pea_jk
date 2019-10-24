@@ -441,7 +441,7 @@ if(Yii::app()->user->id !="")
               
                 
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'eye-open', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
-                    
+                     array('label'=>'ข้อมูลโครงการที่ถูกลบ', 'url'=>array('/project/flagdel'),'visible'=>Yii::app()->user->isAccess('/project/flagdel')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
                      array('label'=>'กำหนดสิทธิผู้ใช้งาน', 'url'=>array('/authen/index'),'visible'=>Yii::app()->user->isAccess('/authen/index')),
                      

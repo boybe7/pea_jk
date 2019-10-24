@@ -35,7 +35,7 @@ class ProjectController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','deleteVendorContract','deleteRealVendorContract','flagDel'),
+				'actions'=>array('admin','delete','deleteReal','deleteVendorContract','deleteRealVendorContract','flagDel'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -60,6 +60,8 @@ class ProjectController extends Controller
         //echo $filename;
         
     }
+
+    
 
     public function actionExportExcel()
     {
@@ -2362,9 +2364,10 @@ class ProjectController extends Controller
   
   		
         $this->renderPartial('_formJK_PDF', array(
-            'vc_id' => 3,
+            'vc_id' => 24,
             'pay_no' => 1,
-            'filename' => ''
+            'filename' => '',
+            'max_row'=>29
             
         ));
         
@@ -2789,8 +2792,28 @@ class ProjectController extends Controller
 	{
 	
 		//if(Yii::app()->request->isPostRequest)
-		//{
-			// we only allow deletion via POST request
+		
+
+				$model = $this->loadModel($id);
+				$model->flag_del = 1;
+				$model->save();
+
+				Yii::app()->db->createCommand('UPDATE vendor_contract SET flag_del=1 WHERE proj_id='.$id)->execute();
+		
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			//if(!isset($_GET['ajax']))
+			//	$this->redirect(array('index'));
+
+			$this->redirect(Yii::app()->request->urlReferrer);
+			//	$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+		//}
+		//else
+		//	throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	}
+
+	public function actionDeleteReal($id)
+	{
+	
 			if(Yii::app()->user->isAdmin())
 	       	{		
 
@@ -2806,24 +2829,9 @@ class ProjectController extends Controller
 					}
 				}
 			}
-			else{
-
-				$model = $this->loadModel($id);
-				$model->flag_del = 1;
-				$model->save();
-
-				Yii::app()->db->createCommand('UPDATE vendor_contract SET flag_del=1 WHERE proj_id='.$id)->execute();
-			}
-
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			//if(!isset($_GET['ajax']))
-			//	$this->redirect(array('index'));
-
+		
 			$this->redirect(Yii::app()->request->urlReferrer);
-			//	$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-		//}
-		//else
-		//	throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		
 	}
 
 	public function actionDeleteVendorContract($id)
