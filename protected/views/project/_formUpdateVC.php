@@ -454,7 +454,7 @@
                    if(!empty($model->id))
                    {
                       $modelMember = ContractMember::model()->findAll('vc_id =:id AND type=2', array(':id' => $model->id));
-                      
+                    
                    }
             ?>       
            
@@ -464,14 +464,15 @@
                 
                 <?php
                       $value = empty($modelMember) ? "" : $modelMember[0]->name; 
-                      echo '<input type="text" class="span12" name="taskmaster" value='.$value.'>';
+                     
+                      echo '<input type="text" class="span12" name="taskmaster" value="'.$value.'">';
                 ?>
               </div>
               <div class="span4"> 
                 <label for="taskmaster_position">ตำแหน่ง</label>
              <?php
                       $value = empty($modelMember) ? "" : $modelMember[0]->position; 
-                      echo '<input type="text" class="span12" name="taskmaster_position" value='.$value.'>';
+                      echo '<input type="text" class="span12" name="taskmaster_position" value="'.$value.'">';
                 ?>
           </div>  
             </div>
@@ -490,14 +491,14 @@
                 <label for="vendor">เจ้าหน้าที่ผู้รับมอบอำนาจจากผู้รับจ้าง</label>
                  <?php
                       $value = empty($modelMember) ? "" : $modelMember[0]->name; 
-                      echo '<input type="text" class="span12" name="vendor" value='.$value.'>';
+                      echo '<input type="text" class="span12" name="vendor" value="'.$value.'">';
                 ?>
               </div>
               <div class="span4"> 
                 <label for="vendor_position">ตำแหน่ง</label>
            <?php
                       $value = empty($modelMember) ? "" : $modelMember[0]->position; 
-                      echo '<input type="text" class="span12" name="vendor_position" value='.$value.'>';
+                      echo '<input type="text" class="span12" name="vendor_position" value="'.$value.'">';
                 ?>
           </div>  
             </div>
@@ -900,7 +901,7 @@
             contentType: false,
             success: function (result) {
                 
-                 //window.open('../../report/temp/'+filename+'.pdf', '_blank', 'fullscreen=yes');              
+                 window.open('../../report/temp/'+filename+'.pdf', '_blank', 'fullscreen=yes');              
                 
             }
 

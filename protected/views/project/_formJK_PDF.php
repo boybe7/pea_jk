@@ -536,7 +536,8 @@ if($form_type==1)
 
                   if($page==2)
                      $row_com = 7;
-            
+
+               
                   if($row==$row_com + ($max_row*($page-1)))
                   {
                       $html .= '<td colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"></td>'; 
@@ -544,7 +545,7 @@ if($form_type==1)
                   else if($row>$row_com + ($max_row*($page-1)) )
                   {
                     if($page!=$max_page)  
-                      $html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;">'.$row_com.'</td>'; 
+                      $html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;"></td>'; 
                     else{
                       if($row== $max_row*($page-1) + $row_com+1)
                       {
@@ -602,11 +603,7 @@ if($form_type==1)
 
                           }
 
-                           //$html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;">'.$row.'</td>'; 
-
-                    
-                       
-
+                
                           $html .= '<td rowspan="'.$rowspan.'" colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"><br><br>&nbsp; เรียน &nbsp;……………………………………………………………………………<br>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; คณะกรรมการตรวจรับงานจ้างได้ทำการตรวจรับงานดังกล่าวแล้ว <br>
                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เมื่อวันที่ …………………………………… ปรากฎว่า<br>
@@ -635,13 +632,13 @@ if($form_type==1)
                              <br><br>
                              <table border=0 width="80%">
                                 <tr><td width="20%" align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td style="width:50%;text-align:center;">………………………………………………</td><td width="30%">ประธานกรรมการ</td></tr>
-                                <tr><td></td><td style="text-align:center">'.$committee_header->name.'</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
+                                <tr><td></td><td style="text-align:center">('.$committee_header->name.')</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
                                 <tr><td></td><td></td><td>&nbsp;</td></tr>';
 
                               foreach ($committee_member as $key => $cm) {
                                   
                                $html .= '<tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td align="center">………………………………………………</td><td>กรรมการ</td></tr>
-                                <tr><td></td><td align="center">'.$cm->name.'</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
+                                <tr><td></td><td align="center">('.$cm->name.')</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
                                 <tr><td></td><td></td><td>&nbsp;</td></tr>';
                               }  
                             $html .='  </table>
@@ -649,8 +646,8 @@ if($form_type==1)
 
                           </td>';
                       } 
-                    
-                    }  
+                      
+                    } 
                   }
                  
                   
@@ -690,7 +687,7 @@ if($form_type==1)
                         $html .= '<td colspan=2 style="width:28%;text-align:center;'.$border_left_right2.'">
                                     <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                                     ลงชื่อ............................................<br>
-                                    '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                                    ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                                     วันที่ .....................................
 
                                   </td>';
@@ -698,7 +695,7 @@ if($form_type==1)
                         $html .= '<td colspan=8 style="width:30%;text-align:center;'.$border_left_right2.'">
                                     <u>ผู้ควบคุมงาน</u><br><br>
                                     ลงชื่อ............................................<br>
-                                    '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                                    ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                                     วันที่ .....................................
 
                                   </td>';
@@ -958,13 +955,13 @@ if($form_type==1)
                             <br><br>
                             <table border=0 width="80%">
                                <tr><td width="20%" align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td style="width:50%;text-align:center;">………………………………………………</td><td width="30%">ประธานกรรมการ</td></tr>
-                               <tr><td></td><td style="text-align:center">'.$committee_header->name.'</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
+                               <tr><td></td><td style="text-align:center">('.$committee_header->name.')</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
                                <tr><td></td><td></td><td>&nbsp;</td></tr>';
 
                              foreach ($committee_member as $key => $cm) {
                                 
                               $html2 .= '<tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td align="center">………………………………………………</td><td>กรรมการ</td></tr>
-                               <tr><td></td><td align="center">'.$cm->name.'</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
+                               <tr><td></td><td align="center">('.$cm->name.')</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
                                <tr><td></td><td></td><td>&nbsp;</td></tr>';
                              }  
                            $html2 .='  </table>
@@ -1007,7 +1004,7 @@ if($form_type==1)
                        $html2 .= '<td colspan=2 style="width:32%;text-align:center;'.$border_left_right2.'">
                                    <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                                    ลงชื่อ............................................<br>
-                                   '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                                   ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                                    วันที่ .....................................
 
                                  </td>';
@@ -1015,7 +1012,7 @@ if($form_type==1)
                        $html2 .= '<td colspan=7 style="width:26%;text-align:center;'.$border_left_right2.'">
                                    <u>ผู้ควบคุมงาน</u><br><br>
                                    ลงชื่อ............................................<br>
-                                   '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                                   ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                                    วันที่ .....................................
 
                                  </td>';
@@ -1107,7 +1104,7 @@ if($form_type==1)
                   $html .= '<td colspan=2 style="width:28%;text-align:center;'.$border_left_right2.'">
                               <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                              ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                               วันที่ .....................................
 
                             </td>';
@@ -1115,7 +1112,7 @@ if($form_type==1)
                   $html .= '<td colspan=8 style="width:30%;text-align:center;'.$border_left_right2.'">
                               <u>ผู้ควบคุมงาน</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                              ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                               วันที่ .....................................
 
                             </td>';
@@ -1154,11 +1151,124 @@ if($form_type==1)
                   $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
                   $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
                   $html .= '<td style="text-align:center;'.$border_left_right.'"></td>';
-                  if($page!=$max_page)
+
+                  if($i==$row_com + ($max_row*($page-1)))
                   {
-                      $html .= '<td style="width:3%;text-align:center;"></td>';
-                      $html .= '<td colspan=2 style="text-align:left;border-right:1px solid black;"></td>'; 
+                      $html .= '<td colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"></td>'; 
                   }
+                  else if($i>$row_com + ($max_row*($page-1)) )
+                  {
+                    if($page!=$max_page)  
+                      $html .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;"></td>'; 
+                    else{
+                      if($i== $max_row*($page-1) + $row_com+1)
+                      {
+                          $rowspan = $max_row - $row_com + 1;
+                          
+                          $payment_all = Yii::app()->db->createCommand()
+                                    ->select('SUM(payment.amount*(price_item+price_trans)) as amount')
+                                    ->from('payment')
+                                    ->join('boq','boq.id=payment.item_id')
+                                    ->where(" pay_type=0 AND payment.vc_id='".$vc_id."' AND pay_no =".$pay_no)
+                                    ->queryAll();  
+
+                          $summary_curr = $payment_all[0]['amount'];          
+
+                          if($model_vc->percent_adv!=0)
+                          {  
+                             $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr*($model_vc->percent_pay/100.0));
+                             $advance_pay_str = number_format($advance_pay,2);
+                          }else{
+                             $advance_pay = 0;
+                             $advance_pay_str = "-"; 
+                          }
+                               
+
+                          $remain_pay = ($summary_curr*($model_vc->percent_pay/100.0)) - $advance_pay;
+
+                          $fine_all = 0;  
+                          $fine_html = "";
+                          $fine_count = count($fineModel);
+                          $fi = 0;
+
+                          $number_style = "border-bottom:1px dotted grey;text-align:right;";
+                          foreach ($fineModel as $key => $fine) {
+                            if($fi==0)
+                            {
+                              $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+
+                            }
+                            else
+                            {
+                              $fine_html .= '<tr><td></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                            }
+                            
+                            $fine_all += $fine->amount;
+
+                            $fi++;
+                          }
+
+
+                          if(empty($fineModel))
+                          {
+                             $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">- </td><td width="40%" style="'.$number_style.'">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                          }
+
+                
+                          $html .= '<td rowspan="'.$rowspan.'" colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"><br><br>&nbsp; เรียน &nbsp;……………………………………………………………………………<br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; คณะกรรมการตรวจรับงานจ้างได้ทำการตรวจรับงานดังกล่าวแล้ว <br>
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เมื่อวันที่ …………………………………… ปรากฎว่า<br>
+                              &#9633; ถูกต้องครบถ้วนเป็นไปตามสัญญาทุกประการ เห็นควรรับมอบงานและจ่ายเงินให้แก่ผู้รับจ้างดังนี้  <br> 
+                              &#9633; ผู้รับจ้างส่งมอบงานมีรายละเอียดส่วนใหญ่ถูกต้องตามสัญญา และมีรายละเอียดส่วนย่อยที่ <br>
+                              &nbsp;&nbsp;&nbsp; ไม่ใช่สาระสำคัญแตกต่างจากสัญญา  และไม่ก่อให้เกิดความเสียหายต่อการใช้งาน จึงเห็นควร <br>
+                              &nbsp;&nbsp;&nbsp; รับมอบงาน  และอนุมัติจ่ายเงินให้แก่ผู้รับจ้างดังนี้ <br>
+                              <table border=0 width="70%">
+                                <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;หัก Advance '.$model_vc->percent_adv.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.$advance_pay_str.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;บวก ค่าภาษีมูลค่าเพิ่ม 7%</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*0.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือจ่าย</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                '.$fine_html.'
+                                <tr><td width="10%">&nbsp;</td><td width="40%">คงจ่ายสุทธิ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07 - $fine_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                                <tr><td colspan="3" style="width:100%;text-align:center">('.bahtText($remain_pay*1.07-$fine_all).')</td></tr>
+                              </table>
+                             
+                             <br><br>
+                             <table border=0 width="80%">
+                                <tr><td width="20%" align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td style="width:50%;text-align:center;">………………………………………………</td><td width="30%">ประธานกรรมการ</td></tr>
+                                <tr><td></td><td style="text-align:center">('.$committee_header->name.')</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
+                                <tr><td></td><td></td><td>&nbsp;</td></tr>';
+
+                              foreach ($committee_member as $key => $cm) {
+                                  
+                               $html .= '<tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td align="center">………………………………………………</td><td>กรรมการ</td></tr>
+                                <tr><td></td><td align="center">('.$cm->name.')</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
+                                <tr><td></td><td></td><td>&nbsp;</td></tr>';
+                              }  
+                            $html .='  </table>
+                           
+
+                          </td>';
+                      } 
+                      
+                    } 
+                  }
+
+                  // if($page!=$max_page)
+                  // {
+                  //     $html .= '<td style="width:3%;text-align:center;">xx</td>';
+                  //     $html .= '<td colspan=2 style="text-align:left;border-right:1px solid black;"></td>'; 
+                  // }
                $html .= '</tr>';
               }
               else{
@@ -1217,7 +1327,7 @@ if($form_type==1)
                   $html .= '<td colspan=2 style="width:28%;text-align:center;'.$border_left_right2.'">
                               <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                              ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                               วันที่ .....................................
 
                             </td>';
@@ -1225,7 +1335,7 @@ if($form_type==1)
                   $html .= '<td colspan=8 style="width:30%;text-align:center;'.$border_left_right2.'">
                               <u>ผู้ควบคุมงาน</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                              ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                               วันที่ .....................................
 
                             </td>';
@@ -1302,7 +1412,7 @@ if($form_type==1)
                    $html2 .= '<td colspan=2 style="width:32%;text-align:center;'.$border_left_right2.'">
                                <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                                ลงชื่อ............................................<br>
-                               '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                               ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                                วันที่ .....................................
 
                              </td>';
@@ -1310,7 +1420,7 @@ if($form_type==1)
                    $html2 .= '<td colspan=7 style="width:26%;text-align:center;'.$border_left_right2.'">
                                <u>ผู้ควบคุมงาน</u><br><br>
                                ลงชื่อ............................................<br>
-                               '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                               ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                                วันที่ .....................................
 
                              </td>';
@@ -1349,10 +1459,123 @@ if($form_type==1)
                    $html2 .= '<td style="text-align:center;'.$border_left_right.'"></td>';
                    $html2 .= '<td style="text-align:center;'.$border_left_right.'"></td>';
                    $html2 .= '<td style="text-align:center;'.$border_left_right.'"></td>';
-                   if($page2!=$max_page)
+                   // if($page2!=$max_page)
+                   // {
+                   //     $html2 .= '<td style="width:3%;text-align:center;"></td>';
+                   //     $html2 .= '<td colspan=2 style="text-align:left;border-right:1px solid black;"></td>'; 
+                   // }
+
+                   if($i==$row_com + ($max_row*($page2-1)))
                    {
-                       $html2 .= '<td style="width:3%;text-align:center;"></td>';
-                       $html2 .= '<td colspan=2 style="text-align:left;border-right:1px solid black;"></td>'; 
+                       $html2 .= '<td colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"></td>'; 
+                   }
+                   else if($i>$row_com + ($max_row*($page2-1)) )
+                   {
+                     if($page2!=$max_page)  
+                       $html2 .= '<td colspan=3 style="width:25%;text-align:left;border-right:1px solid black;"></td>'; 
+                     else{
+                       if($i== $max_row*($page2-1) + $row_com+1)
+                       {
+                           $rowspan = $max_row - $row_com + 1;
+
+
+                           $payment_all = Yii::app()->db->createCommand()
+                                      ->select('SUM(payment.amount*(price_install)) as amount')
+                                      ->from('payment')
+                                      ->join('boq','boq.id=payment.item_id')
+                                      ->where(" pay_type=2 AND payment.vc_id='".$vc_id."' AND pay_no =".$pay_no)
+                                      ->queryAll();  
+
+                            $summary_curr = $payment_all[0]['amount'];          
+
+
+       
+
+                           if($model_vc->percent_adv!=0)
+                            {  
+                               $advance_pay = ($model_vc->percent_adv/100.0) * ($summary_curr*($model_vc->percent_pay/100.0));
+                               $advance_pay_str = number_format($advance_pay,2);
+                            }else{
+                               $advance_pay = 0;
+                               $advance_pay_str = "-"; 
+                            }
+                           
+                           $remain_pay = ($summary_curr*($model_vc->percent_pay/100.0)) - $advance_pay;
+
+                           $fine_all = 0;  
+                           $fine_html = "";
+                           $fine_count = count($fineModel);
+                           $fi = 0;
+
+                            $number_style = "border-bottom:1px dotted grey;text-align:right;";
+                            foreach ($fineModel as $key => $fine) {
+                              if($fi==0)
+                              {
+                                $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+
+                              }
+                              else
+                              {
+                                $fine_html .= '<tr><td></td><td width="40%">-  '.$fine->detail.'</td><td width="40%" style="'.$number_style.'">'.number_format($fine->amount,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                              }
+                              
+                              $fine_all += $fine->amount;
+
+                              $fi++;
+                            }
+
+
+                           if(empty($fineModel))
+                            {
+                               $fine_html .= '<tr><td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;<u>หัก</u></td><td width="40%">- </td><td width="40%" style="'.$number_style.'">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>';
+
+                            }
+
+                           $html2 .= '<td rowspan="'.$rowspan.'" colspan=3 style="width:25%;text-align:left;'.$border_right_bottom.'"><br><br>&nbsp; เรียน &nbsp;……………………………………………………………………………<br>
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; คณะกรรมการตรวจรับงานจ้างได้ทำการตรวจรับงานดังกล่าวแล้ว <br>
+                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; เมื่อวันที่ …………………………………… ปรากฎว่า<br>
+                               &#9633; ถูกต้องครบถ้วนเป็นไปตามสัญญาทุกประการ เห็นควรรับมอบงานและจ่ายเงินให้แก่ผู้รับจ้างดังนี้  <br> 
+                               &#9633; ผู้รับจ้างส่งมอบงานมีรายละเอียดส่วนใหญ่ถูกต้องตามสัญญา และมีรายละเอียดส่วนย่อยที่ <br>
+                               &nbsp;&nbsp;&nbsp; ไม่ใช่สาระสำคัญแตกต่างจากสัญญา  และไม่ก่อให้เกิดความเสียหายต่อการใช้งาน จึงเห็นควร <br>
+                               &nbsp;&nbsp;&nbsp; รับมอบงาน  และอนุมัติจ่ายเงินให้แก่ผู้รับจ้างดังนี้ <br>
+                               <table border=0 width="70%">
+                                 <tr><td colspan=2 width="50%">&nbsp;&nbsp;&nbsp;&nbsp;ค่าจ้าง 100%</td><td width="40%" style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="10%">&nbsp;&nbsp;บาท</td></tr>
+
+                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;เบิก '.$model_vc->percent_pay.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($summary_curr*$model_vc->percent_pay/100.0,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;หัก Advance '.$model_vc->percent_adv.' %</td><td style="border-bottom:1px dotted grey;text-align:right">'.$advance_pay_str.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;บวก ค่าภาษีมูลค่าเพิ่ม 7%</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*0.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                 <tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;คงเหลือจ่าย</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+
+                                 '.$fine_html.'
+                                  <tr><td width="10%">&nbsp;</td><td width="40%">คงจ่ายสุทธิ</td><td style="border-bottom:1px dotted grey;text-align:right">'.number_format($remain_pay*1.07 - $fine_all,2).'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;บาท</td></tr>
+                                  <tr><td colspan="3" style="width:100%;text-align:center">('.bahtText($remain_pay*1.07-$fine_all).')</td></tr>
+                                </table>
+                             
+                              <br><br>
+                              <table border=0 width="80%">
+                                 <tr><td width="20%" align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td style="width:50%;text-align:center;">………………………………………………</td><td width="30%">ประธานกรรมการ</td></tr>
+                                 <tr><td></td><td style="text-align:center">('.$committee_header->name.')</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
+                                 <tr><td></td><td></td><td>&nbsp;</td></tr>';
+
+                               foreach ($committee_member as $key => $cm) {
+                                  
+                                $html2 .= '<tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td align="center">………………………………………………</td><td>กรรมการ</td></tr>
+                                 <tr><td></td><td align="center">('.$cm->name.')</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
+                                 <tr><td></td><td></td><td>&nbsp;</td></tr>';
+                               }  
+                             $html2 .='  </table>
+                           
+
+                           </td>';
+                       }    
+                     }  
                    }
                 $html2 .= '</tr>';
                }
@@ -1407,7 +1630,7 @@ if($form_type==1)
                    $html2 .= '<td colspan=2 style="width:32%;text-align:center;'.$border_left_right2.'">
                                <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                                ลงชื่อ............................................<br>
-                               '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                               ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                                วันที่ .....................................
 
                              </td>';
@@ -1415,7 +1638,7 @@ if($form_type==1)
                    $html2 .= '<td colspan=7 style="width:26%;text-align:center;'.$border_left_right2.'">
                                <u>ผู้ควบคุมงาน</u><br><br>
                                ลงชื่อ............................................<br>
-                               '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                               ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                                วันที่ .....................................
 
                              </td>';
@@ -1485,7 +1708,7 @@ else
                               &#9633; งานแล้วเสร็จภายในกำหนดเวลาตามสัญญา  <br> 
                               &#9633; งานแล้วเสร็จช้ากว่ากำหนดตามสัญญา……………วัน <br>
                               &nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ ………………………………………………………  ผู้ควบคุมงาน <br>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$committee_control->name.' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง&nbsp;'.$committee_control->position.'  <br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;('.$committee_control->name.') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง&nbsp;'.$committee_control->position.'  <br>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;วันที่ ……………………………………  <br>
                           </td>
                                                    
@@ -1787,13 +2010,13 @@ else
                              <br><br>
                              <table border=0 width="80%">
                                 <tr><td width="20%" align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td style="width:50%;text-align:center;">………………………………………………</td><td width="30%">ประธานกรรมการ</td></tr>
-                                <tr><td></td><td style="text-align:center">'.$committee_header->name.'</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
+                                <tr><td></td><td style="text-align:center">('.$committee_header->name.')</td><td>ตำแหน่ง &nbsp;'.$committee_header->position.'</td></tr>
                                 <tr><td></td><td></td><td>&nbsp;</td></tr>';
 
                               foreach ($committee_member as $key => $cm) {
                                   
                                $html .= '<tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ</td><td align="center">………………………………………………</td><td>กรรมการ</td></tr>
-                                <tr><td></td><td align="center">'.$cm->name.'</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
+                                <tr><td></td><td align="center">('.$cm->name.')</td><td>ตำแหน่ง &nbsp;'.$cm->position.'</td></tr>
                                 <tr><td></td><td></td><td>&nbsp;</td></tr>';
                               }  
                             $html .='  </table>
@@ -1841,7 +2064,7 @@ else
                         $html .= '<td colspan=2 style="width:22%;text-align:center;'.$border_left_right2.'">
                                     <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                                     ลงชื่อ............................................<br>
-                                    '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                                    ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                                     วันที่ .....................................
 
                                   </td>';
@@ -1849,7 +2072,7 @@ else
                         $html .= '<td colspan=8 style="width:36%;text-align:center;'.$border_left_right2.'">
                                     <u>ผู้ควบคุมงาน</u><br><br>
                                     ลงชื่อ............................................<br>
-                                    '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                                    ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                                     วันที่ .....................................
 
                                   </td>';
@@ -1939,7 +2162,7 @@ else
                   $html .= '<td colspan=2 style="width:22%;text-align:center;'.$border_left_right2.'">
                               <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                              ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                               วันที่ .....................................
 
                             </td>';
@@ -1947,7 +2170,7 @@ else
                   $html .= '<td colspan=8 style="width:36%;text-align:center;'.$border_left_right2.'">
                               <u>ผู้ควบคุมงาน</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                              ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                               วันที่ .....................................
 
                             </td>';
@@ -2061,7 +2284,7 @@ else
                   $html .= '<td colspan=2 style="width:22%;text-align:center;'.$border_left_right2.'">
                               <u>เจ้าหน้าที่ผู้ได้รับมอบอำนาจจากผู้รับจ้าง</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_vendor->name.' &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
+                              ('.$committee_vendor->name.') &nbsp;&nbsp;  ผู้จัดการโครงการ <br>
                               วันที่ .....................................
 
                             </td>';
@@ -2069,7 +2292,7 @@ else
                   $html .= '<td colspan=8 style="width:36%;text-align:center;'.$border_left_right2.'">
                               <u>ผู้ควบคุมงาน</u><br><br>
                               ลงชื่อ............................................<br>
-                              '.$committee_control->name.' &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
+                              ('.$committee_control->name.') &nbsp;&nbsp;  ตำแหน่ง &nbsp;&nbsp;  '.$committee_control->position.'<br>
                               วันที่ .....................................
 
                             </td>';
@@ -2095,16 +2318,17 @@ else
 
 
 
-echo $html;
+//echo $html;
   
 $pdf->AddPage();
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 //$filename = "ฟอร์ม จค. ".VendorContract::model()->findByPk($vc_id)->name." งวด ".$pay_no.".pdf";
 //$filename = iconv('UTF-8','TIS-620', $filename);
+$filename = 'form_print_'.$vc_id.'_no'.$pay_no.'.pdf';
 $filename = 'form_print_'.$vc_id.'.pdf';
 //$pdf->Output($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename,'F');
 // This method has several options, check the source code documentation for more information.
-/*if(file_exists($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename))
+if(file_exists($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename))
 {    
     unlink($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename);
        // echo "xx";
@@ -2112,7 +2336,7 @@ $filename = 'form_print_'.$vc_id.'.pdf';
 }else{
    $pdf->Output($_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/'.$filename,'F');
 }
-ob_end_clean() ;*/
+ob_end_clean() ;
 
 
 

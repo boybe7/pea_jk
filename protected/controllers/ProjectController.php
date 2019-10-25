@@ -1753,11 +1753,11 @@ class ProjectController extends Controller
 				}
 
 				//auto size column
-				$objPHPExcel->setActiveSheetIndex(0);
-				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+				// $objPHPExcel->setActiveSheetIndex(0);
+				// $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 
-				$objPHPExcel->setActiveSheetIndex(1);
-				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+				// $objPHPExcel->setActiveSheetIndex(1);
+				// $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 
             
 				//remove sheet form 2
@@ -2304,7 +2304,7 @@ class ProjectController extends Controller
 				}	
 
 				//auto size column
-				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+				//$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 
 				/*else //more than 2 pages
 				{
