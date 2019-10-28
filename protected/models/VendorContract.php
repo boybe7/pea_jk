@@ -193,6 +193,17 @@ class VendorContract extends CActiveRecord
 		return parent::model($className);
 	}
 
+	protected function beforeValidate()
+	{
+		 if($this->budget!="")
+		 {
+		     $this->budget = str_replace(",", "", $this->budget); 
+		 }
+		  
+		 return parent::beforeValidate();
+	}
+
+
 	public function beforeSave()
     {
          if($this->budget!="")
@@ -237,6 +248,7 @@ class VendorContract extends CActiveRecord
             else if(count($str_date)>1)
             	$this->end_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
             
+            $this->budget = number_format($this->budget,0);
                             
     }
 

@@ -2469,6 +2469,7 @@ class ProjectController extends Controller
 			$model->attributes=$_POST['VendorContract'];
 			$model->updated_by = Yii::app()->user->ID;
 			$model->approve_date = $_POST['VendorContract']['approve_date'];
+			$model->end_date = $_POST['VendorContract']['end_date'];
 
 			$vendor =  Vendor::model()->findAll(array('join'=>'','condition'=>'v_name="'.$_POST['vendor_id'].'" AND type="Supplier"'));
 			//save new vendor

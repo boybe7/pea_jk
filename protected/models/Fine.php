@@ -108,6 +108,31 @@ class Fine extends CActiveRecord
 		));
 	}
 
+	protected function beforeValidate()
+	{
+		 if($this->amount!="")
+		 {
+		     $this->amount = str_replace(",", "", $this->amount); 
+		 }
+		  
+		 return parent::beforeValidate();
+	}
+
+
+	public function beforeSave()
+    {
+         if($this->amount!="")
+		 {
+		     $this->amount = str_replace(",", "", $this->amount); 
+		 }
+	}
+
+	 protected function afterFind(){
+            parent::afterFind();                        
+            //$this->amount = number_format($this->amount,0);
+                            
+    }
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

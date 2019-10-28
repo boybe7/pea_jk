@@ -195,6 +195,13 @@ class BoqController extends Controller
 
 	public function actionImportExcel()
 	{
+
+
+		//delete all payment
+		Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['vc_id'])->execute();
+		Yii::app()->db->createCommand('DELETE FROM payment_detail WHERE vc_id='.$_POST['vc_id'])->execute();
+
+
 		Yii::import('ext.phpexcel.XPHPExcel');    
 		$objPHPExcel= XPHPExcel::createPHPExcel();
 		

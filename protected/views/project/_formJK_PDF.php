@@ -257,7 +257,7 @@ if($form_type==1)
                               &#9633; งานแล้วเสร็จภายในกำหนดเวลาตามสัญญา  <br> 
                               &#9633; งานแล้วเสร็จช้ากว่ากำหนดตามสัญญา……………วัน <br>
                               &nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ ………………………………………………………  ผู้ควบคุมงาน <br>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$committee_control->name.' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง&nbsp;'.$committee_control->position.'  <br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;('.$committee_control->name.') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง&nbsp;'.$committee_control->position.'  <br>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;วันที่ ……………………………………  <br>
                           </td>
                                                    
@@ -325,7 +325,7 @@ if($form_type==1)
                               &#9633; งานแล้วเสร็จภายในกำหนดเวลาตามสัญญา  <br> 
                               &#9633; งานแล้วเสร็จช้ากว่ากำหนดตามสัญญา……………วัน <br>
                               &nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อ ………………………………………………………  ผู้ควบคุมงาน <br>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$committee_control->name.' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง&nbsp;'.$committee_control->position.'  <br>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;('.$committee_control->name.') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ตำแหน่ง&nbsp;'.$committee_control->position.'  <br>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;วันที่ ……………………………………  <br>
                           </td>
                                                    

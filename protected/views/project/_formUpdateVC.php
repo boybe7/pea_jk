@@ -305,7 +305,24 @@
                 <?php echo $form->textFieldRow($model,'contract_no',array('class'=>'span12')); ?>
               </div>  
               <div class="span3">
-                <?php echo $form->textFieldRow($model,'budget',array('class'=>'span12')); ?>
+                <?php //echo $form->textFieldRow($model,'budget',array('class'=>'span12')); ?>
+
+
+              <?php echo CHtml::activeLabelEx($model, 'budget'); ?>
+              <?php 
+                $this->widget('application.extensions.moneymask.MMask',array(
+                    'element'=>'#VendorContract_budget',
+                    'currency'=>'บาท',
+                    'config'=>array(
+                        'symbolStay'=>true,
+                        'thousands'=>',',
+                        'decimal'=>'.',
+                        'precision'=>0,
+                    )
+                ));
+                echo CHtml::activeTextField($model, 'budget', array('size' => 20, 'maxlength' => 255,'class'=>'span12','style'=>'text-align:right')); ?>
+              <?php echo CHtml::error($model, 'budget',array('class'=>'help-block error')); ?>
+            
               </div>  
 
               <div class="span3">
@@ -600,7 +617,7 @@
                     
                     $('#form-import')[0].reset();
                     $("#boq-grid").yiiGridView("update",{});
-                   // window.location.reload();
+                     window.location.reload();
                     
               }
 
@@ -615,8 +632,13 @@
 </script>
 
  <?php
- if($model->lock_boq!=1)
- {
+ //if($model->lock_boq!=1)
+ //{
+
+ //check have some payment
+ if($payment[0]['max_pay_no']>0)
+     echo "<div class='pull-right' style='color:red'>!***โครงการนี้มีการสร้างงวดงานไว้แล้ว หาก upload อีกครั้งงวดงานทั้งหมดจะถูกลบ****</div><br>"; 
+
  ?>
   <form method="POST" action="" id="form-import" enctype="multipart/form-data" class="pull-right">
     <div class="form-group">
@@ -632,10 +654,10 @@
   </form>  
   <?php
   
-  } //endif
-  else{
-    echo "<span class='pull-right' style='color:red'>!***โครงการนี้ไม่สามารถแก้ไขข้อมูล BOQ ได้ เพราะได้สร้างแบบฟอร์มให้ทางผู้รับจ้างแล้ว</span>";
-  }
+  // } //endif
+  // else{
+  //   echo "<span class='pull-right' style='color:red'>!***โครงการนี้ไม่สามารถแก้ไขข้อมูล BOQ ได้ เพราะได้สร้างแบบฟอร์มให้ทางผู้รับจ้างแล้ว</span>";
+  // }
   ?>
 
      <?php echo '<input type="hidden" id="vc_id" name="vc_id" value="'.$model->id.'">';?>
@@ -1506,25 +1528,28 @@
         
           'detail'=>array(
               'name' => 'detail',
-              'class' => 'editable.EditableColumn',
-              'editable' => array( //editable section
-                'url' => $this->createUrl('fine/update'),
-                'success' => 'js: function(response, newValue) {
-                          if(!response.success) return response.msg;
+              // 'class' => 'editable.EditableColumn',
+              // 'editable' => array( //editable section
+              //   'url' => $this->createUrl('fine/update'),
+              //   'success' => 'js: function(response, newValue) {
+              //             if(!response.success) return response.msg;
 
-                          $("#fine-grid-'.$i.'").yiiGridView("update",{});
-                        }',
-                'options' => array(
-                  'ajaxOptions' => array('dataType' => 'json'),
+              //             $("#fine-grid-'.$i.'").yiiGridView("update",{});
+              //           }',
+              //   'options' => array(
+              //     'ajaxOptions' => array('dataType' => 'json'),
 
-                ), 
-                'placement' => 'right',
-              ),
+              //   ), 
+              //   'placement' => 'right',
+              // ),
               'headerHtmlOptions' => array('style' => 'width:60%;text-align:center;background-color: #f5f5f5'),                     
               'htmlOptions'=>array('style'=>'text-align:left')
             ),
           'amount'=>array(
               'name' => 'amount',
+              //'value'=> function($data){
+              //          return number_format($data->amount, 2);
+              //      },  
               'class' => 'editable.EditableColumn',
               'editable' => array( //editable section
                 'url' => $this->createUrl('fine/update'),
