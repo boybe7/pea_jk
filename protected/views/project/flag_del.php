@@ -71,29 +71,7 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 				    //'value'=>'$data->proj_id',
 				    'value'=>'Project::model()->findByPk($data->proj_id)->owner_name',
 				    'filter'=>CHtml::activeTextField($model, 'owner_name',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("owner_name"))),
-				 //    'filter'=>$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-					// 	'model'=>$model,
-					// 	'attribute'=>'owner_name',
-					// 	'source'=>$this->createUrl('/vendor/GetVendor'),
-					// 	'options' => array(
-					// 		'showAnim'=>'fold',
-					// 		'minLength'=>0,
-					// 		'select'=>'js: function(event, ui) {
-     //                                      $.ajax({
-					// 				     	type: "POST",
-					// 				        url: "index?VendorContract[owner_name]="+ui.item.id+"&ajax=project-grid",
-					// 				      })
-					// 				      .done(function( msg ) {  
-     //                                           $("#project-grid").yiiGridView("update",{});
-                                             
-					// 				      	})
-                                          
-     //                                 }'
-					// 	),
-					// 	'htmlOptions' => array(
-					// 	),
 
-					// ),true),
 					'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
@@ -128,54 +106,57 @@ if(Yii::app()->user->getAccess(Yii::app()->request->url))
 					'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
 					'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
-		  	array(
-				'class'=>'bootstrap.widgets.TbButtonColumn',
-				'headerHtmlOptions' => array('style' => 'width:8%;text-align:center;background-color: #f5f5f5'),
-				'template' => '{update} {delete}',
-				//'deleteConfirmation'=>'',
-				'buttons'=>array(
-					    'update' => array
-                                    (
-                                      
-                                        'url'=>function($data){
+		 //  	array(
+			// 	'class'=>'bootstrap.widgets.TbButtonColumn',
+			// 	'headerHtmlOptions' => array('style' => 'width:8%;text-align:center;background-color: #f5f5f5'),
+			// 	'template' => '{cancel} {delete}',
+			// 	'buttons'=>array(
+			// 		    'cancel' => array
+   //                                  (
+   //                                  	'label'=>'',
+   //          							'imageUrl'=>'',
+   //                                      'options'=>array( 'class'=>'icon-refresh','title'=>'cancel' ),
+   //                                      'url'=>function($data){
 
-								            return Yii::app()->createUrl('/project/updateVendorContract/',
+			// 					            return Yii::app()->createUrl('/project/cancelVendorContract/',
 
-								                    array('id'=>$data->id) /* <- customise that */
+			// 					                    array('id'=>$data->id) /* <- customise that */
 
-								            );
+			// 					            );
 
-								        },                                    
-                                    ),
+			// 					        },                                    
+   //                                  ),
 
                    
-                        'delete' => array
-                                    (
+   //                      'delete' => array
+   //                                  (
                                                         
-                                        //'url'=>'Yii::app()->createUrl("deleteVendorContract/".$data["id"])',
-                                        'url'=>function($data){
+   //                                      //'url'=>'Yii::app()->createUrl("deleteVendorContract/".$data["id"])',
+   //                                      'url'=>function($data){
 
-								            return Yii::app()->createUrl('/project/deleteRealVendorContract/',
+			// 					            return Yii::app()->createUrl('/project/deleteRealVendorContract/',
 
-								                    array('id'=>$data->id) /* <- customise that */
+			// 					                    array('id'=>$data->id) /* <- customise that */
 
-								            );
+			// 					            );
 
-								        },
+			// 					        },
                                        
-                                    ),
+   //                                  ),
 
-                                )
+   //                              )
+		
+			// ),
+			'actions2'=>array(
+				'name' => '', 
+				'filter' => false,
+				'type'=>'raw',
+				'value'=>'$data->getActionVcFlag($data->id)',
+				'headerHtmlOptions' => array('style' => 'width:8%;text-align:center;background-color: #f5f5f5'),
+				'htmlOptions'=>array('style'=>'background-color: #f5f5f5')
 		
 			),
-		  	// 'budget'=>array(
-				 //    'name' => 'budget',
-				 //    'value'=>'number_format($data->budget,0)',
-				 //    'filter'=>CHtml::activeTextField($model, 'budget',array("placeholder"=>"ค้นหาตาม".$model->getAttributeLabel("budget"))),
-					// 'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
-					// 'htmlOptions'=>array('style'=>'text-align:right')
-		  	// ),
-		  	
+
 			'actions'=>array(
 				'name' => 'actions', 
 				'filter' => false,

@@ -35,7 +35,7 @@ class ProjectController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','deleteReal','deleteVendorContract','deleteRealVendorContract','flagDel'),
+				'actions'=>array('admin','delete','deleteReal','cancelFlag','deleteVendorContract','cancelVendorContract','deleteRealVendorContract','flagDel'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -2829,6 +2829,47 @@ class ProjectController extends Controller
 						}
 					}
 				}
+			}
+		
+			$this->redirect(Yii::app()->request->urlReferrer);
+		
+	}
+
+
+	public function actionCancelFlag($id)
+	{
+	
+			if(Yii::app()->user->isAdmin())
+	       	{		
+
+				$model = $this->loadModel($id);
+				$model->flag_del = 0;
+				$model->save();
+
+				$Criteria = new CDbCriteria();
+	    		$Criteria->condition = "proj_id=".$id;
+	    		$vendor = VendorContract::model()->findAll($Criteria); 
+	    		foreach ($vendor as $key => $value) {
+	    			$value->flag_del = 0;
+	    			$value->save();
+	    		}
+				
+			}
+		
+			$this->redirect(Yii::app()->request->urlReferrer);
+		
+	}
+
+	public function actionCancelVendorContract($id)
+	{
+	
+			if(Yii::app()->user->isAdmin())
+	       	{		
+
+				$model = VendorContract::model()->findByPk($id);
+				$model->flag_del = 0;
+				$model->save();
+				
 			}
 		
 			$this->redirect(Yii::app()->request->urlReferrer);

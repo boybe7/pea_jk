@@ -108,24 +108,6 @@ class Fine extends CActiveRecord
 		));
 	}
 
-	protected function beforeValidate()
-	{
-		 if($this->amount!="")
-		 {
-		     $this->amount = str_replace(",", "", $this->amount); 
-		 }
-		  
-		 return parent::beforeValidate();
-	}
-
-
-	public function beforeSave()
-    {
-         if($this->amount!="")
-		 {
-		     $this->amount = str_replace(",", "", $this->amount); 
-		 }
-	}
 
 	 protected function afterFind(){
             parent::afterFind();                        

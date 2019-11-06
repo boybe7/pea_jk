@@ -248,7 +248,7 @@ class VendorContract extends CActiveRecord
             else if(count($str_date)>1)
             	$this->end_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
             
-            $this->budget = number_format($this->budget,0);
+            //$this->budget = number_format($this->budget,0);
                             
     }
 
@@ -264,8 +264,19 @@ class VendorContract extends CActiveRecord
    	    $Criteria = new CDbCriteria();
 	    $Criteria->condition = "proj_id=".$proj_id." AND flag_del=0";
 	    $vendor = VendorContract::model()->findAll($Criteria); 
-
-   	    if($model->flag_del || empty($vendor))
-   	      return "<a class='confirmation' href='deleteReal/".$proj_id."' title='ลบโครงการ'><i class=' icon-remove icon-red'></i></a><br>";
+	 
+   	    if($model->flag_del)
+   	      return "<a href='cancelFlag/".$proj_id."' title='เรียกคืนโครงการ'><i class=' icon-repeat icon-green'></i></a><br><a class='confirmation' href='deleteReal/".$proj_id."' title='ลบโครงการ'><i class=' icon-remove icon-red'></i></a>";
+   	  
+   }
+    public function getActionVcFlag($vc_id)
+   {
+   	    $model = VendorContract::model()->findByPk($vc_id);
+	    $project = Project::model()->findByPk($model->proj_id); 
+	 
+   	  
+   	    if($model->flag_del && $project->flag_del==0)
+   	      return "<a href='cancelVendorContract/".$vc_id."' title='เรียกคืนสัญญา'><i class=' icon-refresh'></i></a><br><a class='confirmation' href='deleteRealVendorContract/".$vc_id."' title='ลบสัญญา'><i class=' icon-trash'></i></a>";
+   	  
    }
 }

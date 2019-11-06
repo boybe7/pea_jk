@@ -310,6 +310,7 @@
 
               <?php echo CHtml::activeLabelEx($model, 'budget'); ?>
               <?php 
+                $model->budget = number_format($model->budget,0);
                 $this->widget('application.extensions.moneymask.MMask',array(
                     'element'=>'#VendorContract_budget',
                     'currency'=>'บาท',

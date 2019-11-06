@@ -759,7 +759,7 @@ if($form_type==1)
                  { 
                      $price_install = is_numeric($value->price_install) ? $value->price_install : 0;
                   
-                     $price_item_all = ($price_install + $price_trans) * $value->amount;
+                     $price_item_all = ($price_install) * $value->amount;
 
                      $summary_cost_page2 += $price_item_all;
                      $summary_cost_all2 += $price_item_all;
