@@ -331,9 +331,9 @@ class BoqController extends Controller
 									$unit = $worksheet->getCell("F".$row)->getCalculatedValue();
 									$price_item = $worksheet->getCell("G".$row)->getCalculatedValue();
 									$price_trans = $worksheet->getCell("I".$row)->getCalculatedValue();
-									$price_trans = empty($price_trans) ? $price_item : $price_trans;
+									$price_trans = is_numeric($price_trans) ? $price_trans : $price_item ;
 									$price_install = $worksheet->getCell("K".$row)->getCalculatedValue();
-									$price_install = empty($price_install) ? $price_trans : $price_install;
+									$price_install = is_numeric($price_install) ? $price_install : $price_trans ;
 
 									$model=new Boq;
 									$model->no = $no;
