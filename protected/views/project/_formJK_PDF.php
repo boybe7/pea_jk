@@ -728,7 +728,7 @@ if($form_type==1)
 
               //--------------------------- Installation-------------------------------//
               $html2 .='<tr>';
-                 //$html2 .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$row2.'</td>';
+                 //$html2 .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$summary_cost_page2.'</td>';
                  $html2 .='<td style="height:'.$row_height.'px;text-align:center;'.$border_left_right.'">'.$value->no.'</td>';
 
                   if($value->type==1 || $value->type==2)
@@ -993,6 +993,11 @@ if($form_type==1)
                      $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
                      $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
                      $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
+                      $summary_cost_page2 = 0;
+                      $summary_curr_page2 = 0;
+                      $summary_prev_page2 = 0;
+
                      if($page2!=$max_page)
                      {
                        
@@ -1593,6 +1598,11 @@ if($form_type==1)
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
                  $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
                  $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
+                  $summary_cost_page2 = 0;
+                  $summary_curr_page2 = 0;
+                  $summary_prev_page2 = 0;
+
                  if($page2!=$max_page)
                  {
                    
