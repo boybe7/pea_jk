@@ -31,7 +31,7 @@ class VendorController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','DeleteSelected','GetVendor','GetSupplier','createVendor','createSupplier'),
+				'actions'=>array('create','update','updateVendor','DeleteSelected','GetVendor','GetSupplier','createVendor','createSupplier'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -43,6 +43,18 @@ class VendorController extends Controller
 			),
 		);
 	}
+
+	public function actionUpdateVendor()
+    {
+	    $es = new EditableSaver('Vendor');
+	    try {
+	    	$es->update();
+	    } catch(CException $e) {
+	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
+	    	return;
+	    }
+	    echo CJSON::encode(array('success' => true));
+    }
 
 	/**
 	 * Displays a particular model.

@@ -131,17 +131,8 @@
             'type'=>'success',
             'label'=>'เพิ่มงวด',
             'icon'=>'plus-sign white',
-            // 'url'=>array('exportBOQ'),
             'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px',
-                  // 'onclick'=>'js:bootbox.confirm($("#modal-body").html(),"ยกเลิก","ตกลง",
-                  //             function(confirmed){
-                  //                 if(confirmed)
-                  //                 {  console.log($("#form_export :selected").val())                                 
-                  //                   //window.location.href = "../exportBOQ?vc_id='.$model->id.'&form=1";                                    
-                  //                 }
-
-                  //             })'
-
+                
                   'onclick'=>'js:bootbox.prompt({
                       title: "เลือกแบบฟอร์มรายละเอียดขออนุมัติเบิกจ่าย",
                       inputType: "select",
@@ -174,6 +165,46 @@
                         }
                       }
                   });'
+            ),
+          )); 
+
+
+         $this->widget('bootstrap.widgets.TbButton', array(
+            'buttonType'=>'link',
+            
+            'type'=>'danger',
+            'label'=>'ลบงวด',
+            'icon'=>'minus-sign white',
+            // 'url'=>array('exportBOQ'),
+            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-left: 10px',
+                  'onclick'=>'js:bootbox.confirm({
+                                message: "<font color=red><h3>ต้องการลบงวดงานล่าสุด ใช่หรือไม่?</h3></font>",
+                               
+                                callback: function (result) {
+                                    if(result)
+                                    {
+
+                                      $.ajax({
+                                          url: "'.$this->createUrl('PaymentDetail/deleteLastPayment').'",
+                                          type: "POST",
+                                          cache: false,
+                                          data: {id : '.$model->id.'},
+                                        
+                                          success: function (response) { 
+                                             
+                                                window.location.reload();
+                                             
+                                          },
+                                          error: function () {
+                                             
+                                          }
+                                      });
+
+                                    }
+                                }
+                            });'
+
+                
             ),
           )); 
      }    

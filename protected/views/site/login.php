@@ -32,7 +32,7 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 </style>
 
 <center>
-<div class="container-fluid well" id="login-box" style="width:350px;margin-top:160px;">
+<div class="container-fluid well" id="login-box" style="width:350px;margin-top:120px;">
 
  <div class="row-fluid">
 
@@ -63,5 +63,16 @@ $this->pageTitle=Yii::app()->name . ' - Login';
               </div>    
           </div>
         </div>
+
 </div>
+
+
+        <?php /** @var BootActiveForm $form */
+                    echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '../images/user-manual.png', 'Logo', array('width' => '80', 'height' => '80','border-radius'=> '100%')),'../user_manual.pdf',array('title' => 'คู่มือการใช้งาน','target'=>'_blank') );
+
+                    echo "&nbsp;&nbsp;&nbsp;";
+
+                      echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '../images/template.png', 'Logo', array('width' => '80', 'height' => '80','border-radius'=> '100%')),'../template_boq.xls',array('title' => 'ตัวอย่างแบบฟอร์ม boq','target'=>'_blank') );
+
+        ?>
 </center>

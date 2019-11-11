@@ -31,7 +31,7 @@ class PaymentDetailController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','exportBOQ','importVendorBOQ'),
+				'actions'=>array('create','update','exportBOQ','importVendorBOQ','deleteLastPayment'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -43,6 +43,25 @@ class PaymentDetailController extends Controller
 			),
 		);
 	}
+
+	public function actionDeleteLastPayment()
+    {
+  
+  		$payment = Yii::app()->db->createCommand()
+		                        ->select('MAX(pay_no) as max_pay_no')
+		                        ->from('payment_detail')
+		                        ->where("vc_id=".$_POST['id'])
+		                        ->queryAll();
+		if(!empty($payment))
+		{
+			$max_pay_no = $payment[0]['max_pay_no'];
+
+			Yii::app()->db->createCommand('DELETE FROM payment_detail WHERE vc_id='.$_POST['id'].' AND pay_no='.$max_pay_no)->execute();
+			Yii::app()->db->createCommand('DELETE FROM payment WHERE vc_id='.$_POST['id'].' AND pay_no='.$max_pay_no)->execute();
+							
+        }
+    }
+
 
 	/**
 	 * Displays a particular model.

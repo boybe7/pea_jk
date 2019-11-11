@@ -44,6 +44,8 @@ class ProjectController extends Controller
 		);
 	}
 
+
+	
 	public function actionPrintJK()
     {
   
@@ -2894,8 +2896,8 @@ class ProjectController extends Controller
 
 	public function actionDeleteRealVendorContract($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
+		//if(Yii::app()->request->isPostRequest)
+		//{
 			
 
 					if(VendorContract::model()->findByPk($id)->delete()){
@@ -2903,11 +2905,12 @@ class ProjectController extends Controller
 						Yii::app()->db->createCommand('DELETE FROM boq WHERE vc_id='.$id)->execute();
 
 					}	
-		
+
+					$this->redirect(Yii::app()->request->urlReferrer);
 			
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		//}
+		//else
+		//	throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -3431,8 +3434,10 @@ class ProjectController extends Controller
 						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าติดตั้งทดสอบ 	:');
 						$objValidation->setPrompt($recommen_val);
 						$objValidation->setFormula1(0);
-						$objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')-ค่าติดตั้งทดสอบ!I'.$row);
-
+						if($pay_no>1)   
+						   $objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')-ค่าติดตั้งทดสอบ!I'.$row);
+						else   
+						   $objValidation->setFormula2('=SUM(ค่าอุปกรณ์!L'.$row.',ค่าอุปกรณ์!L'.$row.')'); //old version
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('K'.$row,0);
 						if(is_numeric($value->price_install))

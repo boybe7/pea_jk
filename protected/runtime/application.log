@@ -1695,3 +1695,320 @@ Stack trace:
 REQUEST_URI=/pea_jk/project/flagDel
 HTTP_REFERER=http://localhost/pea_jk/project/flagDel
 ---
+2019/11/09 22:24:37 [error] [php] ZipArchive::getFromName(): Invalid or uninitialized Zip object (C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php:327)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php(22): PHPExcel_Reader_Excel2007->load()
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#4 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(3004): ProjectController->renderPartial()
+#5 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionImportBOQ()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#16 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#17 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/importBOQ
+in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php (327)
+in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php (364)
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php (22)
+2019/11/09 22:25:18 [error] [php] ZipArchive::getFromName(): Invalid or uninitialized Zip object (C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php:327)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php(22): PHPExcel_Reader_Excel2007->load()
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): ProjectController->renderInternal()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): ProjectController->renderFile()
+#4 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(3004): ProjectController->renderPartial()
+#5 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionImportBOQ()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams()
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): ProjectController->runAction()
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#10 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): ProjectController->filterAccessControl()
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#12 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): ProjectController->runActionWithFilters()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): ProjectController->run()
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#16 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#17 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/project/importBOQ
+in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php (327)
+in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel\Reader\Excel2007.php (364)
+in C:\xampp\htdocs\pea_jk\protected\views\project\_formValidate.php (22)
+2019/11/10 13:44:25 [error] [php] Undefined index: id (C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php:53)
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): PaymentDetailController->runAction()
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): PaymentDetailController->filterAccessControl()
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): PaymentDetailController->runActionWithFilters()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): PaymentDetailController->run()
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\pea_jk\index.php(13): CWebApplication->run()
+REQUEST_URI=/pea_jk/PaymentDetail/deleteLastPayment
+in C:\xampp\htdocs\pea_jk\protected\controllers\PaymentDetailController.php (53)
+in C:\xampp\htdocs\pea_jk\index.php (13)
+2019/11/10 14:32:36 [error] [exception.CException] exception 'CException' with message 'VendorController ไม่สามารถค้นหา "index" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#1 C:\xampp\htdocs\pea_jk\protected\controllers\VendorController.php(314): CController->render('index', Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): VendorController->actionIndex()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('index')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('vendor/index')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/vendor/index
+---
+2019/11/10 14:32:48 [error] [exception.CException] exception 'CException' with message 'VendorController ไม่สามารถค้นหา "admin" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('admin', Array, true)
+#1 C:\xampp\htdocs\pea_jk\protected\controllers\VendorController.php(329): CController->render('admin', Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): VendorController->actionAdmin()
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('admin')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('vendor/admin')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/vendor/admin
+---
+2019/11/10 16:19:19 [error] [exception.CException] exception 'CException' with message 'VendorController ไม่สามารถค้นหา "_search" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\vendor\admin.php(37): CController->renderPartial('_search', Array)
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('admin', Array, true)
+#5 C:\xampp\htdocs\pea_jk\protected\controllers\VendorController.php(329): CController->render('admin', Array)
+#6 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): VendorController->actionAdmin()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('admin')
+#16 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('vendor/admin')
+#17 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#18 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/pea_jk/vendor/admin
+---
+2019/11/10 16:19:21 [error] [exception.CException] exception 'CException' with message 'VendorController ไม่สามารถค้นหา "_search" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\views\vendor\admin.php(37): CController->renderPartial('_search', Array)
+#1 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('admin', Array, true)
+#5 C:\xampp\htdocs\pea_jk\protected\controllers\VendorController.php(329): CController->render('admin', Array)
+#6 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): VendorController->actionAdmin()
+#7 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#11 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#14 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('admin')
+#16 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('vendor/admin')
+#17 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#18 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/pea_jk/vendor/admin
+---
+2019/11/10 16:40:15 [error] [exception.CException] exception 'CException' with message 'Either "name" or "value" must be specified for CDataColumn.' in C:\xampp\htdocs\pea_jk\framework\zii\widgets\grid\CDataColumn.php:84
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\zii\widgets\grid\CGridView.php(401): CDataColumn->init()
+#1 C:\xampp\htdocs\pea_jk\protected\extensions\bootstrap\widgets\TbGridView.php(91): CGridView->initColumns()
+#2 C:\xampp\htdocs\pea_jk\framework\zii\widgets\grid\CGridView.php(359): TbGridView->initColumns()
+#3 C:\xampp\htdocs\pea_jk\protected\extensions\bootstrap\widgets\TbGridView.php(49): CGridView->init()
+#4 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(147): TbGridView->init()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(172): CBaseController->createWidget('bootstrap.widge...', Array)
+#6 C:\xampp\htdocs\pea_jk\protected\views\vendor\admin.php(59): CBaseController->widget('bootstrap.widge...', Array)
+#7 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#8 C:\xampp\htdocs\pea_jk\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(782): CController->renderPartial('admin', Array, true)
+#11 C:\xampp\htdocs\pea_jk\protected\controllers\VendorController.php(341): CController->render('admin', Array)
+#12 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): VendorController->actionAdmin()
+#13 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#14 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#15 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#16 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#17 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#18 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#19 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#20 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#21 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('admin')
+#22 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('vendor/admin')
+#23 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#24 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#25 {main}
+REQUEST_URI=/pea_jk/vendor/admin
+---
+2019/11/10 17:46:59 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "user_manual.pdf" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('user_manual.pdf')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('user_manual.pdf')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('site/user_manua...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/site/user_manual.pdf
+HTTP_REFERER=http://localhost/pea_jk/site/login
+---
+2019/11/10 20:50:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "vendor" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('vendor')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('vendor')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/vendor/...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/vendor/admin
+HTTP_REFERER=http://localhost/pea_jk/authen/index
+---
+2019/11/10 20:50:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "vendor" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('vendor')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('vendor')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/vendor/...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/vendor/admin
+HTTP_REFERER=http://localhost/pea_jk/authen/index
+---
+2019/11/10 20:50:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "vendor" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('vendor')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('vendor')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/vendor/...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/vendor/admin
+HTTP_REFERER=http://localhost/pea_jk/authen/index
+---
+2019/11/11 08:40:48 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2912
+Stack trace:
+#0 [internal function]: ProjectController->actionDeleteRealVendorContract('2')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('deleteRealVendo...')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/deleteR...')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/deleteRealVendorContract/2
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/11/11 08:42:26 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2912
+Stack trace:
+#0 [internal function]: ProjectController->actionDeleteRealVendorContract('2')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('deleteRealVendo...')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/deleteR...')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/deleteRealVendorContract/2
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/11/11 08:43:10 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Invalid request. Please do not repeat this request again.' in C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php:2912
+Stack trace:
+#0 [internal function]: ProjectController->actionDeleteRealVendorContract('2')
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(ProjectController), Array)
+#2 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(ProjectController), Object(ReflectionMethod), Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('deleteRealVendo...')
+#12 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/deleteR...')
+#13 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/pea_jk/project/deleteRealVendorContract/2
+HTTP_REFERER=http://localhost/pea_jk/project/flagDel
+---
+2019/11/11 10:09:49 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'คุณไม่ได้รับอนุญาตให้ดำเนินการดังกล่าว' in C:\xampp\htdocs\pea_jk\framework\web\auth\CAccessControlFilter.php:182
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(WebUser), '\xE0\xB8\x84\xE0\xB8\xB8\xE0\xB8\x93\xE0\xB9\x84\xE0\xB8\xA1...')
+#1 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('admin')
+#8 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('vendor/admin')
+#9 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/pea_jk/vendor/admin
+HTTP_REFERER=http://localhost/pea_jk/vendor/admin
+---
+2019/11/11 10:09:52 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "vendor" ตามคำสั่งได้' in C:\xampp\htdocs\pea_jk\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\framework\web\CController.php(270): CController->missingAction('vendor')
+#1 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('vendor')
+#2 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/vendor/...')
+#3 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/pea_jk/project/vendor/admin
+HTTP_REFERER=http://localhost/pea_jk/authen/index
+---
