@@ -228,7 +228,7 @@ if($form_type==1)
             $html .= '<tr><td colspan=2 style="width:80%"></td><td style="width:20%;text-align:right">แบบฟอร์ม จค.1</td></tr>';
             $html .= '<tr><td style="width:80%;text-align:center;'.$border_left_top.' ">'.$model_vc->name.'</td><td colspan=2 style="width:20%;text-align:center; '.$border_right_top.'"></td></tr>';
 
-            $detail = "สัญญาเลขที่ ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
+            $detail = "สัญญาเลขที่/ใบสั่งจ้าง ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
             if(!empty($model_vc->detail_approve))
                  $detail .= "<br>".$model_vc->detail_approve;
 
@@ -294,7 +294,7 @@ if($form_type==1)
              $header_table2 .= '<tr><td colspan=2 style="width:80%"></td><td style="width:20%;text-align:right">แบบฟอร์ม จค.1</td></tr>';
              $header_table2 .= '<tr><td style="width:80%;text-align:center;'.$border_left_top.' ">'.$model_vc->name.'</td><td colspan=2 style="width:20%;text-align:center; '.$border_right_top.'"></td></tr>';
 
-             $detail = "สัญญาเลขที่ ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
+             $detail = "สัญญาเลขที่/ใบสั่งจ้าง ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
 
              if(!empty($model_vc->detail_approve))
                  $detail .= "<br>".$model_vc->detail_approve;
@@ -424,8 +424,17 @@ if($form_type==1)
                   }
                   else
                   {
-                      $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item.'</td>';
-                      $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_trans.'</td>';
+                      //$price_item_val = $price_item==0 ? "-" : $price_item;
+                      //$price_trans_val = $price_trans==0 ? "-" : $price_trans;
+                      if($price_item==0 && !empty($value->amount))
+                           $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
+                      else
+                          $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item.'</td>'; 
+
+                      if($price_trans==0  && !empty($value->amount))
+                           $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
+                      else
+                           $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_trans.'</td>';
                   }
                   
                   $price_item_all = '';
@@ -443,13 +452,23 @@ if($form_type==1)
                         $summary_cost_all += $price_item_all;
 
                         if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
+                        {
+
                           $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
+                        }
                         else  
-                          $html .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+                        {
+                          if($price_item_all==0)
+                            $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';  
+                          else  
+                            $html .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+                        }
                     }
                     else
-                        $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item_all.'</td>';
-
+                    {
+                
+                         $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item_all.'</td>';
+                     }                           
                     //amount current payment
                     $curr_payment = Yii::app()->db->createCommand()
                                     ->select('*')
@@ -663,13 +682,30 @@ if($form_type==1)
                       $html .= '<td style="text-align:center;border:1px solid black;">รวม ('.$page.')</td>';
                       $html .= '<td colspan=4 style="width:15%;text-align:right;'.$border_left_right2.'"></td>';
                       
-                      $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
+                      if($summary_cost_page!=0)
+                        $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
+                      else
+                        $html .= '<td style="width:5%;text-align:center;'.$border_left_right2.'">-</td>';
+
                       $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                      $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+
+                      if($summary_curr_page!=0)
+                        $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                      else
+                        $html .= '<td style="width:5%;text-align:center;'.$border_left_right2.'">-</td>';
+
                       $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                      $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                      if($summary_prev_page!=0)
+                        $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                      else
+                        $html .= '<td style="width:5%;text-align:center;'.$border_left_right2.'">-</td>';
+
                       $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                      $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+
+                      if($summary_curr_page!=0)
+                        $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                      else
+                        $html .= '<td style="width:5%;text-align:center;'.$border_left_right2.'">-</td>';
                       $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
 
                         $summary_cost_page = 0;
@@ -747,12 +783,17 @@ if($form_type==1)
                  $price_trans = is_numeric($value->price_trans) ? number_format($value->price_trans,2) : $value->price_trans;
                  $price_install = is_numeric($value->price_install) ? number_format($value->price_install,2) : $value->price_install;
 
-                 if(!is_numeric($value->price_install) )
-                     $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install.'</td>';
-                 else
-                     $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
+                 $price_install_v = $price_install==0 ? "-": $price_install;
+                 // if(!is_numeric($price_install_v) )
+                 //     $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install_v.'</td>';
+                 // else
+                 //  {
+                     
+                     
+                 //     $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
                 
-                
+                 //  }
+
                  $price_item_all = '';
 
                  if(!empty($value->amount) )
@@ -764,14 +805,22 @@ if($form_type==1)
                      $summary_cost_page2 += $price_item_all;
                      $summary_cost_all2 += $price_item_all;
 
-                     if(!is_numeric($value->price_install) )
-                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_install.'</td>';
+                     if(!is_numeric($price_install_v) )
+                     {
+                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install_v.'</td>';
+                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install_v.'</td>';
+                     }
                      else  
-                       $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+                     {
+                        $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
+                        $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
+                     }
                  }
                  else
+                 {
+                     $html2 .= '<td style="text-align:right;'.$border_left_right.'"></td>';
                      $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item_all.'</td>';
-
+                  }   
                  //amount current payment
                  $curr_payment = Yii::app()->db->createCommand()
                                  ->select('*')
@@ -1689,7 +1738,7 @@ else
             $html .= '<tr><td colspan=2 style="width:80%"></td><td style="width:20%;text-align:right">แบบฟอร์ม จค.1</td></tr>';
             $html .= '<tr><td style="width:80%;text-align:center;'.$border_left_top.' ">'.$model_vc->name.'</td><td colspan=2 style="width:20%;text-align:center; '.$border_right_top.'"></td></tr>';
 
-            $detail = "สัญญาเลขที่ ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
+            $detail = "สัญญาเลขที่/ใบสั่งจ้าง ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
             if(!empty($model_vc->detail_approve))
                  $detail .= "<br>".$model_vc->detail_approve;
 

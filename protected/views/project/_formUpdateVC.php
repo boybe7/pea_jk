@@ -712,16 +712,16 @@
               'summaryText'=>'แสดงผล {start} ถึง {end} จากทั้งหมด {count} ข้อมูล',
               'template'=>"{items}<div class='row-fluid'><div class='span6'>{pager}</div><div class='span6'>{summary}</div></div>",
             'columns'=>array(
-              'checkbox'=> array(
-                        'id'=>'selectedID',
-                        'class'=>'CCheckBoxColumn',
-                        //'selectableRows' => 2, 
-                       'headerHtmlOptions' => array('style' => 'width:3%;text-align:center;background-color: #f5f5f5'),
-                         'htmlOptions'=>array(
-                                      'style'=>'text-align:center'
+              // 'checkbox'=> array(
+              //           'id'=>'selectedID',
+              //           'class'=>'CCheckBoxColumn',
+              //           //'selectableRows' => 2, 
+              //          'headerHtmlOptions' => array('style' => 'width:3%;text-align:center;background-color: #f5f5f5'),
+              //            'htmlOptions'=>array(
+              //                         'style'=>'text-align:center'
 
-                                    )           
-                  ),
+              //                       )           
+              //     ),
               'no'=>array(
                     'name' => 'no',
                     //'class' => 'editable.EditableColumn',
