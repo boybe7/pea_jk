@@ -3428,18 +3428,23 @@ class ProjectController extends Controller
 						$objValidation->setShowInputMessage(true);
 						$objValidation->setShowErrorMessage(true);
 						$objValidation->setErrorTitle('Input error');
+
+					
 						
 						$recommen_val = 'กรอกเกินจำนวนค่าอุปกรณ์รวมครั้งนี้';
 						$objValidation->setError($recommen_val);
 						$objValidation->setPromptTitle('คำแนะนำการเบิกค่าติดตั้งทดสอบ 	:');
 						$objValidation->setPrompt($recommen_val);
 						$objValidation->setFormula1(0);
+						//$objValidation->setFormula2(0);
 						if($pay_no>1)   
 						   $objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')-ค่าติดตั้งทดสอบ!I'.$row);
 						else   
-						   $objValidation->setFormula2('=SUM(ค่าอุปกรณ์!L'.$row.',ค่าอุปกรณ์!L'.$row.')'); //old version
+						   $objValidation->setFormula2('=SUM(ค่าอุปกรณ์!J'.$row.',ค่าอุปกรณ์!L'.$row.')'); //old version
 						//add formula
 						$objPHPExcel->getActiveSheet()->setCellValue('K'.$row,0);
+						$objPHPExcel->getActiveSheet()->setCellValue('I'.$row,0);
+
 						if(is_numeric($value->price_install))
 						    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row,'=PRODUCT(G'.$row.',K'.$row.')');
 						else
@@ -3482,7 +3487,7 @@ class ProjectController extends Controller
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setVisible(false);
 
             //lock cell
-            $password_lock = "12345";
+            //$password_lock = "12345";
 			$objPHPExcel->getActiveSheet()->protectCells('A1:L'.($row-1), $password_lock);
 			$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
 

@@ -2012,3 +2012,23 @@ Stack trace:
 REQUEST_URI=/pea_jk/project/vendor/admin
 HTTP_REFERER=http://localhost/pea_jk/authen/index
 ---
+2019/11/11 14:25:56 [error] [exception.PHPExcel_Exception] exception 'PHPExcel_Exception' with message 'You tried to set a sheet active by the out of bounds index: 2. The actual number of sheets is 2.' in C:\xampp\htdocs\pea_jk\protected\extensions\phpexcel\vendor\PHPExcel.php:688
+Stack trace:
+#0 C:\xampp\htdocs\pea_jk\protected\controllers\ProjectController.php(3433): PHPExcel->setActiveSheetIndex(2)
+#1 C:\xampp\htdocs\pea_jk\framework\web\actions\CInlineAction.php(49): ProjectController->actionExportBOQ()
+#2 C:\xampp\htdocs\pea_jk\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#4 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#5 C:\xampp\htdocs\pea_jk\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#6 C:\xampp\htdocs\pea_jk\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#7 C:\xampp\htdocs\pea_jk\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\pea_jk\framework\web\CController.php(291): CFilterChain->run()
+#9 C:\xampp\htdocs\pea_jk\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(282): CController->run('exportBOQ')
+#11 C:\xampp\htdocs\pea_jk\framework\web\CWebApplication.php(141): CWebApplication->runController('project/exportB...')
+#12 C:\xampp\htdocs\pea_jk\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\pea_jk\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/pea_jk/project/exportBOQ?vc_id=25&form=1&pay_no=1
+HTTP_REFERER=http://localhost/pea_jk/project/updateVendorContract/25
+---
