@@ -74,7 +74,7 @@ function isUser(){
 }
 function isExecutive(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->u_group == "4";
+    return UserGroup::model()->findByPk($user->u_group)->group_name == "executive";
 }
 
 function getGroup(){
@@ -97,6 +97,8 @@ function getAccess($url){
 
     return $access;
 }
+
+
 
 function isAccess($url){
   

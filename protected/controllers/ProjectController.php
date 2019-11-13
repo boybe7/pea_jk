@@ -67,6 +67,10 @@ class ProjectController extends Controller
 
     public function actionExportExcel()
     {
+
+    	$date = new DateTime(null, new DateTimeZone('America/Los_Angeles'));
+        $current_date = $date->getTimestamp();    
+		$password_lock = $current_date;   
     	   
 
     	   $model_vc  = VendorContract::model()->findByPk($_GET["vc_id"]);
@@ -138,7 +142,7 @@ class ProjectController extends Controller
 			$max_page = ceil(count($boq)*1.0 / $max_row); 
 
 			//-----------header------------//
-			$detail = "สัญญาเลขที่ ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
+			$detail = "สัญญาเลขที่/ใบสั่งจ้างเลขที่ ".$model_vc->contract_no."   ลงวันที่   ".renderDate($model_vc->approve_date) ."   จำนวนเงินตามสัญญา ".number_format($model_vc->budget,0)."  บาท (ไม่รวมภาษีมูลค่าเพิ่ม)   ผู้รับจ้าง  ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name.'  กำหนดแล้วเสร็จตามสัญญา วันที่  '.renderDate($model_vc->end_date);
             if(!empty($model_vc->detail_approve))
                  $detail .= "\n".$model_vc->detail_approve;
 
@@ -1760,6 +1764,17 @@ class ProjectController extends Controller
 
 				// $objPHPExcel->setActiveSheetIndex(1);
 				// $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+				$objPHPExcel->setActiveSheetIndex(0);
+				$last_col = $objPHPExcel->getActiveSheet()->getHighestColumn();
+				$last_row = $objPHPExcel->getActiveSheet()->getHighestRow();
+				$objPHPExcel->getActiveSheet()->protectCells('A1:'.$last_col.$last_row, $password_lock);
+				$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
+
+				$objPHPExcel->setActiveSheetIndex(1);
+				$last_col = $objPHPExcel->getActiveSheet()->getHighestColumn();
+				$last_row = $objPHPExcel->getActiveSheet()->getHighestRow();
+				$objPHPExcel->getActiveSheet()->protectCells('A1:'.$last_col.$last_row, $password_lock);
+				$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
 
             
 				//remove sheet form 2
@@ -2313,6 +2328,11 @@ class ProjectController extends Controller
 					$filename = "form 2 max_page3.xlsx";
 				}*/
 
+				$last_col = $objPHPExcel->getActiveSheet()->getHighestColumn();
+				$last_row = $objPHPExcel->getActiveSheet()->getHighestRow();
+				$objPHPExcel->getActiveSheet()->protectCells('A1:'.$last_col.$last_row, $password_lock);
+				$objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
+
 				//remove sheet form 1
 				$objPHPExcel->setActiveSheetIndex(0);
 				$sheetIndex = $objPHPExcel->getActiveSheetIndex();
@@ -2324,25 +2344,11 @@ class ProjectController extends Controller
 
 			}
 
-		  
-
-			
-
-
-
-           //$objPHPExcel->getActiveSheet()->insertNewRowBefore(51,50); 
-
-           //$sheet = $objPHPExcel->getActiveSheet();
-		   //copyRows($sheet, 1, 51, 50, 22);
-
-           //$row = 1;
-           //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$row,"ใบสั่งจ้างเลขที่ : ");
-
-           ob_end_clean();
+            ob_end_clean();
 			ob_start();
 
 
-			//$filename = "ใบ จค. xxxx.xlsx";
+			$filename = "แบบฟอร์ม จค. ".Vendor::model()->findByPk($model_vc->vendor_id)->v_name." งวด ".$pay_no.".xlsx";
 
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="'.$filename.'"');
@@ -3157,7 +3163,7 @@ class ProjectController extends Controller
             $vendor = Vendor::model()->findByPk($model->vendor_id)->v_name ;
             $objPHPExcel->setActiveSheetIndex(0);
             $objPHPExcel->getActiveSheet()->setCellValue('B2', $model->name);
-            $detail = "สัญญาเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor;
+            $detail = "สัญญาเลขที่/ใบสั่งจ้างเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor;
             $objPHPExcel->getActiveSheet()->setCellValue('B3', $detail);
             $objPHPExcel->getActiveSheet()->setCellValue('M3', $pay_no);
 
@@ -3321,7 +3327,7 @@ class ProjectController extends Controller
 			//---------------------ค่าติดตั้งทดสอบ---------------------------//
 			$objPHPExcel->setActiveSheetIndex(1);
             $objPHPExcel->getActiveSheet()->setCellValue('B2', $model->name);
-            $detail = "สัญญาเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor ;
+            $detail = "สัญญาเลขที่/ใบสั่งจ้างเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor ;
             $objPHPExcel->getActiveSheet()->setCellValue('B3', $detail);
             $objPHPExcel->getActiveSheet()->setCellValue('L3', $pay_no);
 
@@ -3511,7 +3517,7 @@ class ProjectController extends Controller
             $vendor = Vendor::model()->findByPk($model->vendor_id)->v_name ;
             $objPHPExcel->setActiveSheetIndex(0);
             $objPHPExcel->getActiveSheet()->setCellValue('B2', $model->name);
-            $detail = "สัญญาเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor;
+            $detail = "สัญญาเลขที่/ใบสั่งจ้างเลขที่ ".$model->contract_no." ลงวันที่   ".$model->approve_date." ผู้รับจ้าง  ".$vendor;
             $objPHPExcel->getActiveSheet()->setCellValue('B3', $detail);
             $objPHPExcel->getActiveSheet()->setCellValue('N3', $pay_no);
 
@@ -3693,7 +3699,7 @@ class ProjectController extends Controller
 			ob_start();
 
 
-			$filename = "ใบ จค. ".Vendor::model()->findByPk($model->vendor_id)->v_name." งวด ".$pay_no.".xlsx";
+			$filename = "แบบฟอร์มกรอกรายละเอียดการส่งมอบงาน ".Vendor::model()->findByPk($model->vendor_id)->v_name." งวด ".$pay_no.".xlsx";
 
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="'.$filename.'"');

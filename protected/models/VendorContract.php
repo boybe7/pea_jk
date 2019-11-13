@@ -156,7 +156,10 @@ class VendorContract extends CActiveRecord
 		$criteria->compare('detail_approve',$this->detail_approve,true);
 		$criteria->compare('vendor_id',$this->vendor_id);
 		$criteria->compare('proj_id',$this->proj_id);
-		$criteria->compare('updated_by',$this->updated_by);
+		if(Yii::app()->user->isAdmin() || Yii::app()->user->isExecutive() )
+			$criteria->compare('VendorContract.updated_by',$this->updated_by);
+		else
+			$criteria->compare('VendorContract.updated_by',Yii::app()->user->ID);
 		$criteria->compare('lock_boq',$this->lock_boq);
 
 		// if(Yii::app()->user->isAdmin())

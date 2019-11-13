@@ -327,14 +327,14 @@ class BoqController extends Controller
 									}
 
 
-									$amount = $worksheet->getCell("E".$row)->getCalculatedValue();
-									$unit = $worksheet->getCell("F".$row)->getCalculatedValue();
-									$price_item = $worksheet->getCell("G".$row)->getCalculatedValue();
-									$price_trans = $worksheet->getCell("I".$row)->getCalculatedValue();
+									$amount = $worksheet->getCell("D".$row)->getCalculatedValue();
+									$unit = $worksheet->getCell("E".$row)->getCalculatedValue();
+									$price_item = $worksheet->getCell("F".$row)->getCalculatedValue();
+									$price_trans = $worksheet->getCell("H".$row)->getCalculatedValue();
 									if(empty($price_trans) && !is_numeric($price_item) )
 										$price_trans = $price_item ;
 
-									$price_install = $worksheet->getCell("K".$row)->getCalculatedValue();
+									$price_install = $worksheet->getCell("J".$row)->getCalculatedValue();
 									if(empty($price_install) && !is_numeric($price_trans) )
 										$price_install = $price_trans ;
 									

@@ -123,7 +123,7 @@
 
 <?php
      $boq =  Boq::model()->findAll(array('join'=>'','condition'=>'vc_id='.$model->id));
-     if(!empty($boq))    
+     if(!empty($boq) && !Yii::app()->user->isExecutive())    
      {
          $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'link',
@@ -664,8 +664,8 @@
 </script>
 
  <?php
- //if($model->lock_boq!=1)
- //{
+ if(Yii::app()->user->getAccess(Yii::app()->request->url))
+ {
 
  //check have some payment
  if($payment[0]['max_pay_no']>0)
@@ -686,7 +686,7 @@
   </form>  
   <?php
   
-  // } //endif
+   } //endif
   // else{
   //   echo "<span class='pull-right' style='color:red'>!***โครงการนี้ไม่สามารถแก้ไขข้อมูล BOQ ได้ เพราะได้สร้างแบบฟอร์มให้ทางผู้รับจ้างแล้ว</span>";
   // }
@@ -1002,6 +1002,8 @@
     echo '<form method="POST" action="" id="form-import-boq-'.$i.'" enctype="multipart/form-data" class="pull-right">';  ?>
     <div class="form-group">
       <?php
+
+          if($i==$payment[0]['max_pay_no'] && Yii::app()->user->getAccess(Yii::app()->request->url))
               $this->widget('bootstrap.widgets.TbButton', array(
                   'buttonType'=>'link',
                   
@@ -1047,6 +1049,9 @@
                       });'
                   ),
               )); 
+
+      if(Yii::app()->user->getAccess(Yii::app()->request->url))
+      {      
       ?>
       <div class="input-prepend input-file">
         <button class="btn btn-default btn-choose" type="button"><i class="icon-folder-open"></i></button>
@@ -1079,7 +1084,7 @@
             'icon'=>'ok white',
             'htmlOptions'=>array('id'=>'submit_'.$i,'style'=>'margin-left: 10px;margin-top:-10px;display:none','onclick'=>'submitBOQ(this,'.$i.');'),
           )); 
-
+       }//endif      
 
             $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'link',
@@ -1508,7 +1513,7 @@
         $listData[] = array('text'=>$value->detail,'id'=>$value->detail);
       }
       //print_r($listData);
-
+      if(Yii::app()->user->getAccess(Yii::app()->request->url))
       $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'link',
             
@@ -1545,8 +1550,9 @@
 
       $fine_model = new Fine('search');     
 
-          
-      $this->widget('bootstrap.widgets.TbGridView',array(
+      if(Yii::app()->user->getAccess(Yii::app()->request->url))
+      {     
+       $this->widget('bootstrap.widgets.TbGridView',array(
         'id'=>'fine-grid-'.$i,
         'type'=>'bordered condensed',
         'dataProvider'=>$fine_model->searchByPayment($model->id,$i),
@@ -1560,28 +1566,13 @@
         
           'detail'=>array(
               'name' => 'detail',
-              // 'class' => 'editable.EditableColumn',
-              // 'editable' => array( //editable section
-              //   'url' => $this->createUrl('fine/update'),
-              //   'success' => 'js: function(response, newValue) {
-              //             if(!response.success) return response.msg;
-
-              //             $("#fine-grid-'.$i.'").yiiGridView("update",{});
-              //           }',
-              //   'options' => array(
-              //     'ajaxOptions' => array('dataType' => 'json'),
-
-              //   ), 
-              //   'placement' => 'right',
-              // ),
+            
               'headerHtmlOptions' => array('style' => 'width:60%;text-align:center;background-color: #f5f5f5'),                     
               'htmlOptions'=>array('style'=>'text-align:left')
             ),
           'amount'=>array(
               'name' => 'amount',
-              //'value'=> function($data){
-              //          return number_format($data->amount, 2);
-              //      },  
+          
               'class' => 'editable.EditableColumn',
               'editable' => array( //editable section
                 'url' => $this->createUrl('fine/update'),
@@ -1611,7 +1602,39 @@
             
               ),
         ),
-      ));
+        ));
+
+      }
+      else{
+        $this->widget('bootstrap.widgets.TbGridView',array(
+        'id'=>'fine-grid-'.$i,
+        'type'=>'bordered condensed',
+        'dataProvider'=>$fine_model->searchByPayment($model->id,$i),
+       
+        'htmlOptions'=>array('style'=>'padding-top:10px;width:100%'),
+          'enablePagination' => true,
+          'enableSorting'=>true,
+          'summaryText'=>'แสดงผล {start} ถึง {end} จากทั้งหมด {count} ข้อมูล',
+          'template'=>"{items}<div class='row-fluid'><div class='span6'>{pager}</div><div class='span6'>{summary}</div></div>",
+        'columns'=>array(
+        
+          'detail'=>array(
+              'name' => 'detail',
+            
+              'headerHtmlOptions' => array('style' => 'width:60%;text-align:center;background-color: #f5f5f5'),                     
+              'htmlOptions'=>array('style'=>'text-align:left')
+            ),
+          'amount'=>array(
+              'name' => 'amount',
+          
+              
+              'headerHtmlOptions' => array('style' => 'width:30%;text-align:center;background-color: #f5f5f5'),                     
+              'htmlOptions'=>array('style'=>'text-align:right')
+            ),
+            
+        ),
+        ));
+      }
       echo '</div>'; //end fine-tab
       ?>
       </div> <!-- tab-end content-payment-->
