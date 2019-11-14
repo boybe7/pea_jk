@@ -431,10 +431,19 @@ if($form_type==1)
                       else
                           $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_item.'</td>'; 
 
-                      if($price_trans==0  && !empty($value->amount))
-                           $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
+                      if(!empty($value->amount))
+                      {
+                          if($price_trans==0 )
+                               $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
+                          elseif(!is_numeric($value->price_trans))
+                               $html .= '<td style="text-align:center;'.$border_left_right.'">'.$price_trans.'</td>';
+                          else
+                               $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_trans.'</td>';
+                      }
                       else
-                           $html .= '<td style="text-align:right;'.$border_left_right.'">'.$price_trans.'</td>';
+                      {
+                          $html .= '<td style="text-align:right;'.$border_left_right.'"></td>';
+                      }       
                   }
                   
                   $price_item_all = '';
@@ -454,7 +463,7 @@ if($form_type==1)
                         if(!is_numeric($value->price_item) && !is_numeric($value->price_trans))
                         {
 
-                          $html .= '<td style="text-align:center;'.$border_left_right.'">'.$value->price_item.'</td>';
+                          $html .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
                         }
                         else  
                         {
@@ -781,18 +790,7 @@ if($form_type==1)
                 
                  $price_item = is_numeric($value->price_item) ? number_format($value->price_item,2) : $value->price_item;
                  $price_trans = is_numeric($value->price_trans) ? number_format($value->price_trans,2) : $value->price_trans;
-                 $price_install = is_numeric($value->price_install) ? number_format($value->price_install,2) : $value->price_install;
-
-                 $price_install_v = $price_install==0 ? "-": $price_install;
-                 // if(!is_numeric($price_install_v) )
-                 //     $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install_v.'</td>';
-                 // else
-                 //  {
-                     
-                     
-                 //     $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
                 
-                 //  }
 
                  $price_item_all = '';
 
@@ -805,14 +803,15 @@ if($form_type==1)
                      $summary_cost_page2 += $price_item_all;
                      $summary_cost_all2 += $price_item_all;
 
-                     if(!is_numeric($price_install_v) )
+                     if(!is_numeric($value->price_install) || empty($value->price_install) )
                      {
-                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install_v.'</td>';
-                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$price_install_v.'</td>';
+                       $vv = empty($value->price_install) ? "-" :  $value->price_install;
+                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">'.$vv.'</td>';
+                       $html2 .= '<td style="text-align:center;'.$border_left_right.'">-</td>';
                      }
                      else  
                      {
-                        $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.$price_install.'</td>';
+                        $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_install,2).'</td>';
                         $html2 .= '<td style="text-align:right;'.$border_left_right.'">'.number_format($price_item_all,2).'</td>';
                      }
                  }
@@ -1035,14 +1034,24 @@ if($form_type==1)
                      $html2 .= '<td colspan=3 style="width:11%;text-align:right;'.$border_left_right2.'"></td>';
                     
                      $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page2,2).'</td>';
-                     $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                     $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
-                     $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                     $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page2,2).'</td>';
-                     $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                     $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
-                     $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+                 $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                  if($summary_curr_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
 
+                 $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                 if($summary_prev_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page2,2).'</td>';
+                  else  
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
+                 $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+                  if($summary_curr_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+                 $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
                       $summary_cost_page2 = 0;
                       $summary_curr_page2 = 0;
                       $summary_prev_page2 = 0;
@@ -1108,13 +1117,29 @@ if($form_type==1)
                 $html .= '<td style="text-align:center;border:1px solid black;">รวม ('.$page.')</td>';
                 $html .= '<td colspan=4 style="width:15%;text-align:right;'.$border_left_right2.'"></td>';
                 
+              
                 $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
                 $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                
+                if($summary_curr_page!=0)
+                  $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                else
+                  $html .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                 $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+
+                if($summary_prev_page!=0)
+                    $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                else
+                    $html .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                 $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+
+                if($summary_curr_page!=0)
+                    $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                else
+                    $html .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                 $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
 
                   $summary_cost_page = 0;
@@ -1333,13 +1358,26 @@ if($form_type==1)
                 
                 $html .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page,2).'</td>';
                 $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
-                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
-                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
-                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+                if($summary_curr_page!=0)
+                  $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                else
+                  $html .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
 
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+
+                if($summary_prev_page!=0)
+                    $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page,2).'</td>';
+                else
+                    $html .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
+                $html .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
+
+                if($summary_curr_page!=0)
+                    $html .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page,2).'</td>';
+                else
+                    $html .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
+                $html .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
                   $summary_cost_page = 0;
                   $summary_curr_page = 0;
                   $summary_prev_page = 0;
@@ -1423,11 +1461,22 @@ if($form_type==1)
                 
                  $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page2,2).'</td>';
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  if($summary_curr_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page2,2).'</td>';
+                 if($summary_prev_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page2,2).'</td>';
+                  else  
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  if($summary_curr_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
                  $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
                  if($page2!=$max_page)
                  {
@@ -1449,11 +1498,22 @@ if($form_type==1)
                 
                  $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_all2,2).'</td>';
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  if($summary_curr_all2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all2,2).'</td>';
+                 if($summary_prev_all2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all2,2).'</td>';
+                  else  
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  if($summary_curr_all2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
                  $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
                  if($page2!=$max_page)
                  {
@@ -1641,12 +1701,24 @@ if($form_type==1)
                 
                  $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_page2,2).'</td>';
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  if($summary_curr_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page2,2).'</td>';
+                 if($summary_prev_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_page2,2).'</td>';
+                  else  
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  if($summary_curr_page2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_page2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
                  $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
+
 
                   $summary_cost_page2 = 0;
                   $summary_curr_page2 = 0;
@@ -1670,13 +1742,24 @@ if($form_type==1)
                  $html2 .= '<td style="text-align:center;border:1px solid black;">'.$all_page.'</td>';
                  $html2 .= '<td colspan=3 style="width:11%;text-align:right;'.$border_left_right2.'"></td>';
                 
-                 $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_cost_all2,2).'</td>';
+                 $html2 .= '<td style="width:5%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  if($summary_curr_all2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all2,2).'</td>';
+                 if($summary_prev_all2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_prev_all2,2).'</td>';
+                  else  
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
+
                  $html2 .= '<td style="width:2%;text-align:center;'.$border_left_right2.'"></td>';
-                 $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  if($summary_curr_all2!=0)
+                    $html2 .= '<td style="width:6%;text-align:right;'.$border_left_right2.'">'.number_format($summary_curr_all2,2).'</td>';
+                  else
+                    $html2 .= '<td style="width:6%;text-align:center;'.$border_left_right2.'">-</td>';
                  $html2 .= '<td style="width:3%;text-align:center;'.$border_left_right2.'"></td>';
                  if($page2!=$max_page)
                  {
