@@ -312,14 +312,33 @@ class BoqController extends Controller
 										echo "type0:".$detail.":".$price_item.":".$price_trans.":".$price_install;
 									}*/	
 
-									if($indent!="" && $no !="")
+									// if($indent!="" && $no !="")
+									// {
+									// 	//header	
+									// 	$detail = $worksheet->getCell("B".$row)->getCalculatedValue();
+									// 	$indent = "";
+									// 	$type = 1;
+									// }
+									// else{
+									// 	//detail
+									// 	$detail = $worksheet->getCell("C".$row)->getCalculatedValue();
+									// 	$indent = $worksheet->getCell("B".$row)->getCalculatedValue();
+									// 	$type = 0;
+									// }
+
+
+									$amount = $worksheet->getCell("D".$row)->getCalculatedValue();
+									$unit = $worksheet->getCell("E".$row)->getCalculatedValue();
+
+									if($indent!="" && $unit=="")
 									{
 										//header	
 										$detail = $worksheet->getCell("B".$row)->getCalculatedValue();
 										$indent = "";
 										$type = 1;
 									}
-									else{
+									else
+									{
 										//detail
 										$detail = $worksheet->getCell("C".$row)->getCalculatedValue();
 										$indent = $worksheet->getCell("B".$row)->getCalculatedValue();
@@ -327,8 +346,6 @@ class BoqController extends Controller
 									}
 
 
-									$amount = $worksheet->getCell("D".$row)->getCalculatedValue();
-									$unit = $worksheet->getCell("E".$row)->getCalculatedValue();
 									$price_item = $worksheet->getCell("F".$row)->getCalculatedValue();
 									$price_trans = $worksheet->getCell("H".$row)->getCalculatedValue();
 									if(empty($price_trans) && !is_numeric($price_item) )
